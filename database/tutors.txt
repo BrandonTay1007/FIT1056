@@ -1,0 +1,4 @@
+ID,username,first_name,last_name,contact_num,age,country,date_of_birth,gender,profile_picture_path
+T0001,JohnnyBoy,John,Doe,1234567890,20,USA,1990-01-01,Male,Picture/Default.jpg
+T0002,Jane,Smith,9876543210,28,Canada,1995-09-22,Female,Picture/jane_smith.jpg,
+T0003,Michael,Johnson,5551234567,42,United Kingdom,1981-03-10,Male,Picture/michael_johnson.jpg,

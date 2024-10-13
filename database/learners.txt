@@ -1,0 +1,2 @@
+first_name, last_name, contact_num, age, country, date_of_birth, gender
+Tay, Wei Yong, 0123456789, 20, Malaysia, 01/01/2000, Male
