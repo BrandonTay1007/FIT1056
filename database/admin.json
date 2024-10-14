@@ -1,0 +1,50 @@
+[
+    {
+        "ID": "A0001",
+        "username": "CHANGED",
+        "first_name": "Not John",
+        "last_name": "Doe",
+        "contact_num": "1234567890",
+        "age": 35,
+        "country": "United States",
+        "date_of_birth": "1988-05-15",
+        "gender": "Male",
+        "profile_picture_path": "Picture/john_doe.jpg"
+    },
+    {
+        "ID": "A0002",
+        "username": "admin2",
+        "first_name": "Jane",
+        "last_name": "Smith",
+        "contact_num": "9876543210",
+        "age": 28,
+        "country": "Canada",
+        "date_of_birth": "1995-09-22",
+        "gender": "Female",
+        "profile_picture_path": "Picture/jane_smith.jpg"
+    },
+    {
+        "ID": "A0003",
+        "username": "admin3",
+        "first_name": "Michael",
+        "last_name": "Johnson",
+        "contact_num": "5551234567",
+        "age": 42,
+        "country": "United Kingdom",
+        "date_of_birth": "1981-03-10",
+        "gender": "Male",
+        "profile_picture_path": "Picture/michael_johnson.jpg"
+    },
+    {
+        "ID": "A0004",
+        "username": "admin4",
+        "first_name": "John",
+        "last_name": "Doe",
+        "contact_num": "1234567890",
+        "age": 35,
+        "country": "United States",
+        "date_of_birth": "1988-05-15",
+        "gender": "Male",
+        "profile_picture_path": "Picture/john_doe.jpg"
+    }
+]

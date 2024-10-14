@@ -177,11 +177,11 @@ class ProfilePage(ctk.CTkFrame):
         self.place_label("Date of Birth", self.user.date_of_birth)
         self.add_button("Change date of birth", self.place_date_picker)
         
-# if __name__ == "__main__":
-#     root = ctk.CTk()
-#     root.geometry("800x600")
-#     user = User("L0001", "JohnDoe", "password", "John", "Doe", "0123456789", 20, "Malaysia", "01/01/2000", "Male")
-#     profile_page = ProfilePage(root, user)
-#     profile_page.pack(expand=True, fill="both")
-#     root.mainloop()
+if __name__ == "__main__":
+    root = ctk.CTk()
+    root.geometry("800x600")
+    user = User("L0001", "JohnDoe", "password", "John", "Doe", "0123456789", 20, "Malaysia", "01/01/2000", "Male")
+    profile_page = ProfilePage(root, user)
+    profile_page.pack(expand=True, fill="both")
+    root.mainloop()
 

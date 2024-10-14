@@ -11,7 +11,7 @@ from database.database_management import update_user_info, add_new_user
 class User:
 
     def __init__(self, user_id, username, password, first_name, last_name, contact_num, age, country, date_of_birth, gender, profile_picture_path="Picture/Default.jpg"):
-    
+
         self.user_id = user_id
         self.username = username
         self.password = password
@@ -23,7 +23,10 @@ class User:
         self.date_of_birth = date_of_birth
         self.gender = gender    
         self.profile_picture_path = profile_picture_path
-        
+
+    def authenticate(self, username, password):
+        return self.username == username and self.password == password
+    
     def __str__(self):
         print(self.first_name)
         print(self.last_name)
@@ -33,7 +36,7 @@ class User:
         print(self.date_of_birth)
         print(self.gender)
 
-    def get_personal_info(self, with_id=False):
+    def get_personal_info(self):
 
         personal_info = {
             "user_id": self.user_id,
@@ -50,7 +53,7 @@ class User:
 
         return personal_info
     
-    def validate_user_data(self, user_data):
+    def validate_user_data(user_data):
         # Username validation
         if not user_data.get("username") or len(user_data["username"]) < 3:
             return False, "Username must be at least 3 characters long"
@@ -98,6 +101,7 @@ class User:
     def register_new_user(role, user_data):
         return add_new_user(role, user_data)
 
+
     def update_info(self, updated_info):
         personal_info = self.get_personal_info(with_id=True)
         print(personal_info)
@@ -107,14 +111,13 @@ class User:
             except KeyError:
                 print(f"KeyError: Key '{key}' not found in personal_info")
         
-        if update_user_info(constants.TUTORS_FILE_PATH, self.ID, personal_info):
+        if update_user_info(constants.ADMIN_FILE_PATH, self.user_id, personal_info):
             print("User information updated successfully")
             return True
 
         print("Failed to update user information")
         return False
 
+       
 
-if __name__ == "__main__":
-    user = User("T0001", "JohnDoe", "John", "Doe", "1234567890", 20, "USA", "1990-01-01", "Male")
-    user.update_info({"username": "JohnnyBoy"})
+

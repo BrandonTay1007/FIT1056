@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "title": "",
+        "description": "Learn the basics of programming and computer science.",
+        "lessons_list": [
+            {
+                "id": 1,
+                "title": "What is Programming?",
+                "description": "An introduction to programming and its importance."
+            }
+        ]
+    }
+]

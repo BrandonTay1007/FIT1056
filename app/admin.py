@@ -9,3 +9,11 @@ class Admin(User):
 
     def get_users_info(self):
         return User.get_users_info()
+    
+    def change_user_info(self, user_id, new_info):
+        return User.change_user_info(user_id, new_info)
+    
+    def delete_user(self, user_id):
+        return User.delete_user(user_id)
+
+    

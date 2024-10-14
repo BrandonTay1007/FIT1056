@@ -1,61 +1,44 @@
-import csv
+import json
 
-def extract_info_from_file(file_path):
+def extract_file_info(file_path):
     print(file_path)
     try:
-        with open(file_path, "r", newline='') as file:
-            reader = csv.DictReader(file)
-            return list(reader)
+        with open(file_path, "r") as file:
+            return json.load(file)
     except FileNotFoundError:
         print(f"Error: File not found: {file_path}")
         return []
+    except json.JSONDecodeError:
+        print(f"Error: File is not a valid JSON: {file_path}")
+        return []
 
-def get_user_by_id(file_path, id):
-    users = extract_info_from_file(file_path)
-    for user in users:
-        if user.get("ID") == id:
-            return user
+def get_info_by_id(file_path, id):
+    all_data = extract_file_info(file_path)
+    for data in all_data:
+        if data.get("id") == id:
+            return data
     return None
-
-def get_tutors():
-    file_path = "database/tutors.txt"
-    tutors = extract_info_from_file(file_path)
-    return tutors
-
-def get_students():
-    file_path = "database/learners.txt"
-    students = extract_info_from_file(file_path)
-    return students
-
-def get_admins():
-    file_path = "database/admin.txt"
-    admins = extract_info_from_file(file_path)
-    return admins
 
 def write_info_to_file(file_path, data):
     try:
-        with open(file_path, "w", newline='') as file:
-            fieldnames = data[0].keys()
-            print(fieldnames)
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(data)
+        with open(file_path, "w") as file:
+            json.dump(data, file, indent=4)
         return True
     except Exception as e:
         print(f"Error: {str(e)}")
         return False
 
 def update_user_info(file_path, id, new_info):
-    users = extract_info_from_file(file_path)
+    all_data = extract_file_info(file_path)
     updated = False
-    for user in users:
-        if user.get("ID") == id:
-            user.update(new_info)
+    for data in all_data:
+        if data.get("ID") == id:
+            data.update(new_info)
             updated = True
             break
     
     if updated:
-        if write_info_to_file(file_path, users):
+        if write_info_to_file(file_path, all_data):
             return True
         else:
             print(f"Error: Failed to update user information in file: {file_path}")
@@ -63,22 +46,23 @@ def update_user_info(file_path, id, new_info):
         print(f"Error: User with ID {id} not found in file: {file_path}")
     return False
 
-def add_new_user(role, user_data):
+def add_new_user(role, data, file_path):
     if role == "learner":
-        file_path = "database/learners.txt"
+        file_path = "database/learners.json"
     elif role == "tutor":
-        file_path = "database/tutors.txt"
+        file_path = "database/tutors.json"
     elif role == "admin":
-        file_path = "database/admin.txt"
+        file_path = "database/admin.json"
     
-    users = extract_info_from_file(file_path)
-    users.append(user_data)
-    if write_info_to_file(file_path, users):
+    all_data = extract_file_info(file_path)
+    all_data.append(data)
+    if write_info_to_file(file_path, all_data):
         return True
     else:
-        print(f"Error: Failed to add new user to file: {file_path}")
+        print(f"Error: Failed to add data to file: {file_path}")
     return False
-# print(get_admins())
-# print(get_students())
-# print(get_tutors())
 
+# def main():
+#     print(update_user_info("database/admin.json", "A0001", {"username": "CHANGED"}))
+
+# main()

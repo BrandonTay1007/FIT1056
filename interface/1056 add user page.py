@@ -1,62 +1,61 @@
 import customtkinter as ctk
 
-ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
+class AdminAddUserPage(ctk.CTkScrollableFrame):
+    def __init__(self, master):
+        super().__init__(master)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(2, weight=1)
+        
+        self.title = ctk.CTkLabel(master=self, text="Add User", font=("Roboto", 30))
+        self.title.grid(row=0, column=1, padx=10, pady=20)
 
-root=ctk.CTk()
-root.title("Add New User Page")
-root.geometry("600x700")
+        self.add_dropdown()
 
-#title
-title_label=ctk.CTkLabel(root, text="Add User", font=('Arial', 24, "bold"))
-title_label.pack(pady=20)
+        self.add_entry(2, 1, "Username")
+        self.add_entry(3, 1, "Password")
+        self.add_entry(4, 1, "First Name")
+        self.add_entry(5, 1, "Last Name")
+        self.add_entry(6, 1, "Contact Number")
+        self.add_entry(7, 1, "Age")
+        self.add_entry(8, 1, "Country")
+        self.add_entry(9, 1, "Date of Birth")
+        self.add_entry(10, 1, "Gender")
 
-#position selection
-position_var=ctk.StringVar(value="Please select the position")
-positions=["Teacher", "Student"]
+    def select_role(self, role):
+        self.selected_role = role
+        self.refresh_form()
 
-position_label=ctk.CTkLabel(root, text="Position/role:")
-position_label.pack(pady=10)
+    def add_user(self):
+        pass
 
-position_menu=ctk.CTkOptionMenu(root, variable=position_var, values=positions, state="readonly")
-position_menu.pack()
+    def add_dropdown(self):
+        self.user_type = ctk.CTkOptionMenu(
+            master=self,
+            values=["Student", "Tutor", "Admin"],
+            command=self.select_role,  # Add this line to set the command
+            width=200,
+            height=40
+        )
+        self.user_type.set("Select User Type")
+        self.user_type.grid(row=1, column=1, pady=10)
 
-#teacher/student ID
-teacher_student_id_label=ctk.CTkLabel(root, text="TeacherID/StudentID:")
-teacher_student_id_label.pack(pady=10)
+    def add_entry(self, row, column, placeholder):
+        entry = ctk.CTkEntry(master=self, placeholder_text=placeholder, width=200, height=40)
+        entry.grid(row=row, column=column, pady=10)
 
-teacher_student_id_entry=ctk.CTkEntry(root)
-teacher_student_id_entry.pack()
+    def refresh_form(self):
+        if self.selected_role == "Student":
+            self.add_student_form()
+        elif self.selected_role == "Tutor":
+            self.add_tutor_form()
+        elif self.selected_role == "Admin":
+            self.add_admin_form()
+        
 
-#first name
-first_name_label=ctk.CTkLabel(root, text="First Name:")
-first_name_label.pack(pady=10)
-first_name_entry=ctk.CTkEntry(root)
-first_name_entry.pack()
 
-#last name
-last_name_label=ctk.CTkLabel(root, text="Last Name:")
-last_name_label.pack(pady=10)
-last_name_entry=ctk.CTkEntry(root)
-last_name_entry.pack()
-
-#contact number
-contact_number_label=ctk.CTkLabel(root, text="Contact Number:")
-contact_number_label.pack(pady=10)
-contact_number_entry=ctk.CTkEntry(root)
-contact_number_entry.pack()
-
-#instrument selection
-instrument_var=ctk.StringVar(value="Please select an instrument")
-intruments=["Piano", "Flute", "Cello", "Violin", "Viola"]
-
-instrument_label=ctk.CTkLabel(root, text="Instrument selection (teach / learn):")
-instrument_label.pack(pady=10)
-instrument_menu=ctk.CTkOptionMenu(root, variable=instrument_var, values=intruments, state="readonly")
-instrument_menu.pack()
-
-#"add" button
-add_button=ctk.CTkButton(root, text="Add")
-add_button.pack(pady=30)
-
-root.mainloop()
+if __name__ == "__main__":
+    root = ctk.CTk()
+    root.geometry("1200x800")
+    page = AdminAddUserPage(root)
+    page.pack(fill="both", expand=True)
+    root.mainloop()

@@ -1,4 +1,4 @@
-from user import User
+from .user import User
 
 class Learner(User):
     def __init__(self, id, username, first_name, last_name, contact_num, age, country, date_of_birth, gender, profile_picture_path):

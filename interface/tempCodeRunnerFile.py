@@ -1,2 +1,2 @@
 
-        self.entry_widgets["Country"] = self.place_info_entry("Country", self.user.country)
+        self.add_entry(7, 1, "Country")

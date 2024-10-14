@@ -122,7 +122,7 @@ class RegisterPage(ctk.CTkScrollableFrame):
 
     def hide_register_page(self):
         self.pack_forget()
-
+    
     
 
 if __name__ == "__main__":

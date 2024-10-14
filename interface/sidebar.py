@@ -1,19 +1,23 @@
 import customtkinter as ctk
 
 class Sidebar(ctk.CTkFrame):
-    def __init__(self, master):
+    def __init__(self, master, width=200, height=700):
         super().__init__(master)
-        self.configure(width=200, height=700)
+        self.configure(width=width, height=height)
+
         # Add your sidebar widgets here
     
-    def add_button(self, text, command):
-        button = ctk.CTkButton(self, text=text, command=command)
+    def add_button(self, text, command, align="center"):
+        # Create button with specified alignment
+        button = ctk.CTkButton(self, text=text, command=command, fg_color="transparent", anchor=align)
         button.pack(pady=10, padx=10, fill="x")
         return button
 
+    def show_sidebar(self):
+        self.pack(side="left", fill="y", padx=20, pady=20)
 
-def some_function():
-    print("Button clicked!")
+    def hide_sidebar(self):
+        self.pack_forget()
 
 # def main():
 #     root = ctk.CTk()
