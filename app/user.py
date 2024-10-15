@@ -54,54 +54,9 @@ class User:
 
         return personal_info
     
-    def validate_user_data(user_data):
-        # Username validation
-        if not user_data.get("username") or len(user_data["username"]) < 3:
-            return False, "Username must be at least 3 characters long"
-
-        # First name and last name validation
-        if not user_data.get("first_name") or not user_data.get("last_name"):
-            return False, "First name and last name are required"
-
-        # Contact number validation
-        if not user_data.get("contact_num") or not user_data["contact_num"].isdigit():
-            return False, "Contact number must be a valid number"
-
-        # Age validation
-        try:
-            age = int(user_data.get("age", 0))
-            if age < 13 or age > 120:
-                return False, "Age must be between 13 and 120"
-        except ValueError:
-            return False, "Age must be a valid number"
-
-        # Country validation
-        if not user_data.get("country"):
-            return False, "Country is required"
-
-        # Date of birth validation
-        import datetime
-        try:
-            dob = datetime.datetime.strptime(user_data.get("date_of_birth", ""), "%Y-%m-%d")
-            if dob > datetime.datetime.now():
-                return False, "Date of birth cannot be in the future"
-        except ValueError:
-            return False, "Invalid date of birth format. Use YYYY-MM-DD"
-
-        # Gender validation
-        valid_genders = ["Male", "Female", "Other", "Prefer not to say"]
-        if user_data.get("gender") not in valid_genders:
-            return False, f"Gender must be one of: {', '.join(valid_genders)}"
-
-        # Profile picture path validation (optional)
-        if "profile_picture_path" in user_data and not os.path.exists(user_data["profile_picture_path"]):
-            return False, "Profile picture path is invalid"
-
-        return True, "All data is valid"
     
     def register_new_user(role, user_data):
         return add_new_user(role, user_data)
-
 
     def update_own_info(self, updated_info, file_path):
         personal_info = self.get_personal_info()
@@ -117,7 +72,24 @@ class User:
 
         print("Failed to update user information")
         return False
+    
+    def password_validation(self, password):
+        if not (len(password) > 8 and any(char.isupper() for char in password) and any(char.islower() for char in password) and any(char.isdigit() for char in password) and any(char in "!@#$%^&*()_+{}[]:<>?~" for char in password)):
+            return False
+        return True
+    
+    def check_old_password(self, old_password):
+        print(self.password)
+        return self.password == old_password
+    
+    def change_password(self, new_password, file_path):
+        is_valid = self.password_validation(new_password)
+        if not is_valid:
+            return is_valid
 
-       
-
+        if update_user_info(file_path, self.id, {"password": new_password}):
+            print("Password updated successfully")
+            return True
+        print("Failed to update password")
+        return False
 

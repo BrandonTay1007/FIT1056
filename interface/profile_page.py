@@ -25,7 +25,7 @@ class ProfilePage(ctk.CTkFrame):
 
         ctk.CTkLabel(self.scrollable_frame, text="Account Details", font=(FONT_FAMILY, 24, "bold")).pack(anchor="w", pady=(0, 20))
         self.place_all_info(user)
-
+        
     def place_all_info(self, user):
         self.place_profile_picture(user)
         self.image_uploader_button = ctk.CTkButton(self.scrollable_frame, text="Upload Image", command=self.image_uploader)
@@ -205,6 +205,13 @@ class ProfilePage(ctk.CTkFrame):
             self.user.profile_picture_path = new_file_path
             
             print(f"New profile picture saved: {new_file_path}")
+
+
+    def show_page(self):
+        self.pack(expand=True, fill="both")
+
+    def hide_page(self):
+        self.pack_forget()
 
 if __name__ == "__main__":
     root = ctk.CTk()

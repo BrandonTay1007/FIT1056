@@ -18,3 +18,8 @@ class Admin(User):
     
     def update_own_info(self, updated_info, file_path=ADMIN_FILE_PATH):
         return User.update_own_info(self, updated_info, file_path)
+
+    def change_password(self, new_password, file_path=ADMIN_FILE_PATH):
+        return User.change_password(self, new_password, file_path)
+
+
