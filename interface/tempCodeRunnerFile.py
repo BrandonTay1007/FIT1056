@@ -1,2 +1,2 @@
-
-        self.add_entry(7, 1, "Country")
+ng *.gif *.bmp")])
+        if file_path:

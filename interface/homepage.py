@@ -1,5 +1,9 @@
 import customtkinter as ctk
 from PIL import Image
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from interface.register_page import RegisterPage
 class HomePage(ctk.CTkFrame):
 
@@ -12,7 +16,7 @@ class HomePage(ctk.CTkFrame):
         ctk.set_default_color_theme("blue")
                 
         # Logo image
-        self.logo_image = ctk.CTkImage(Image.open("interface/EmpowerU Logo.png"), size=(200, 205))
+        self.logo_image = ctk.CTkImage(Image.open("Picture/EmpowerU Logo.png"), size=(200, 205))
         self.logo_label = ctk.CTkLabel(master=self, image=self.logo_image, text="")
         self.logo_label.grid(row=0, columnspan=2, sticky="S", padx=10, pady=10)
 
@@ -67,3 +71,22 @@ class HomePage(ctk.CTkFrame):
         self.hide_homepage()
         register_page = RegisterPage(self.master)
         register_page.show_register_page()
+
+    def login(self):
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+        if self.user_type.get() == 'Student':
+            user = app.Student.authenticate(username, password)
+        elif self.user_type.get() == 'Tutor':
+            user = app.Tutor.authenticate(username, password)
+        elif self.user_type.get() == 'Admin':
+            user = app.Admin(username, password)
+        # WE GOT USER OBEJCT
+        
+if __name__ == "__main__":
+    root = ctk.CTk()
+    root.geometry("1200x800")
+    homepage = HomePage(root)
+    homepage.show_homepage()
+    root.mainloop()
+

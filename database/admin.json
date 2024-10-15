@@ -1,18 +1,18 @@
 [
     {
-        "ID": "A0001",
-        "username": "CHANGED",
-        "first_name": "Not John",
-        "last_name": "Doe",
-        "contact_num": "1234567890",
-        "age": 35,
-        "country": "United States",
-        "date_of_birth": "1988-05-15",
+        "id": "A0001",
+        "username": "Hello Testing",
+        "first_name": "Hello Testing",
+        "last_name": "Hello Testing",
+        "contact_num": "Hello Testing",
+        "age": "Hello Testing",
+        "country": "Hello Testing",
+        "date_of_birth": "20/01/2000",
         "gender": "Male",
-        "profile_picture_path": "Picture/john_doe.jpg"
+        "profile_picture_path": "Picture/Default.jpg"
     },
     {
-        "ID": "A0002",
+        "id": "A0002",
         "username": "admin2",
         "first_name": "Jane",
         "last_name": "Smith",
@@ -24,7 +24,7 @@
         "profile_picture_path": "Picture/jane_smith.jpg"
     },
     {
-        "ID": "A0003",
+        "id": "A0003",
         "username": "admin3",
         "first_name": "Michael",
         "last_name": "Johnson",
@@ -36,7 +36,7 @@
         "profile_picture_path": "Picture/michael_johnson.jpg"
     },
     {
-        "ID": "A0004",
+        "id": "A0004",
         "username": "admin4",
         "first_name": "John",
         "last_name": "Doe",

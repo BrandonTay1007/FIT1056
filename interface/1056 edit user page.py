@@ -1,7 +1,7 @@
 import customtkinter as ctk
 class EditUserPage(ctk.CTkFrame):
 
-    def __init__(self, master):
+    def __init__(self, master, user: object):
         super().__init__(master)
         self.master=master
 
@@ -71,15 +71,17 @@ class EditUserPage(ctk.CTkFrame):
         self.display_user_info()
         
     def find_user_in_file(self, file_name, user_id):
-        try:
-            with open(file_name, "r") as f:
-                for line in f:
-                    line_data=line.strip().split(",")
-                    if line_data[0].lower()==user_id.lower():
-                        return line.strip()
-        except FileNotFoundError:
-                self.display_message(f"{file_name} not found.")
-        return None
+        # try:
+        #     with open(file_name, "r") as f:
+        #         for line in f:
+        #             line_data=line.strip().split(",")
+        #             if line_data[0].lower()==user_id.lower():
+        #                 return line.strip()
+        # except FileNotFoundError:
+        #         self.display_message(f"{file_name} not found.")
+        # return None
+        self.user.userlimiandefunction
+
 
     def display_user_info(self):
         for label in self.user_info_labels:

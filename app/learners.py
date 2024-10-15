@@ -1,4 +1,5 @@
 from .user import User
+from empoweru_constants import LEARNERS_FILE_PATH
 
 class Learner(User):
     def __init__(self, id, username, first_name, last_name, contact_num, age, country, date_of_birth, gender, profile_picture_path):
@@ -14,4 +15,5 @@ class Learner(User):
     def register(user_data):
         return User.register(user_data)
 
-    
+    def update_own_info(self, updated_info, file_path=LEARNERS_FILE_PATH):
+        return User.update_own_info(self, updated_info, file_path)

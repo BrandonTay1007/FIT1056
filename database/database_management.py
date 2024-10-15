@@ -32,7 +32,7 @@ def update_user_info(file_path, id, new_info):
     all_data = extract_file_info(file_path)
     updated = False
     for data in all_data:
-        if data.get("ID") == id:
+        if data.get("id") == id:
             data.update(new_info)
             updated = True
             break

@@ -10,9 +10,9 @@ from database.database_management import update_user_info, add_new_user
 
 class User:
 
-    def __init__(self, user_id, username, password, first_name, last_name, contact_num, age, country, date_of_birth, gender, profile_picture_path="Picture/Default.jpg"):
-
-        self.user_id = user_id
+    def __init__(self, id, username, password, first_name, last_name, contact_num, age, country, date_of_birth, gender, profile_picture_path="Picture/Default.jpg"):
+        
+        self.id = id
         self.username = username
         self.password = password
         self.first_name = first_name
@@ -23,6 +23,7 @@ class User:
         self.date_of_birth = date_of_birth
         self.gender = gender    
         self.profile_picture_path = profile_picture_path
+        
 
     def authenticate(self, username, password):
         return self.username == username and self.password == password
@@ -39,7 +40,7 @@ class User:
     def get_personal_info(self):
 
         personal_info = {
-            "user_id": self.user_id,
+            "id": self.id,
             "username": self.username,
             "first_name": self.first_name,
             "last_name": self.last_name,
@@ -102,16 +103,15 @@ class User:
         return add_new_user(role, user_data)
 
 
-    def update_info(self, updated_info):
-        personal_info = self.get_personal_info(with_id=True)
-        print(personal_info)
+    def update_own_info(self, updated_info, file_path):
+        personal_info = self.get_personal_info()
         for key, value in updated_info.items():
             try:
                 personal_info[key] = value
             except KeyError:
                 print(f"KeyError: Key '{key}' not found in personal_info")
-        
-        if update_user_info(constants.ADMIN_FILE_PATH, self.user_id, personal_info):
+
+        if update_user_info(file_path, self.id, personal_info):
             print("User information updated successfully")
             return True
 

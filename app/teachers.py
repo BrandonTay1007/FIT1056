@@ -1,4 +1,5 @@
 from user import User
+from empoweru_constants import TEACHERS_FILE_PATH
 
 class Teacher(User):
 
@@ -7,3 +8,6 @@ class Teacher(User):
 
     def register(user_data):
         return User.register(user_data)
+    
+    def update_own_info(self, updated_info, file_path=TEACHERS_FILE_PATH):
+        return User.update_own_info(self, updated_info, file_path)

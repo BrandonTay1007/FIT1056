@@ -1,7 +1,7 @@
 import customtkinter as ctk
-
+import app.Admin as 
 class AdminAddUserPage(ctk.CTkScrollableFrame):
-    def __init__(self, master):
+    def __init__(self, master, user):
         super().__init__(master)
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(2, weight=1)
@@ -51,11 +51,13 @@ class AdminAddUserPage(ctk.CTkScrollableFrame):
         elif self.selected_role == "Admin":
             self.add_admin_form()
         
-
+    def add_student():
+        user
 
 if __name__ == "__main__":
     root = ctk.CTk()
     root.geometry("1200x800")
-    page = AdminAddUserPage(root)
+    my_admin = admin.Admin("JohnDoe", "Passwordx", "firstname", "lastname", "contactnum", "age", "country", "dateofbirth", "gender", "profilepicturepath")
+    page = AdminAddUserPage(root, my_admin)
     page.pack(fill="both", expand=True)
     root.mainloop()

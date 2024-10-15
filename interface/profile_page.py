@@ -6,9 +6,10 @@ from tkinter import filedialog
 from datetime import datetime
 from PIL import Image
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from app.user import User
+from app.admin import Admin
 from empoweru_constants import FONT_FAMILY
 from interface.date_picker import DatePicker
+
 
 class ProfilePage(ctk.CTkFrame):
     def __init__(self, master, user):
@@ -34,6 +35,42 @@ class ProfilePage(ctk.CTkFrame):
         for key, value in items[1:-1]:
             self.place_label(key.capitalize().replace("_", " "), value)
         self.add_button("Edit Profile", self.edit_profile)
+
+    def place_all_entry(self):
+        self.entry_widgets = {}  # Dictionary to store entry widgets
+        
+        self.place_profile_picture(self.user)
+        self.add_button("Upload Image", self.image_uploader)
+        
+        self.entry_widgets['username'] = self.place_entry("Username", self.user.username)
+        self.entry_widgets['first_name'] = self.place_entry("First Name", self.user.first_name)
+        self.entry_widgets['last_name'] = self.place_entry("Last Name", self.user.last_name)
+        self.entry_widgets['contact_num'] = self.place_entry("Contact Number", self.user.contact_num)
+        self.entry_widgets['age'] = self.place_entry("Age", self.user.age)
+        self.entry_widgets['country'] = self.place_entry("Country", self.user.country)
+        # Create a frame to hold the date label, date info, and button
+        date_frame = ctk.CTkFrame(self.scrollable_frame, fg_color="transparent")
+        date_frame.pack(anchor="w", pady=(10, 0))
+
+        # Date of Birth label
+        date_label = ctk.CTkLabel(date_frame, text="Date of Birth")
+        date_label.pack(anchor="w", padx=(10, 0))  # Pack the label to the left
+
+        # Create a frame for the date info and button to stack them vertically
+        date_info_button_frame = ctk.CTkFrame(date_frame, fg_color="transparent")
+        date_info_button_frame.pack(anchor="w", padx=(10, 0))
+
+        # Date info label
+        self.date_info = ctk.CTkLabel(date_info_button_frame, text=self.user.date_of_birth)
+        self.date_info.pack(side="left", padx=(0, 10))  # Pack the date info label to the left
+
+        # Change Date of Birth button
+        change_dob_button = ctk.CTkButton(date_info_button_frame, text="Change", command=self.place_date_picker)
+        change_dob_button.pack(side="left")  # Pack the button to the left
+        
+        
+        self.place_combobox("Gender", ["Male", "Female"])
+    
 
     def hide_widgets(self, widgets_to_hide):
         for widget in widgets_to_hide:
@@ -72,12 +109,12 @@ class ProfilePage(ctk.CTkFrame):
         label = ctk.CTkLabel(frame, image=profile_picture, text="")
         label.pack(padx=5, pady=5)  # Add padding inside the frame
 
-    def place_label(self, label, label_text):
-        label_widget = ctk.CTkLabel(self.scrollable_frame, text=label, font=(FONT_FAMILY, 16, "bold"))
+    def place_label(self, label, label_text, frame=None):
+        label_widget = ctk.CTkLabel(frame or self.scrollable_frame, text=label, font=(FONT_FAMILY, 16, "bold"))
         label_widget.pack(anchor="w", pady=(10, 0))
         self.current_active_widgets.append(label_widget)
 
-        text_widget = ctk.CTkLabel(self.scrollable_frame, text=label_text, font=(FONT_FAMILY, 14))
+        text_widget = ctk.CTkLabel(frame or self.scrollable_frame, text=label_text, font=(FONT_FAMILY, 14))
         text_widget.pack(anchor="w", pady=(0, 5))
         self.current_active_widgets.append(text_widget)
 
@@ -109,6 +146,8 @@ class ProfilePage(ctk.CTkFrame):
         
         self.hide_widgets(self.current_active_widgets)
         self.place_all_info(self.user)
+        
+        self.user.update_own_info(self.personal_info)
 
     def place_date_picker(self):
         # Destroy any existing DatePicker window
@@ -123,12 +162,18 @@ class ProfilePage(ctk.CTkFrame):
         if selected_date:
             self.personal_info['date_of_birth'] = selected_date
             self.user.date_of_birth = selected_date  # Update the user object as well
+            
+            # Update the date of birth label directly
+            self.update_date_of_birth_label(selected_date)
         else:
             print("No date selected")
         
         self.current_date_picker = None  # Reset the current_date_picker
-        self.refresh_edit_profile()  # Call the new method to refresh the edit profile view
-    
+
+    def update_date_of_birth_label(self, new_date):
+        # Update the label displaying the date of birth
+        self.date_info.configure(text=str(new_date))
+
     def refresh_edit_profile(self):
         self.hide_widgets(self.current_active_widgets)
         self.place_all_entry()
@@ -161,26 +206,11 @@ class ProfilePage(ctk.CTkFrame):
             
             print(f"New profile picture saved: {new_file_path}")
 
-    def place_all_entry(self):
-        self.entry_widgets = {}  # Dictionary to store entry widgets
-        
-        self.place_profile_picture(self.user)
-        self.add_button("Upload Image", self.image_uploader)
-        
-        self.entry_widgets['username'] = self.place_entry("Username", self.user.username)
-        self.entry_widgets['first_name'] = self.place_entry("First Name", self.user.first_name)
-        self.entry_widgets['last_name'] = self.place_entry("Last Name", self.user.last_name)
-        self.entry_widgets['contact_num'] = self.place_entry("Contact Number", self.user.contact_num)
-        self.entry_widgets['age'] = self.place_entry("Age", self.user.age)
-        self.entry_widgets['country'] = self.place_entry("Country", self.user.country)
-        self.place_combobox("Gender", ["Male", "Female"])
-        self.place_label("Date of Birth", self.user.date_of_birth)
-        self.add_button("Change date of birth", self.place_date_picker)
-        
 if __name__ == "__main__":
     root = ctk.CTk()
     root.geometry("800x600")
-    user = User("L0001", "JohnDoe", "password", "John", "Doe", "0123456789", 20, "Malaysia", "01/01/2000", "Male")
+    user = Admin("A0001", "CHANGED", "password", "John", "Doe", "0123456789", 20, 
+    "Malaysia", "01/01/2000", "Male", "Picture/Default.jpg")
     profile_page = ProfilePage(root, user)
     profile_page.pack(expand=True, fill="both")
     root.mainloop()
