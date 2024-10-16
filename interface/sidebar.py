@@ -1,15 +1,15 @@
 import customtkinter as ctk
 
-class Sidebar(ctk.CTkFrame):
+class Sidebar(ctk.CTkScrollableFrame):
     def __init__(self, master, width=200, height=700):
         super().__init__(master)
         self.configure(width=width, height=height)
 
         # Add your sidebar widgets here
     
-    def add_button(self, text, command, align="center"):
+    def add_button(self, text, command, color="transparent", align="center"):
         # Create button with specified alignment
-        button = ctk.CTkButton(self, text=text, command=command, fg_color="transparent", anchor=align)
+        button = ctk.CTkButton(self, text=text, width=self.winfo_width(), fg_color=color, anchor=align, command=command)
         button.pack(pady=10, padx=10, fill="x")
         return button
 

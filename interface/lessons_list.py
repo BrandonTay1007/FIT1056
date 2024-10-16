@@ -3,75 +3,33 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from app.course_content import CourseContent
+from app.lessons import Lessons
 from PIL import Image
 import os
 
 
-class LessonsList(ctk.CTkFrame):
-    def __init__(self, master, lectures):
+class LessonsList(ctk.CTkScrollableFrame):
+    def __init__(self, master, user, course_id):
         super().__init__(master, fg_color="transparent")
         
-        self.title_label = ctk.CTkLabel(self, text="Lessons", font=("Roboto", 24, "bold"))
-        self.title_label.pack(pady=(20, 10))
-        
-        self.search_frame = ctk.CTkFrame(self, fg_color="transparent")
-        self.search_frame.pack(fill="x", padx=20, pady=10)
-        
-        self.search_entry = ctk.CTkEntry(self.search_frame, placeholder_text="Search lessons", width=300)
-        self.search_entry.pack(side="left")
-        
-        self.refresh_button = ctk.CTkButton(self.search_frame, text="Refresh", width=100, command=self.refresh_lessons)
-        self.refresh_button.pack(side="right")
-        
-        self.scrollable_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
-        self.scrollable_frame.pack(fill="both", expand=True, padx=20, pady=10)
-        
-        self.load_lessons()
-    
-    def create_lesson_bar(self, lesson):
-        pass
-    
-    def load_lessons(self):
-        course_content = CourseContent()
-        lessons = course_content.get_lessons()
-        
-        for section in lessons:
-            section_label = ctk.CTkLabel(self.scrollable_frame, text=section['title'], font=("Roboto", 18, "bold"))
-            section_label.pack(anchor="w", pady=(20, 10))
-            
-            for lesson in section['lessons']:
-                lesson_frame = ctk.CTkFrame(self.scrollable_frame, fg_color="transparent")
-                lesson_frame.pack(fill="x", pady=5)
-                
-                icon_path = self.get_icon_path(lesson['type'])
-                icon_image = ctk.CTkImage(Image.open(icon_path), size=(20, 20))
-                icon_label = ctk.CTkLabel(lesson_frame, image=icon_image, text="")
-                icon_label.pack(side="left", padx=(0, 10))
-                
-                check_label = ctk.CTkLabel(lesson_frame, text="✓", text_color="green", font=("Roboto", 16, "bold"))
-                check_label.pack(side="left", padx=(0, 10))
-                
-                lesson_label = ctk.CTkLabel(lesson_frame, text=lesson['title'], anchor="w")
-                lesson_label.pack(side="left", fill="x", expand=True)
-    
-    def get_icon_path(self, lesson_type):
-        icon_map = {
-            "assignment": "../Pictures/Assignment.png",
-            "reading": "../Pictures/Reading.png",
-            "video": "../Pictures/Video.png",
-            "quiz": "../Pictures/Quiz.png"
-        }
-        return icon_map.get(lesson_type.lower(), "../Pictures/default_icon.png")
-    
-    def refresh_lessons(self):
-        for widget in self.scrollable_frame.winfo_children():
-            widget.destroy()
-        self.load_lessons()
+        self.user = user
+        lesson_title = ctk.CTkLabel(self, text="Lessons", font=("Arial", 24, "bold"))  # Changed font to Arial, size to 24, and weight to bold
+        lesson_title.pack(pady=10)
 
+        # Create a frame to hold the Textbox and Scrollbar
+        self.lesson_frame = ctk.CTkFrame(self)
+        self.lesson_frame.pack(pady=10)
+
+        # Changed CTkListbox to CTkTextbox
+        self.lesson_list = ctk.CTkTextbox(self.lesson_frame, width=200, height=200)  # Changed width and height
+        self.lesson_list.pack(side="left", fill="both", expand=True)
+
+        self.lesson_list_scrollbar = ctk.CTkScrollbar(self.lesson_frame, orientation="vertical", command=self.lesson_list.yview)
+        self.lesson_list.configure(yscrollcommand=self.lesson_list_scrollbar.set)
+        self.lesson_list_scrollbar.pack(side="right", fill="y")
 
 if __name__ == "__main__":
     root = ctk.CTk()
-    lessons_list = LessonsList(root)
+    lessons_list = LessonsList(root, None)
     lessons_list.pack(fill="both", expand=True)
     root.mainloop()

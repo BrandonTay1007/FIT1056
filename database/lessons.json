@@ -39,6 +39,12 @@
                 "title": "Conclusion",
                 "type": "text",
                 "content": "This introduction covered the basics of programming in Python. With these foundational concepts, you can start writing your own Python programs and explore more advanced topics such as object-oriented programming, libraries, and frameworks."
+            },
+            {
+                "id": 7,
+                "title": "Testing",
+                "type": "video",
+                "content": "database/videos/testing.mp4"
             }
         ]
     },
@@ -46,6 +52,13 @@
         "id": 2,
         "title": "Lesson 2",
         "type": "video",
-        "content": "This is a lesson about the basics of programming."
+        "content_list": [
+            {
+                "id": 1,
+                "title": "Content 1",
+                "type": "text",
+                "content": "This is a content about the basics of programming."
+            }
+        ]
     }
 ]

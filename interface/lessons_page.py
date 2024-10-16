@@ -6,13 +6,17 @@ from empoweru_constants import LESSONS_FILE_PATH
 from sidebar import Sidebar
 from app.lessons import Lessons
 from app.content import Content
-from database.database_management import *
+from empoweru_constants import *
+from video_player import VideoPlayer
+from database.database_management import get_info_by_id
 
 class LessonsPage(ctk.CTkFrame):
-    def __init__(self, master, lesson):
+    def __init__(self, master, lesson, user=None):
         super().__init__(master, fg_color="transparent")
+        self.master = master
         self.lesson = lesson
-        self.sidebar = Sidebar(self.master)
+        self.user = user
+        self.sidebar = Sidebar(self.master, 400, 700)
         self.sidebar.show_sidebar()
         self.add_content_to_sidebar()
         self.content_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
@@ -23,27 +27,47 @@ class LessonsPage(ctk.CTkFrame):
             self.show_content(self.lesson.content_list[0])  # Show the first content
 
     def add_content_to_sidebar(self):
+        self.sidebar.add_button("Back", self.go_back, color=None, align="right")
+
         self.contents = []
         for i, content in enumerate(self.lesson.content_list):
             title = f"{i+1}. {content.title}"
             # Capture the current content in the lambda
             self.sidebar.add_button(title, lambda content=content: self.show_content(content), align="right")
-
+        
+    
     def show_content(self, content):
         # Clear previous content
         for widget in self.content_frame.winfo_children():
             widget.destroy()
         
-        # Display the content title
-        content_title = ctk.CTkLabel(self.content_frame, text=content.title, font=("Roboto", 20, "bold"), pady=10, padx=10)
-        content_title.pack(fill="both", expand=True)
+        # Check if the content is a video
+        if content.type == "video":
+            self.create_video_player(content)
+        else:
+            # Display the content title
+            content_title = ctk.CTkLabel(self.content_frame, text=content.title, font=(FONT_FAMILY, 20, "bold"), pady=10, padx=10)
+            content_title.pack(fill="both", expand=True)
 
-        # Display the content text with line wrapping
-        content_text = ctk.CTkLabel(self.content_frame, text=content.content, font=("Roboto", 14), wraplength=600)  # Adjust wraplength as needed
-        content_text.pack(fill="both", expand=True)
+            # Display the content text with line wrapping
+            content_text = ctk.CTkLabel(self.content_frame, text=content.content, font=(FONT_FAMILY, 14), wraplength=600)  # Adjust wraplength as needed
+            content_text.pack(fill="both", expand=True)
 
-        
+    def create_video_player(self, content):
+        # Create a video player widget using Tkvideoplayer
+        video_player = VideoPlayer(self.content_frame, content.title, content.content)  # Load the video from the provided URL
+        return video_player  # Return the video player instance
 
+    def hide_page(self):
+        self.pack_forget()
+
+    def show_page(self):
+        self.pack(fill="both", expand=True)
+
+    def go_back(self):
+        self.sidebar.hide_sidebar()
+        self.pack_forget()
+        self.user.lessons_list.show_page()
 
 if __name__ == "__main__":
     root = ctk.CTk()
@@ -57,4 +81,3 @@ if __name__ == "__main__":
     page = LessonsPage(root, l)
     page.pack(fill="both", expand=True)
     root.mainloop()
-

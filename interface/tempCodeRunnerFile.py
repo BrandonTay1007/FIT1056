@@ -1,2 +1,3 @@
-ng *.gif *.bmp")])
-        if file_path:
+
+    def show_page(self):
+        pass
