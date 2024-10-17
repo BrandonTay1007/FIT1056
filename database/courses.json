@@ -11,13 +11,13 @@
         "title": "Machine Learning",
         "estimated_duration": "1 months",
         "description": "Learn the basics of machine learning and data science.",
-        "lessons_id_list": [1]
+        "lessons_id_list": [4, 5, 6]
     },
     {
         "id": 3,
         "title": "Web Development",
         "estimated_duration": "2 months",
         "description": "Learn the basics of web development and web design.",
-        "lessons_id_list": [1]
+        "lessons_id_list": [7, 8, 9]
     }
 ]

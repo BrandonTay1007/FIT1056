@@ -14,12 +14,13 @@ class Course:
         self.description = description
         self.lessons_list = []
         
-        for id in lessons_id_list:
-            lesson = get_info_by_id(LESSONS_FILE_PATH, id)
-            if lesson is not None:
-                self.lessons_list.append(Lessons(lesson["id"], lesson["title"], lesson["type"], lesson["content_list"]))
-            else:
-                print(f"\033[1;31mLesson with id {id} not found\033[0m")
+        if len(self.lessons_list) == 0:
+            for id in lessons_id_list:
+                lesson = get_info_by_id(LESSONS_FILE_PATH, id)
+                if lesson is not None:
+                    self.lessons_list.append(Lessons(lesson["id"], lesson["title"], lesson["type"], lesson["content_list"]))
+                else:
+                    print(f"\033[1;31mLesson with id {id} not found\033[0m")
 
     def __str__(self):
         return f"Course: {self.title}"

@@ -14,8 +14,8 @@ def extract_file_info(file_path):
 def get_info_by_id(file_path, id):
     all_data = extract_file_info(file_path)
     for data in all_data:
-        print("------------------------------------------")
         if data.get("id") == id:
+            print("------------------------------------------")
             print(f"\033[1;32mData of id {id} in {file_path} obtained successfully\033[0m")
             return data
     print(f"\033[1;31mData not found: {id} in {file_path}\033[0m")
@@ -66,5 +66,5 @@ def add_new_user(role, data, file_path):
 
 # def main():
 #     print(update_user_info("database/admin.json", "A0001", {"username": "CHANGED"}))
-
-# main()
+# for i in extract_file_info("database/lessons.json"):
+#     print(i)

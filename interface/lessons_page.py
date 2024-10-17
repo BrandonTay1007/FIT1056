@@ -4,14 +4,11 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from empoweru_constants import LESSONS_FILE_PATH
 from sidebar import Sidebar
-from app.lessons import Lessons
-from app.content import Content
 from empoweru_constants import *
 from video_player import VideoPlayer
-from database.database_management import get_info_by_id
 
 class LessonsPage(ctk.CTkFrame):
-    def __init__(self, master, lesson, user=None):
+    def __init__(self, master, lesson, user):
         super().__init__(master, fg_color="transparent")
         self.master = master
         self.lesson = lesson
@@ -23,12 +20,12 @@ class LessonsPage(ctk.CTkFrame):
         self.content_frame.pack(fill="both", expand=True)
         
         # Show the first content by default
-        if self.lesson.content_list:  # Check if there is any content
+        if self.lesson.content_list:
+            print("OK")  # Check if there is any content
             self.show_content(self.lesson.content_list[0])  # Show the first content
 
     def add_content_to_sidebar(self):
         self.sidebar.add_button("Back", self.go_back, color=None, align="right")
-
         self.contents = []
         for i, content in enumerate(self.lesson.content_list):
             title = f"{i+1}. {content.title}"
@@ -59,25 +56,33 @@ class LessonsPage(ctk.CTkFrame):
         return video_player  # Return the video player instance
 
     def hide_page(self):
+        self.sidebar.hide_sidebar()
         self.pack_forget()
 
     def show_page(self):
+        self.sidebar.show_sidebar()
         self.pack(fill="both", expand=True)
 
     def go_back(self):
         self.sidebar.hide_sidebar()
-        self.pack_forget()
-        self.user.lessons_list.show_page()
+        self.hide_page()
+        self.master.lessons_list.show_page()
 
-if __name__ == "__main__":
-    root = ctk.CTk()
-    root.geometry("1200x800")
-    lesson_info = get_info_by_id(LESSONS_FILE_PATH, 1)
-    lesson_content_list = []
-    for content in lesson_info["content_list"]:
-        lesson_content_list.append(Content(content["id"], content["title"], content["type"], content["content"]))
 
-    l = Lessons(1, lesson_info["title"], lesson_info["type"], lesson_content_list)
-    page = LessonsPage(root, l)
-    page.pack(fill="both", expand=True)
-    root.mainloop()
+# from app.content import Content
+# from database.database_management import get_info_by_id
+# from app.lessons import Lessons
+
+# if __name__ == "__main__":
+#     root = ctk.CTk()
+#     root.geometry("1200x800")
+#     lesson_info = get_info_by_id(LESSONS_FILE_PATH, 1)
+#     lesson_content_list = []
+#     for content in lesson_info["content_list"]:
+#         print(content)
+#         lesson_content_list.append(Content(content["id"], content["title"], content["type"], content["content"]))
+
+#     l = Lessons(1, lesson_info["title"], lesson_info["type"], lesson_content_list)
+#     page = LessonsPage(root, l)
+#     page.pack(fill="both", expand=True)
+#     root.mainloop()

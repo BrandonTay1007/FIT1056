@@ -9,14 +9,27 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from app.admin import Admin
 from empoweru_constants import FONT_FAMILY
 from interface.date_picker import DatePicker
-
+from interface.sidebar import Sidebar
+from interface.change_password_page import ChangePassword
 
 class ProfilePage(ctk.CTkFrame):
     def __init__(self, master, user):
         super().__init__(master, fg_color="transparent")
         self.user = user
         self.personal_info = user.get_personal_info()
+        self.current_active_page = self
+        
         # Create a scrollable frame
+        self.sidebar = Sidebar(self.master)
+        self.sidebar.show_sidebar()
+        
+        self.change_password = ChangePassword(self.master, self.user)
+
+        # Modify the back button to use go_back method
+        self.sidebar.add_button("Back", self.go_back)
+        self.sidebar.add_button("Profile", lambda: self.switch_page(self, self.change_password))
+        self.sidebar.add_button("Change Password", lambda: self.switch_page(self.change_password, self))
+        
         self.scrollable_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
         self.scrollable_frame.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
         
@@ -129,7 +142,11 @@ class ProfilePage(ctk.CTkFrame):
         self.current_active_widgets.append(entry_widget)
         return entry_widget  # Return the entry widget
 
-    
+    def switch_page(self, page1, page2):
+        self.current_active_page = page2
+        page1.hide_page()  # Ensure this method is defined in both classes
+        page2.show_page()  # Ensure this method is defined in both classes
+
     def edit_profile(self):
         self.hide_widgets(self.current_active_widgets)
         self.place_all_entry()
@@ -208,10 +225,16 @@ class ProfilePage(ctk.CTkFrame):
 
 
     def show_page(self):
+        self.sidebar.show_sidebar()
         self.pack(expand=True, fill="both")
 
     def hide_page(self):
+        self.sidebar.hide_sidebar()
         self.pack_forget()
+
+    def go_back(self):
+        self.hide_page()
+        self.user.menu.show_page()
 
 if __name__ == "__main__":
     root = ctk.CTk()
@@ -221,4 +244,3 @@ if __name__ == "__main__":
     profile_page = ProfilePage(root, user)
     profile_page.pack(expand=True, fill="both")
     root.mainloop()
-

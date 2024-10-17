@@ -8,7 +8,7 @@
                 "id": 1,
                 "title": "Working with Textual Data",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=k9TUPpGqYTo&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=2"
+                "content": "database/videos/testing.mp4"
             },
             {
                 "id": 2,
@@ -16,47 +16,40 @@
                 "type": "text",
                 "content": "Integers are whole numbers that have no decimal point. They can be positive, negative, or zero. Integers are great for counting things, like the number of items in a list or a person's age. While Floats are numbers that have a decimal point. They can represent fractional or decimal values, such as measurements or monetary amounts. Floats are useful when you need precision in calculations, like calculating distances or working with currency."
             },
-
             {
                 "id": 3,
                 "title": "Integers and Floats(2)",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=khKv-8q7YmY&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=3"
+                "content": "none"
             },
-
             {
                 "id": 4,
                 "title": "Lists, Tuples and Sets(1)",
                 "type": "text",
                 "content": "Lists are like a collection of items in a specific order. You can change the items, add new ones, or remove some. Think of a list like a shopping list where you can keep adding or removing things. For example:\n\n```python\nmy_list = [1, 2, 3, 4, 5]\n```. While for Tuples are similar to lists, but you can't change them once they're created. They are useful for storing things that shouldn’t change, like the days of the week. Like this:\n\n```python\nmy_tuple = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')\n```. Sets are collections of items where each item must be unique. You can add or remove items, but you can't change them once they're created. Sets are useful for storing a collection of items where order doesn’t matter and you want to ensure all items are unique. For example:\n\n```python\nmy_set = {1, 2, 3, 4, 5}\n```. Please proceed to the next lesson to know more about the data type."
             },
-
             {
                 "id": 5,
                 "title": "Lists, Tuples and Sets(2)",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=W8KRzm-HUcc&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=4"
+                "content": "none"
             },
-
             {
                 "id": 6,
                 "title": "Conditionals and Booleans(1)",
                 "type": "text",
                 "content": "Conditionals allow a program to make decisions based on whether a Boolean expression is True or False. The most common conditional statement in Python is the if statement, which executes a block of code only if a specified condition is true. Additional conditions can be checked using elif (else if), and a default action can be defined using else. For booleans, booleans are a data type that represents two possible values: True or False. They are often used to check conditions and control the flow of a program. In Python, expressions that compare values (like 5 > 3) will return a Boolean result (True or False)."
             },
-
             {
                 "id": 7,
                 "title": "Conditionals and Booleans(2)",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=DZwmZ8Usvnk&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=6"
+                "content": "none"
             }   
         ]
-    
-
     },
     {
-        "id ": 2,
+        "id": 2,
         "title": "Functions",
         "type": "lectures",
         "content_list": [
@@ -66,28 +59,24 @@
                 "type": "text",
                 "content": "function is a reusable block of code that performs a specific task. Functions allow you to organize your code into smaller, manageable parts, making it easier to read, maintain, and reuse. You can define your own functions to perform tasks or use built-in Python functions for common operations."
             },
-
             {
                 "id": 2,
                 "title": "Functions Tutorial Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=9Os0o3wzS_I&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=8"
+                "content": "none"
             },
-
             {
                 "id": 3,
                 "title": "Import Modules and Exploring The Standard Library",
                 "type": "text",
                 "content": "In Python, a module is a file that contains a collection of related functions, variables, and classes. Modules allow you to organize your code into separate files, making it easier to manage and reuse. Python comes with a large number of built-in modules (standard library), and you can also create your own modules or install third-party ones.You use the import keyword to bring a module into your program. Once a module is imported, you can access its functions, classes, and variables. For example:\n\n```python\nimport math\nprint(math.sqrt(16))\n```."
             },
-
             {
                 "id": 4,
                 "title": "Import Modules and Exploring The Standard Library Tutorial Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=CqvZ3vGoGs0&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=9"
+                "content": "none"
             },
-
             {
                 "id": 5,
                 "title": "Defining Functions",
@@ -96,8 +85,8 @@
             }
         ]
     },
-     {
-        "id ": 3,
+    {
+        "id": 3,
         "title": "Functions",
         "type": "lectures",
         "content_list": [
@@ -107,28 +96,24 @@
                 "type": "text",
                 "content": "function is a reusable block of code that performs a specific task. Functions allow you to organize your code into smaller, manageable parts, making it easier to read, maintain, and reuse. You can define your own functions to perform tasks or use built-in Python functions for common operations."
             },
-
             {
                 "id": 2,
                 "title": "Functions Tutorial Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=9Os0o3wzS_I&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=8"
+                "content": "none"
             },
-
             {
                 "id": 3,
                 "title": "Import Modules and Exploring The Standard Library",
                 "type": "text",
                 "content": "In Python, a module is a file that contains a collection of related functions, variables, and classes. Modules allow you to organize your code into separate files, making it easier to manage and reuse. Python comes with a large number of built-in modules (standard library), and you can also create your own modules or install third-party ones.You use the import keyword to bring a module into your program. Once a module is imported, you can access its functions, classes, and variables. For example:\n\n```python\nimport math\nprint(math.sqrt(16))\n```."
             },
-
             {
                 "id": 4,
                 "title": "Import Modules and Exploring The Standard Library Tutorial Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=CqvZ3vGoGs0&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=9"
+                "content": "none"
             },
-
             {
                 "id": 5,
                 "title": "Defining Functions",
@@ -152,19 +137,19 @@
                 "id": 2,
                 "title": "For Loop Tutorial Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=6iF8Xb7Z3wQ&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=10"
+                "content": "none"
             },
             {
                 "id": 3,
                 "title": "While Loops",
                 "type": "text",
-                "content": "A while loop repeats a block of code as long as a given condition remains true. Be careful when using while loops to avoid infinite loops. Here's an example:\n\n```python\nx = 0\nwhile x < 5:\n    print(x)\n    x += 1\n```"
+                "content": "A while loop repeats a block of code as long as a given condition remains true. Be careful when using while loops to avoidinfinite loops. Here's an example:\n\n```python\nx = 0\nwhile x < 5:\n    print(x)\n    x += 1\n```"
             },
             {
                 "id": 4,
                 "title": "While Loop Tutorial Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=J8dkgjz1gWk&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=11"
+                "content": "none"
             }
         ]
     },
@@ -183,7 +168,7 @@
                 "id": 2,
                 "title": "File Handling Tutorial Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=Uh2ebFW8OYM&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=12"
+                "content": "none"
             }
         ]
     },
@@ -202,7 +187,7 @@
                 "id": 2,
                 "title": "Exception Handling Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=NIWwJbo-9_8&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=13"
+                "content": "none"
             }
         ]
     },
@@ -221,7 +206,7 @@
                 "id": 2,
                 "title": "OOP Basics Tutorial Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=ZDa-Z5JzLYM&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=14"
+                "content": "none"
             }
         ]
     },
@@ -240,7 +225,7 @@
                 "id": 2,
                 "title": "Dictionaries Tutorial Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=daefaLgNkw0&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=15"
+                "content": "none"
             }
         ]
     },
@@ -259,7 +244,7 @@
                 "id": 2,
                 "title": "Lambda Functions Tutorial Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=hYzw5gX4FFk&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=16"
+                "content": "none"
             }
         ]
     },
@@ -278,9 +263,8 @@
                 "id": 2,
                 "title": "API Tutorial Video",
                 "type": "video",
-                "content": "https://www.youtube.com/watch?v=tb8gHvYlCFs&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=17"
+                "content": "none"
             }
         ]
     }
 ]
-

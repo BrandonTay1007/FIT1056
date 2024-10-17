@@ -7,8 +7,9 @@ from app.course import Course
 from interface.lessons_list import LessonsList
 class LectureSelectionPage(ctk.CTkFrame):
     def __init__(self, master, user):
-        super().__init__(master)
+        super().__init__(master, fg_color='transparent')
         self.user = user
+        self.user.lecture_selection_page = self
         # Configure grid
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
@@ -29,7 +30,7 @@ class LectureSelectionPage(ctk.CTkFrame):
         self.header_label.grid(row=0, column=1, sticky="w", pady=10)
 
         # Lectures frame
-        self.lectures_frame = ctk.CTkScrollableFrame(self)
+        self.lectures_frame = ctk.CTkScrollableFrame(self, fg_color='transparent')
         self.lectures_frame.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
         self.lectures_frame.grid_columnconfigure(0, weight=1)
 
@@ -48,7 +49,12 @@ class LectureSelectionPage(ctk.CTkFrame):
             duration_label.grid(row=1, column=0, sticky="w", padx=10, pady=(0, 5))
 
             course_lessons_list = LessonsList(self.master, self.user, course)
-            view_button = ctk.CTkButton(lecture_frame, text="View", width=80, command=lambda: self.go_to_lessons_list(course_lessons_list))
+            view_button = ctk.CTkButton(
+                lecture_frame,
+                text="View",
+                width=80,
+                command=lambda cl=course_lessons_list: self.go_to_lessons_list(cl)
+            )
             view_button.grid(row=0, column=1, rowspan=2, padx=10, pady=5, sticky="e")   
 
         # Back button

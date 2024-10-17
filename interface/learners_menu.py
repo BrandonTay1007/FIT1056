@@ -5,7 +5,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.user import User
 from app.course import Course
 from interface.lecture_selection_page_concept import LectureSelectionPage
-
+from interface.profile_page import ProfilePage
+from presentation.EmpowerU_system import EmpowerU_system
 class LearnersMenu(ctk.CTkFrame):
 
     def __init__(self, master, user):
@@ -25,7 +26,7 @@ class LearnersMenu(ctk.CTkFrame):
         self.grade_button = ctk.CTkButton(master=self, text="Grade", width=100, height=40)
         self.grade_button.grid(row=3, columnspan=2, padx=60, pady=10, sticky='ew')  # Centered
 
-        self.profile_button = ctk.CTkButton(master=self, text="Profile", width=100, height=40)
+        self.profile_button = ctk.CTkButton(master=self, text="Profile", width=100, height=40, command=self.go_to_profile)
         self.profile_button.grid(row=4, columnspan=2, padx=60, pady=10, sticky='ew')  # Centered
         
         self.logout_button = ctk.CTkButton(master=self, text="Log Out", width=100, height=40, command=self.logout)
@@ -35,23 +36,30 @@ class LearnersMenu(ctk.CTkFrame):
 
     def go_to_course(self):
         self.hide_page()
-        lecture_selection_page = LectureSelectionPage(self.master, self.user)
-        lecture_selection_page.show_page()
-
+        if not hasattr(self.user, 'lecture_selection_page'):
+            self.user.lecture_selection_page = LectureSelectionPage(self.master, self.user)
+        self.user.lecture_selection_page.show_page()
+    def go_to_profile(self):
+        self.hide_page()
+        # Create a new ProfilePage instance each time
+        self.user.profile_page = ProfilePage(self.master, self.user)
+        self.user.profile_page.show_page()
+        
     def logout(self):
         self.hide_page()
-        self.master.show_homepage()
+        self.empoweru_system.homepage.show_page()
 
     def show_page(self):
         self.place(relx=0.5, rely=0.5, anchor='center')  # Center the frame in the master
 
     def hide_page(self):
-        self.pack_forget()
+        self.place_forget()  # Change this line from pack_forget() to place_forget()
     
 if __name__ == "__main__":
     root = ctk.CTk()
     root.title("Learners Menu")
     root.geometry("600x700")
+    root.minsize(600, 700)  # Set minimum window size
     u = User(1, "JohnDoe", "password", "John", "Doe", "learner", "tseting", "testing", "testing", "testing")    
     learners_menu = LearnersMenu(root, u)
     root.mainloop()

@@ -20,23 +20,23 @@ class GradePage(ctk.CTkFrame):
         self.title_label = ctk.CTkLabel(self.scrollable_frame, text="Grades", font=TITLE_FONT)
         self.title_label.pack(pady=20)
 
-        assignment_frame = self.grade_col("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
-        quiz_frame = self.grade_col("QUIZ", "In-class test 1 \"T1\"", "10/15")
-        assignment_frame = self.grade_col("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
-        quiz_frame = self.grade_col("QUIZ", "In-class test 1 \"T1\"", "10/15")
-        assignment_frame = self.grade_col("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
-        quiz_frame = self.grade_col("QUIZ", "In-class test 1 \"T1\"", "10/15")
-        assignment_frame = self.grade_col("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
-        quiz_frame = self.grade_col("QUIZ", "In-class test 1 \"T1\"", "10/15")
-        assignment_frame = self.grade_col("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
-        quiz_frame = self.grade_col("QUIZ", "In-class test 1 \"T1\"", "10/15")
+        assignment_frame = self.add_grades("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
+        quiz_frame = self.add_grades("QUIZ", "In-class test 1 \"T1\"", "10/15")
+        assignment_frame = self.add_grades("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
+        quiz_frame = self.add_grades("QUIZ", "In-class test 1 \"T1\"", "10/15")
+        assignment_frame = self.add_grades("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
+        quiz_frame = self.add_grades("QUIZ", "In-class test 1 \"T1\"", "10/15")
+        assignment_frame = self.add_grades("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
+        quiz_frame = self.add_grades("QUIZ", "In-class test 1 \"T1\"", "10/15")
+        assignment_frame = self.add_grades("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
+        quiz_frame = self.add_grades("QUIZ", "In-class test 1 \"T1\"", "10/15")
 
         # Move the back button outside the scrollable frame
         self.back_button = ctk.CTkButton(self.main_frame, text="Back", command=self.hide_grade_page)
         self.back_button.pack(pady=10, padx=20, anchor="w")
 
 
-    def grade_col(self, assignment_type, name, grade):
+    def add_grades(self, assignment_type, name, grade):
         grade_frame = ctk.CTkFrame(self.scrollable_frame)
         grade_frame.pack(padx=20, pady=10, fill=ctk.BOTH, expand=True)
 
@@ -57,10 +57,10 @@ class GradePage(ctk.CTkFrame):
 
         return grade_frame
 
-    def hide_grade_page(self):
+    def show_page(self):
         self.main_frame.pack_forget()
 
-    def show_grade_page(self):
+    def hide_page(self):
         self.main_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
 
     def go_back(self):
