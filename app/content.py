@@ -4,7 +4,9 @@ class Content:
         self.title = title
         self.type = type
         self.content = content
-
+    
+    def __str__(self):
+        return f"Content: {self.title}"
     def get_content(self):
         return (self.type, self.content)
 

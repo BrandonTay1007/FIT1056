@@ -6,11 +6,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from interface.register_page import RegisterPage
 class HomePage(ctk.CTkFrame):
-
-    def __init__(self, master):
+    register_page = None
+    def __init__(self, master, empoweru_system):
         super().__init__(master=master)
         self.master = master 
-
+        self.empoweru_system = empoweru_system
         # Set the appearance mode and color theme
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
@@ -51,7 +51,7 @@ class HomePage(ctk.CTkFrame):
         self.login_button.grid(row=6, columnspan=2, padx=60, pady=10)
 
         # Button to register
-        self.register_button = ctk.CTkButton(master=self, text="Register", width=100, height=40, command=self.navigate_to_register_page)
+        self.register_button = ctk.CTkButton(master=self, text="Register", width=100, height=40, command=empoweru_system.go_to_registration)
         self.register_button.grid(row=7, columnspan=2, padx=60, pady=10)
 
         # Button to shut down
@@ -61,32 +61,27 @@ class HomePage(ctk.CTkFrame):
         # Configure grid to expand properly
         self.grid_columnconfigure((0, 1), weight=1)
 
-    def show_homepage(self):
+    def show_page(self):
         self.pack(expand=True, fill="both", padx=20, pady=20)
 
-    def hide_homepage(self):
+    def hide_page(self):
         self.pack_forget()
-
-    def navigate_to_register_page(self):
-        self.hide_homepage()
-        register_page = RegisterPage(self.master)
-        register_page.show_register_page()
-
+    
     def login(self):
-        username = self.username_entry.get()
-        password = self.password_entry.get()
-        if self.user_type.get() == 'Student':
-            user = app.Student.authenticate(username, password)
-        elif self.user_type.get() == 'Tutor':
-            user = app.Tutor.authenticate(username, password)
-        elif self.user_type.get() == 'Admin':
-            user = app.Admin(username, password)
+        # username = self.username_entry.get()
+        # password = self.password_entry.get()
+        # if self.user_type.get() == 'Student':
+        #     user = app.Student.authenticate(username, password)
+        # elif self.user_type.get() == 'Tutor':
+        #     user = app.Tutor.authenticate(username, password)
+        # elif self.user_type.get() == 'Admin':
+        #     user = app.Admin(username, password)
         # WE GOT USER OBEJCT
-        
+        pass    
 if __name__ == "__main__":
     root = ctk.CTk()
     root.geometry("1200x800")
-    homepage = HomePage(root)
-    homepage.show_homepage()
+    homepage = HomePage(root, None)
+    homepage.show_page()
     root.mainloop()
 

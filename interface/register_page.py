@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.learners import Learner
 from interface.date_picker import DatePicker
 class RegisterPage(ctk.CTkScrollableFrame):
-    def __init__(self, master):
+    def __init__(self, master, empoweru_system):
         super().__init__(master)
 
         self.title = ctk.CTkLabel(self, text="Register New User", font=("Arial", 24, "bold"))
@@ -33,6 +33,9 @@ class RegisterPage(ctk.CTkScrollableFrame):
         self.register_button = ctk.CTkButton(self, text="Register", command=self.register)
         self.register_button.pack(pady=20)
         
+        self.back_button = ctk.CTkButton(self, text="Back", command=empoweru_system.go_to_homepage)
+        self.back_button.pack()  # Place the button at the left bottom corner
+
     def place_entry(self, label):
         self.label = ctk.CTkLabel(self, text=label)
         self.label.pack(pady=5)
@@ -117,12 +120,11 @@ class RegisterPage(ctk.CTkScrollableFrame):
         self.gender_combobox.set("Please select your gender")
         self.alert_var.set("") 
 
-    def show_register_page(self):
+    def show_page(self):
         self.pack(expand=True, fill="both", padx=20, pady=20)
 
-    def hide_register_page(self):
+    def hide_page(self):
         self.pack_forget()
-    
     
 
 if __name__ == "__main__":
@@ -131,4 +133,3 @@ if __name__ == "__main__":
     root.geometry("800x600")
     register_page.pack(expand=True, fill="both")
     root.mainloop()
-

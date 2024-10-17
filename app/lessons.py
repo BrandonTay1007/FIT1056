@@ -3,6 +3,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.content import Content
+from interface.lessons_list import LessonsList
 from database.database_management import *
 from empoweru_constants import *
 
@@ -13,7 +14,6 @@ class Lessons:
         self.title = title
         self.lesson_type = lesson_type
         self.content_list = content_list
-
     def add_text(self, text):
         text_content = Content(self.id, self.title, "text", text)
         self.content_list.append(text_content)
@@ -25,18 +25,14 @@ class Lessons:
     def get_content_list(self):
         return self.content_list
 
-    def init_by_id(self, id):
-        lesson_list = []
+    def init_lessons_course_by_id(id):
+        content_list = []
+        lesson = get_info_by_id(LESSONS_FILE_PATH, id)
 
-        for lesson in get_info_by_id(COURSES_FILE_PATH, id):
-            content_list = []
+        for content in lesson["content_list"]:
+            content_list.append(Content(content["id"], content["title"], content["type"], content["content"]))  
 
-            for content in lesson["content_list"]:
-                content_list.append(Content(content["id"], content["title"], content["type"], content["content"]))  
-            cur_lesson = Lessons(lesson["id"], lesson["title"], lesson["lesson_type"], content_list)
-            lesson_list.append(cur_lesson)
-
-        return lesson_list
+        return content_list
 
 
 

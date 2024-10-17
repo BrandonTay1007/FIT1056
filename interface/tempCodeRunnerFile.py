@@ -1,3 +1,1 @@
-
-    def show_page(self):
-        pass
+2

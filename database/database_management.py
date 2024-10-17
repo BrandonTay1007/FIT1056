@@ -1,7 +1,6 @@
 import json
 
 def extract_file_info(file_path):
-    print(file_path)
     try:
         with open(file_path, "r") as file:
             return json.load(file)
@@ -15,8 +14,11 @@ def extract_file_info(file_path):
 def get_info_by_id(file_path, id):
     all_data = extract_file_info(file_path)
     for data in all_data:
+        print("------------------------------------------")
         if data.get("id") == id:
+            print(f"\033[1;32mData of id {id} in {file_path} obtained successfully\033[0m")
             return data
+    print(f"\033[1;31mData not found: {id} in {file_path}\033[0m")
     return None
 
 def write_info_to_file(file_path, data):

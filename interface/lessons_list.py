@@ -3,33 +3,51 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from app.lessons import Lessons
-from PIL import Image
 import os
 
 
-class LessonsList(ctk.CTkScrollableFrame):
-    def __init__(self, master, user, course_id):
+class LessonsList(ctk.CTkFrame):
+    def __init__(self, master, user, course):
         super().__init__(master, fg_color="transparent")
+        self.lessons_list = course.lessons_list  # Assuming course has a lesson_list attribute
+        title_bar = ctk.CTkLabel(self, text=course.title, font=ctk.CTkFont(size=40, weight="bold"))
+        title_bar.pack(fill="x", padx=10, pady=10)
+        self.lessons_list_frame = ctk.CTkScrollableFrame(self)
+        self.lessons_list_frame.pack(fill="both", expand=True, padx=10, pady=(10, 50))  # Added bottom padding
+        self.lessons_list_frame.pack_propagate(False)  # Prevent the frame from shrinking
+        self.lessons_list_frame.configure(width=800, height=550)  # Reduced height to leave space for back button
         
-        self.user = user
-        lesson_title = ctk.CTkLabel(self, text="Lessons", font=("Arial", 24, "bold"))  # Changed font to Arial, size to 24, and weight to bold
-        lesson_title.pack(pady=10)
+        self.create_lesson_bars()
+        self.hide_page()
+        
+        self.create_back_button()  # Add back button creation
 
-        # Create a frame to hold the Textbox and Scrollbar
-        self.lesson_frame = ctk.CTkFrame(self)
-        self.lesson_frame.pack(pady=10)
+    def create_lesson_bars(self):
+        for lesson in self.lessons_list:
+            lesson_frame = ctk.CTkFrame(self.lessons_list_frame)  # Create a frame for each lesson
+            lesson_label = ctk.CTkLabel(lesson_frame, text=lesson.title)  # Assuming lesson is a string
+            lesson_label.pack(side="left", padx=10, pady=5)
+            lesson_frame.pack(fill="x", padx=10, pady=5)  # Pack the lesson frame
 
-        # Changed CTkListbox to CTkTextbox
-        self.lesson_list = ctk.CTkTextbox(self.lesson_frame, width=200, height=200)  # Changed width and height
-        self.lesson_list.pack(side="left", fill="both", expand=True)
+            view_button = ctk.CTkButton(lesson_frame, text="View", width=80)
+            view_button.pack(side="right", padx=10, pady=5)
 
-        self.lesson_list_scrollbar = ctk.CTkScrollbar(self.lesson_frame, orientation="vertical", command=self.lesson_list.yview)
-        self.lesson_list.configure(yscrollcommand=self.lesson_list_scrollbar.set)
-        self.lesson_list_scrollbar.pack(side="right", fill="y")
+    def show_page(self):
+        self.pack(fill="both", expand=True)
 
-if __name__ == "__main__":
-    root = ctk.CTk()
-    lessons_list = LessonsList(root, None)
-    lessons_list.pack(fill="both", expand=True)
-    root.mainloop()
+    def hide_page(self):
+        self.pack_forget()
+
+    def create_back_button(self):
+        back_button = ctk.CTkButton(self, text="Back", command=self.on_back_button_click)
+        back_button.pack(side="left", padx=10, pady=10, anchor="sw")  # Sticky to bottom left
+
+    def on_back_button_click(self):
+        # Define the action for the back button here
+        pass
+
+# if __name__ == "__main__":
+#     root = ctk.CTk()
+#     lessons_list = LessonsList(root, None, 1)
+#     lessons_list.pack(fill="both", expand=True)
+#     root.mainloop()

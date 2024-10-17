@@ -1,64 +1,286 @@
 [
     {
         "id": 1,
-        "title": "Lesson 1",
+        "title": "Introduction to Programming",
         "type": "lectures",
         "content_list": [
             {
                 "id": 1,
-                "title": "Content 1",
-                "type": "text",
-                "content": "This is a content about the basics of programming."
+                "title": "Working with Textual Data",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=k9TUPpGqYTo&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=2"
             },
             {
                 "id": 2,
-                "title": "Introduction to Programming in Python",
+                "title": "Integers and Floats(1)",
                 "type": "text",
-                "content": "Programming is the process of creating a set of instructions that tell a computer how to perform a task. Python is a popular programming language known for its simplicity and readability. In this introduction, we will cover the basics of Python programming, including variables, data types, control structures, functions, and more."
+                "content": "Integers are whole numbers that have no decimal point. They can be positive, negative, or zero. Integers are great for counting things, like the number of items in a list or a person's age. While Floats are numbers that have a decimal point. They can represent fractional or decimal values, such as measurements or monetary amounts. Floats are useful when you need precision in calculations, like calculating distances or working with currency."
             },
+
             {
                 "id": 3,
-                "title": "Variables and Data Types",
-                "type": "text",
-                "content": "In Python, a variable is a title that refers to a value. You can create a variable by assigning a value to it using the equals sign. Python supports various data types, including integers, floats, strings, and booleans. For example:\n\n```python\nage = 25  # Integer\nheight = 5.9  # Float\ntitle = 'Alice'  # String\nis_student = True  # Boolean\n```"
+                "title": "Integers and Floats(2)",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=khKv-8q7YmY&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=3"
             },
+
             {
                 "id": 4,
-                "title": "Control Structures",
+                "title": "Lists, Tuples and Sets(1)",
                 "type": "text",
-                "content": "Control structures allow you to dictate the flow of your program. The most common control structures are if statements, loops (for and while), and functions. For example:\n\n```python\nif age >= 18:\n    print('You are an adult.')\nelse:\n    print('You are a minor.')\n\nfor i in range(5):\n    print(i)\n```"
+                "content": "Lists are like a collection of items in a specific order. You can change the items, add new ones, or remove some. Think of a list like a shopping list where you can keep adding or removing things. For example:\n\n```python\nmy_list = [1, 2, 3, 4, 5]\n```. While for Tuples are similar to lists, but you can't change them once they're created. They are useful for storing things that shouldn’t change, like the days of the week. Like this:\n\n```python\nmy_tuple = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')\n```. Sets are collections of items where each item must be unique. You can add or remove items, but you can't change them once they're created. Sets are useful for storing a collection of items where order doesn’t matter and you want to ensure all items are unique. For example:\n\n```python\nmy_set = {1, 2, 3, 4, 5}\n```. Please proceed to the next lesson to know more about the data type."
             },
+
             {
                 "id": 5,
-                "title": "Functions",
-                "type": "text",
-                "content": "Functions are reusable pieces of code that perform a specific task. You can define a function using the `def` keyword. For example:\n\n```python\ndef greet(title):\n    return f'Hello, {title}!'\n\nprint(greet('Alice'))  # Output: Hello, Alice!\n```"
+                "title": "Lists, Tuples and Sets(2)",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=W8KRzm-HUcc&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=4"
             },
+
             {
                 "id": 6,
-                "title": "Conclusion",
+                "title": "Conditionals and Booleans(1)",
                 "type": "text",
-                "content": "This introduction covered the basics of programming in Python. With these foundational concepts, you can start writing your own Python programs and explore more advanced topics such as object-oriented programming, libraries, and frameworks."
+                "content": "Conditionals allow a program to make decisions based on whether a Boolean expression is True or False. The most common conditional statement in Python is the if statement, which executes a block of code only if a specified condition is true. Additional conditions can be checked using elif (else if), and a default action can be defined using else. For booleans, booleans are a data type that represents two possible values: True or False. They are often used to check conditions and control the flow of a program. In Python, expressions that compare values (like 5 > 3) will return a Boolean result (True or False)."
             },
+
             {
                 "id": 7,
-                "title": "Testing",
+                "title": "Conditionals and Booleans(2)",
                 "type": "video",
-                "content": "database/videos/testing.mp4"
+                "content": "https://www.youtube.com/watch?v=DZwmZ8Usvnk&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=6"
+            }   
+        ]
+    
+
+    },
+    {
+        "id ": 2,
+        "title": "Functions",
+        "type": "lectures",
+        "content_list": [
+            {
+                "id": 1,
+                "title": "Functions",
+                "type": "text",
+                "content": "function is a reusable block of code that performs a specific task. Functions allow you to organize your code into smaller, manageable parts, making it easier to read, maintain, and reuse. You can define your own functions to perform tasks or use built-in Python functions for common operations."
+            },
+
+            {
+                "id": 2,
+                "title": "Functions Tutorial Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=9Os0o3wzS_I&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=8"
+            },
+
+            {
+                "id": 3,
+                "title": "Import Modules and Exploring The Standard Library",
+                "type": "text",
+                "content": "In Python, a module is a file that contains a collection of related functions, variables, and classes. Modules allow you to organize your code into separate files, making it easier to manage and reuse. Python comes with a large number of built-in modules (standard library), and you can also create your own modules or install third-party ones.You use the import keyword to bring a module into your program. Once a module is imported, you can access its functions, classes, and variables. For example:\n\n```python\nimport math\nprint(math.sqrt(16))\n```."
+            },
+
+            {
+                "id": 4,
+                "title": "Import Modules and Exploring The Standard Library Tutorial Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=CqvZ3vGoGs0&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=9"
+            },
+
+            {
+                "id": 5,
+                "title": "Defining Functions",
+                "type": "text",
+                "content": "You can define your own functions using the def keyword. Functions can take parameters, which are values you pass to the function to use inside it. You can also specify a default value for a parameter, which allows you to call the function without providing that argument. For example:\n\n```python\ndef greet(name='World'):\n    print(f'Hello, {name}!')```"
+            }
+        ]
+    },
+     {
+        "id ": 3,
+        "title": "Functions",
+        "type": "lectures",
+        "content_list": [
+            {
+                "id": 1,
+                "title": "Functions",
+                "type": "text",
+                "content": "function is a reusable block of code that performs a specific task. Functions allow you to organize your code into smaller, manageable parts, making it easier to read, maintain, and reuse. You can define your own functions to perform tasks or use built-in Python functions for common operations."
+            },
+
+            {
+                "id": 2,
+                "title": "Functions Tutorial Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=9Os0o3wzS_I&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=8"
+            },
+
+            {
+                "id": 3,
+                "title": "Import Modules and Exploring The Standard Library",
+                "type": "text",
+                "content": "In Python, a module is a file that contains a collection of related functions, variables, and classes. Modules allow you to organize your code into separate files, making it easier to manage and reuse. Python comes with a large number of built-in modules (standard library), and you can also create your own modules or install third-party ones.You use the import keyword to bring a module into your program. Once a module is imported, you can access its functions, classes, and variables. For example:\n\n```python\nimport math\nprint(math.sqrt(16))\n```."
+            },
+
+            {
+                "id": 4,
+                "title": "Import Modules and Exploring The Standard Library Tutorial Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=CqvZ3vGoGs0&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=9"
+            },
+
+            {
+                "id": 5,
+                "title": "Defining Functions",
+                "type": "text",
+                "content": "You can define your own functions using the def keyword. Functions can take parameters, which are values you pass to the function to use inside it. You can also specify a default value for a parameter, which allows you to call the function without providing that argument. For example:\n\n```python\ndef greet(name='World'):\n    print(f'Hello, {name}!')```"
             }
         ]
     },
     {
-        "id": 2,
-        "title": "Lesson 2",
-        "type": "video",
+        "id": 4,
+        "title": "Loops and Iterations",
+        "type": "lectures",
         "content_list": [
             {
                 "id": 1,
-                "title": "Content 1",
+                "title": "Loops in Python",
                 "type": "text",
-                "content": "This is a content about the basics of programming."
+                "content": "Loops allow a program to repeat a block of code multiple times. Python has two types of loops: for loops and while loops. A for loop iterates over a sequence, such as a list or string, while a while loop continues executing as long as a specified condition is true. Loops are useful for automating repetitive tasks. Example of a for loop:\n\n```python\nfor i in range(5):\n    print(i)\n```"
+            },
+            {
+                "id": 2,
+                "title": "For Loop Tutorial Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=6iF8Xb7Z3wQ&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=10"
+            },
+            {
+                "id": 3,
+                "title": "While Loops",
+                "type": "text",
+                "content": "A while loop repeats a block of code as long as a given condition remains true. Be careful when using while loops to avoid infinite loops. Here's an example:\n\n```python\nx = 0\nwhile x < 5:\n    print(x)\n    x += 1\n```"
+            },
+            {
+                "id": 4,
+                "title": "While Loop Tutorial Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=J8dkgjz1gWk&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=11"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "title": "File Handling",
+        "type": "lectures",
+        "content_list": [
+            {
+                "id": 1,
+                "title": "Reading and Writing Files",
+                "type": "text",
+                "content": "Python allows you to read from and write to files using built-in functions. To open a file, you can use the `open()` function. Files can be opened in various modes, such as 'r' for reading, 'w' for writing, and 'a' for appending. Example:\n\n```python\nwith open('example.txt', 'r') as file:\n    content = file.read()\n    print(content)\n```"
+            },
+            {
+                "id": 2,
+                "title": "File Handling Tutorial Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=Uh2ebFW8OYM&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=12"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "title": "Error Handling",
+        "type": "lectures",
+        "content_list": [
+            {
+                "id": 1,
+                "title": "Introduction to Exceptions",
+                "type": "text",
+                "content": "Errors can occur in your code, and Python provides ways to handle them using try-except blocks. This ensures your program can continue running even if an error occurs. Here's an example:\n\n```python\ntry:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print('Cannot divide by zero')\n```"
+            },
+            {
+                "id": 2,
+                "title": "Exception Handling Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=NIWwJbo-9_8&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=13"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "title": "Object-Oriented Programming",
+        "type": "lectures",
+        "content_list": [
+            {
+                "id": 1,
+                "title": "Classes and Objects",
+                "type": "text",
+                "content": "Python supports Object-Oriented Programming (OOP), where you can define classes that contain methods and attributes. A class is like a blueprint, and objects are instances of that class. Example of a class:\n\n```python\nclass Dog:\n    def __init__(self, name):\n        self.name = name\n    def bark(self):\n        print(f'{self.name} is barking')\n```"
+            },
+            {
+                "id": 2,
+                "title": "OOP Basics Tutorial Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=ZDa-Z5JzLYM&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=14"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "title": "Data Structures",
+        "type": "lectures",
+        "content_list": [
+            {
+                "id": 1,
+                "title": "Understanding Dictionaries",
+                "type": "text",
+                "content": "A dictionary is a collection of key-value pairs. Each key must be unique, and the values can be any data type. Dictionaries are unordered and mutable. Example:\n\n```python\nmy_dict = {'name': 'John', 'age': 25}\nprint(my_dict['name'])\n```"
+            },
+            {
+                "id": 2,
+                "title": "Dictionaries Tutorial Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=daefaLgNkw0&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=15"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "title": "Advanced Functions",
+        "type": "lectures",
+        "content_list": [
+            {
+                "id": 1,
+                "title": "Lambda Functions",
+                "type": "text",
+                "content": "Lambda functions are small anonymous functions that can have any number of arguments but only one expression. They're often used as a quick way to define functions without a full `def` block. Example:\n\n```python\nsquare = lambda x: x * x\nprint(square(5))\n```"
+            },
+            {
+                "id": 2,
+                "title": "Lambda Functions Tutorial Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=hYzw5gX4FFk&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=16"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "title": "Working with APIs",
+        "type": "lectures",
+        "content_list": [
+            {
+                "id": 1,
+                "title": "Introduction to APIs",
+                "type": "text",
+                "content": "An API (Application Programming Interface) allows two applications to communicate with each other. In Python, you can use modules like requests to interact with APIs. Here's an example of making a GET request:\n\n```python\nimport requests\nresponse = requests.get('https://api.example.com/data')\nprint(response.json())\n```"
+            },
+            {
+                "id": 2,
+                "title": "API Tutorial Video",
+                "type": "video",
+                "content": "https://www.youtube.com/watch?v=tb8gHvYlCFs&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&index=17"
             }
         ]
     }
 ]
+
