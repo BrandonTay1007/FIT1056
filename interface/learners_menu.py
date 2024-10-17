@@ -6,7 +6,6 @@ from app.user import User
 from app.course import Course
 from interface.lecture_selection_page_concept import LectureSelectionPage
 from interface.profile_page import ProfilePage
-from presentation.EmpowerU_system import EmpowerU_system
 class LearnersMenu(ctk.CTkFrame):
 
     def __init__(self, master, user):
