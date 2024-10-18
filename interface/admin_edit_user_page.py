@@ -5,17 +5,17 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from database.database_management import get_info_by_id, update_user_info
 import empoweru_constants as constants
 
-class EditUserPage(ctk.CTkFrame):
+class AdminEditUserPage(ctk.CTkFrame):
 
-    def __init__(self, master):
+    def __init__(self, master, user):
         super().__init__(master)
         self.master=master
+        self.user = user
 
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
 
         self.master.title("Edit User Page")
-        self.master.geometry("600x700")
 
         #title
         self.title_label=ctk.CTkLabel(self, text="Edit User", font=('Arial', 24, "bold"))
@@ -42,7 +42,6 @@ class EditUserPage(ctk.CTkFrame):
         self.user_info_labels=[]
         self.user_info_entries=[]
         self.user_data=None
-        self.user_type=None
 
         self.pack(fill="both", expand=True)
 
@@ -58,9 +57,9 @@ class EditUserPage(ctk.CTkFrame):
                 entry.destroy()
             return
         
-        self.user_data, self.user_type = self.find_user_in_file(user_id)
+        user_data = self.find_user_in_file(user_id)
         
-        if self.user_data:
+        if user_data:
             self.display_message("")
             self.display_user_info()
         else:
@@ -74,15 +73,13 @@ class EditUserPage(ctk.CTkFrame):
             return
         
     def find_user_in_file(self, user_id):
-        for user_type, file_path in [
-            ("admin", constants.ADMIN_FILE_PATH),
-            ("tutors", constants.TUTORS_FILE_PATH),
-            ("learners", constants.LEARNERS_FILE_PATH)
-        ]:
-            user_data = get_info_by_id(file_path, "id", user_id)
-            if user_data:
-                return user_data, user_type
-        return None, None
+        if user_id[0] == "A":
+            data = self.user.get_users_info(user_id, "admin")
+        elif user_id[0] == "T":
+            data = self.user.get_users_info(user_id, "tutors")
+        elif user_id[0] == "L":
+            data = self.user.get_users_info(user_id, "learners")
+        return data
 
     def display_user_info(self):
         for label in self.user_info_labels:
@@ -146,7 +143,3 @@ class EditUserPage(ctk.CTkFrame):
     def hide_page(self):
         self.pack_forget()
 
-if __name__ == "__main__":
-    root=ctk.CTk()
-    app=EditUserPage(master=root)
-    root.mainloop()

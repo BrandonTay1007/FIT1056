@@ -6,18 +6,19 @@ import uuid
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.admin import Admin
+from app.tutors import Tutor
 from app.learners import Learner
-import empoweru_constants as constants
 from interface.date_picker import DatePicker
 
 class AdminAddUserPage(ctk.CTkScrollableFrame):
-    def __init__(self, master, empoweru_system):
+    def __init__(self, master, user):
         super().__init__(master)
-
+        self.user = user
+        self.user.add_user_page = self
         self.title = ctk.CTkLabel(self, text="Add New User", font=("Arial", 24, "bold"))
         self.title.pack(pady=20)
 
-        self.user_type_combobox = self.place_combobox("User Type:", ["Student", "Admin"])
+        self.user_type_combobox = self.place_combobox("User Type:", ["Learner", "Admin", "Tutor"])
         self.date_of_birth = ""
         self.username_entry = self.place_entry("Username:")
         self.first_name_entry = self.place_entry("First Name:")
@@ -30,7 +31,6 @@ class AdminAddUserPage(ctk.CTkScrollableFrame):
         self.date_of_birth_button.pack(pady=5)
         self.gender_combobox = self.place_combobox("Gender:", ["Male", "Female"])
         self.password_entry = self.place_password_entry("Password:")
-        self.profile_picture_entry = self.place_entry("Profile Picture Path:")
 
 
         self.alert_var = ctk.StringVar() 
@@ -40,7 +40,7 @@ class AdminAddUserPage(ctk.CTkScrollableFrame):
         self.add_button = ctk.CTkButton(self, text="Add User", command=self.add_user)
         self.add_button.pack(pady=20)
         
-        self.back_button = ctk.CTkButton(self, text="Back", command=None)
+        self.back_button = ctk.CTkButton(self, text="Back", command=self.go_back)
         self.back_button.pack()
 
     def place_entry(self, label):
@@ -90,18 +90,25 @@ class AdminAddUserPage(ctk.CTkScrollableFrame):
             return
 
         user_type = entry_values.pop("user_type")
-        if user_type == "Student":
+        if user_type == "Learner":
             entry_values["id"] = f"L{str(uuid.uuid4())[:3].upper()}"
             entry_values["attempted_lessons"] = []
             entry_values["attempted_quizzes"] = []
             if Learner.register(entry_values):
-                self.show_success_message("Student")
+                self.show_success_message("Learner")
                 self.clear_fields()
             else:
-                self.alert_var.set("Failed to add new student!")
+                self.alert_var.set("Failed to add new learner!")
+        elif user_type == "Tutor":
+            entry_values["id"] = f"T{str(uuid.uuid4())[:4].upper()}"
+            if Tutor.register_new_user(entry_values):
+                self.show_success_message("Tutor")
+                self.clear_fields()
+            else:
+                self.alert_var.set("Failed to add new tutor!")
         elif user_type == "Admin":
             entry_values["id"] = f"A{str(uuid.uuid4())[:4].upper()}"
-            if Admin.register(entry_values):
+            if Admin.register_new_user(entry_values):
                 self.show_success_message("Admin")
                 self.clear_fields()
             else:
@@ -117,14 +124,13 @@ class AdminAddUserPage(ctk.CTkScrollableFrame):
             "date_of_birth": self.date_of_birth,
             "gender": self.gender_combobox.get(),
             "password": self.password_entry.get(),
-            "profile_picture_path": self.profile_picture_entry.get(),
             "user_type": self.user_type_combobox.get()
         }
 
     def clear_fields(self):
         for entry in [self.username_entry, self.first_name_entry, self.last_name_entry, 
-                      self.contact_num_entry, self.age_entry, self.country_entry, 
-                      self.password_entry, self.profile_picture_entry]:
+                      self.contact_num_entry, self.country_entry, 
+                      self.password_entry]:
             entry.delete(0, 'end')
         self.gender_combobox.set("Select gender")
         self.user_type_combobox.set("Select user type")
@@ -141,9 +147,6 @@ class AdminAddUserPage(ctk.CTkScrollableFrame):
     def hide_page(self):
         self.pack_forget()
 
-if __name__ == "__main__":
-    root = ctk.CTk()
-    add_user_page = AdminAddUserPage(root, None)
-    root.geometry("800x600")
-    add_user_page.pack(expand=True, fill="both")
-    root.mainloop()
+    def go_back(self):
+        self.hide_page()
+        self.user.menu.show_menu()

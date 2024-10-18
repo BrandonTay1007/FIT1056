@@ -85,21 +85,6 @@ def insert_info(file_path, data):
         print(f"\033[1;31mError: Failed to add data to file: {file_path}\033[0m")
     return False
 
-def add_new_user(role, data, file_path):
-    if role == "learner":
-        file_path = "database/learners.json"
-    elif role == "tutor":
-        file_path = "database/tutors.json"
-    elif role == "admin":
-        file_path = "database/admin.json"
-    
-    all_data = extract_file_info(file_path)
-    all_data.append(data)
-    if write_info_to_file(file_path, all_data):
-        return True
-    else:
-        print(f"Error: Failed to add data to file: {file_path}")
-    return False
 
 # def main():
 #     print(update_user_info("database/admin.json", "A0001", {"username": "CHANGED"}))

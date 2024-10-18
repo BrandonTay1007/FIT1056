@@ -34,7 +34,6 @@ class User:
         print(self.first_name)
         print(self.last_name)
         print(self.contact_num)
-        print(self.age)
         print(self.country)
         print(self.date_of_birth)
         print(self.gender)
@@ -63,9 +62,15 @@ class User:
 
         return personal_info
     
-    
-    def register_new_user(role, user_data):
-        return add_new_user(role, user_data)
+    def register(role, user_data):
+        if role == "learner":
+            file_path = LEARNERS_FILE_PATH
+        elif role == "tutor":
+            file_path = TUTORS_FILE_PATH
+        elif role == "admin":
+            file_path = ADMIN_FILE_PATH
+        
+        return insert_info(file_path, user_data)
 
     def update_own_info(self, updated_info, file_path):
         personal_info = self.get_personal_info()
