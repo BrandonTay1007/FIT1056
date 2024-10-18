@@ -3,7 +3,7 @@ import customtkinter as ctk
 class Sidebar(ctk.CTkScrollableFrame):
     def __init__(self, master, width=200, height=700):
         super().__init__(master)
-        self.configure(width=width, height=height, expand=True)
+        self.configure(width=width, height=height)
 
         # Add your sidebar widgets here
     
