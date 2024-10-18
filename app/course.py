@@ -5,6 +5,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.lessons import Lessons
 from database.database_management import *
 from empoweru_constants import *
+from app.quiz import Quiz
 
 class Course:
     def __init__(self, id, title, estimated_duration, description, lessons_id_list):
@@ -14,9 +15,10 @@ class Course:
         self.description = description
         self.lessons_list = []
         self.progress = 0
+        self.quizzes = Quiz.init_by_course_id(self.id)
         if len(self.lessons_list) == 0:
             for id in lessons_id_list:
-                lesson = get_info_by_id(LESSONS_FILE_PATH, id)
+                lesson = get_info_by_id(LESSONS_FILE_PATH, "id", id)
                 if lesson is not None:
                     self.lessons_list.append(Lessons(lesson["id"], lesson["title"], lesson["type"], lesson["content_list"]))
                 else:

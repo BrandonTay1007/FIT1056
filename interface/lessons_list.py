@@ -52,7 +52,7 @@ class LessonsList(ctk.CTkFrame):
         self.hide_page()
         self.create_lesson_page(lesson)
         if lesson.id not in self.user.attempted_lessons:
-            self.user.attempted_lessons.append(lesson.id)
+            self.user.update_progress(lessons_id=lesson.id)
         
     def create_lesson_page(self, lesson):
         if not hasattr(self, 'lessons_page'):

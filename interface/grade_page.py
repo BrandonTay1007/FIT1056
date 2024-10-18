@@ -6,64 +6,62 @@ TYPE_FONT = ("Roboto", 12, "bold")
 TEXT_FONT = ("Roboto", 14)
 
 class GradePage(ctk.CTkFrame):
-    def __init__(self, master):
+    def __init__(self, master, user):
         super().__init__(master, fg_color="transparent")
+        self.user = user
         
-        # Create a main frame to hold both the scrollable frame and the back button
-        self.main_frame = ctk.CTkFrame(self, fg_color="transparent")
-        self.main_frame.pack(fill=ctk.BOTH, expand=True)
-        
-        # Move the scrollable frame inside the main frame
-        self.scrollable_frame = ctk.CTkScrollableFrame(self.main_frame, fg_color="transparent")
-        self.scrollable_frame.pack(fill=ctk.BOTH, expand=True, padx=20)
-
-        self.title_label = ctk.CTkLabel(self.scrollable_frame, text="Grades", font=TITLE_FONT)
+        self.title_label = ctk.CTkLabel(self, text="Your Grades", font=TITLE_FONT)
         self.title_label.pack(pady=20)
 
-        assignment_frame = self.add_grades("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
-        quiz_frame = self.add_grades("QUIZ", "In-class test 1 \"T1\"", "10/15")
-        assignment_frame = self.add_grades("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
-        quiz_frame = self.add_grades("QUIZ", "In-class test 1 \"T1\"", "10/15")
-        assignment_frame = self.add_grades("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
-        quiz_frame = self.add_grades("QUIZ", "In-class test 1 \"T1\"", "10/15")
-        assignment_frame = self.add_grades("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
-        quiz_frame = self.add_grades("QUIZ", "In-class test 1 \"T1\"", "10/15")
-        assignment_frame = self.add_grades("ASSIGNMENT", "Assignment 3 \"A3\" (in teams)", "10/10")
-        quiz_frame = self.add_grades("QUIZ", "In-class test 1 \"T1\"", "10/15")
+        self.scrollable_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
+        self.scrollable_frame.pack(fill=ctk.BOTH, expand=True, padx=20)
 
-        # Move the back button outside the scrollable frame
-        self.back_button = ctk.CTkButton(self.main_frame, text="Back", command=self.hide_grade_page)
+        self.load_grades()
+
+        self.back_button = ctk.CTkButton(self, text="Back", command=self.back_to_menu)
         self.back_button.pack(pady=10, padx=20, anchor="w")
 
+    def load_grades(self):
+        grades = self.user.get_all_grades()
+        
+        # Group grades by course
+        courses = {}
+        for grade_data in grades:
+            course = grade_data['course_title']
+            if course not in courses:
+                courses[course] = []
+            courses[course].append(grade_data)
+        
+        # Display grades for each course
+        for course, course_grades in courses.items():
+            self.add_course_section(course, course_grades)
 
-    def add_grades(self, assignment_type, name, grade):
-        grade_frame = ctk.CTkFrame(self.scrollable_frame)
-        grade_frame.pack(padx=20, pady=10, fill=ctk.BOTH, expand=True)
+    def add_course_section(self, course_name, course_grades):
+        course_frame = ctk.CTkFrame(self.scrollable_frame)
+        course_frame.pack(padx=20, pady=(20, 10), fill=ctk.X)
 
-        type_label = ctk.CTkLabel(grade_frame, text=assignment_type, font=TYPE_FONT)
-        type_label.pack(anchor="w")
+        course_label = ctk.CTkLabel(course_frame, text=course_name, font=TYPE_FONT)
+        course_label.pack(anchor="w", padx=10, pady=5)
 
-        info_frame = ctk.CTkFrame(grade_frame, fg_color="transparent")
-        info_frame.pack(fill=ctk.X, expand=True)
+        for grade_data in course_grades:
+            self.add_grade(course_frame, grade_data['quiz_title'], f"{grade_data['grade']:.2f}%")
 
-        name_label = ctk.CTkLabel(info_frame, text=f"{name}", font=TEXT_FONT)
+    def add_grade(self, parent_frame, quiz_name, grade):
+        grade_frame = ctk.CTkFrame(parent_frame)
+        grade_frame.pack(padx=10, pady=5, fill=ctk.X)
+
+        name_label = ctk.CTkLabel(grade_frame, text=quiz_name, font=TEXT_FONT)
         name_label.pack(side="left", anchor="w")
 
-        grade_label = ctk.CTkLabel(info_frame, text=f"{grade}", font=TEXT_FONT)
+        grade_label = ctk.CTkLabel(grade_frame, text=grade, font=TEXT_FONT)
         grade_label.pack(side="right", padx=(0, 10))
 
-        review_button = ctk.CTkButton(grade_frame, text="Review", command=None)
-        review_button.pack(side="right", padx=(0, 10))
-
-        return grade_frame
+    def back_to_menu(self):
+        self.hide_grade_page()
+        self.user.menu.show_page()
 
     def show_page(self):
-        self.main_frame.pack_forget()
+        self.pack(expand=True, fill="both")
 
-    def hide_page(self):
-        self.main_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
-
-    def go_back(self):
-        # This method will be called when the back button is clicked
-        # You'll need to implement the logic to return to the previous page
-        pass
+    def hide_grade_page(self):
+        self.pack_forget()

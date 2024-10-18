@@ -2,11 +2,61 @@
     {
         "id": 1,
         "quiz_id": 1,
-        "grade": 100
+        "grade": 0.0
     },
     {
         "id": 1,
         "quiz_id": 2,
-        "grade": 100
+        "grade": 50.0
+    },
+    {
+        "id": "L002",
+        "quiz_id": 1,
+        "grade": 0.0
+    },
+    {
+        "id": "L001",
+        "quiz_id": 8,
+        "grade": 0.0
+    },
+    {
+        "id": "L001",
+        "quiz_id": 1,
+        "grade": 50.0
+    },
+    {
+        "id": "L001",
+        "quiz_id": 7,
+        "grade": 100.0
+    },
+    {
+        "id": "L001",
+        "quiz_id": 6,
+        "grade": 0.0
+    },
+    {
+        "id": "L001",
+        "quiz_id": 4,
+        "grade": 0.0
+    },
+    {
+        "id": "L001",
+        "quiz_id": 5,
+        "grade": 0.0
+    },
+    {
+        "id": 1,
+        "quiz_id": 8,
+        "grade": 0.0
+    },
+    {
+        "id": 1,
+        "quiz_id": 9,
+        "grade": 0.0
+    },
+    {
+        "id": 1,
+        "quiz_id": 10,
+        "grade": 0.0
     }
 ]

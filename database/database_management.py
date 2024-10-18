@@ -11,10 +11,14 @@ def extract_file_info(file_path):
         print(f"Error: File is not a valid JSON: {file_path}")
         return []
 
-def get_info_by_id(file_path, id):
+def get_multiple_info_by_id(file_path, key, id):
+    all_data = extract_file_info(file_path)
+    return [data for data in all_data if data.get(key) == id]
+
+def get_info_by_id(file_path, key, id):
     all_data = extract_file_info(file_path)
     for data in all_data:
-        if data.get("id") == id:
+        if data.get(key) == id:
             print("------------------------------------------")
             print(f"\033[1;32mData of id {id} in {file_path} obtained successfully\033[0m")
             return data
@@ -29,6 +33,29 @@ def write_info_to_file(file_path, data):
     except Exception as e:
         print(f"Error: {str(e)}")
         return False
+
+def relational_id_update(file_path, id, quiz_id, new_info):
+    all_data = extract_file_info(file_path)
+    updated = False
+    for data in all_data:
+        if data.get("id") == id and data.get("quiz_id") == quiz_id:
+            data.update(new_info)
+            updated = True
+            break
+    
+    if not updated:
+        all_data.append(new_info)
+        updated = True
+
+    if updated:
+        if write_info_to_file(file_path, all_data):
+            print(f"\033[1;32mData updated successfully in {file_path}\033[0m")
+            return True
+        else:
+            print(f"\033[1;31mError: Failed to update user information in file: {file_path}\033[0m")
+    else:
+        print(f"\033[1;31mError: User with ID {id} not found in file: {file_path}\033[0m")
+    return False
 
 def update_user_info(file_path, id, new_info):
     all_data = extract_file_info(file_path)

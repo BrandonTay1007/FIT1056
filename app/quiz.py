@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from .question import Question
+from app.question import Question
 from database.database_management import *
 from empoweru_constants import QUIZZES_FILE_PATH
 
@@ -14,23 +14,40 @@ class Quiz:
         self.answers = {}
         self.associated_course_id = associated_course_id
         self.current_question_index = 0
+        for q in questions:
+            print(q)
 
     @staticmethod
     def init_by_id(quiz_id):
-        quizzes_data = extract_file_info(QUIZZES_FILE_PATH)
-        for quiz_data in quizzes_data:
-            if quiz_data['id'] == quiz_id:
-                questions = []
-                for q in quiz_data['question_list']:
-                    question = Question(
-                        q['title'],
-                        q['selections'],
-                        q['correct_answer']
-                    )
-                    questions.append(question)
-                return Quiz(quiz_data['id'], quiz_data['title'], questions, quiz_data['associated_course_id'])
-        return None
+        questions = []
+        quiz_data = get_info_by_id(QUIZZES_FILE_PATH, "id", quiz_id)
+        for q in quiz_data['question_list']:
+            question = Question(
+                q['title'],
+                q['selections'],
+                q['correct_answer']
+            )
+            questions.append(question)
+        return Quiz(quiz_data['id'], quiz_data['title'], questions, quiz_data['associated_course_id'])
 
+    @staticmethod
+    def init_by_course_id(course_id):
+        quizzes_data = get_multiple_info_by_id(QUIZZES_FILE_PATH, "associated_course_id", course_id)
+        quizzes = []
+        for quiz_data in quizzes_data:
+            questions = []
+            for q in quiz_data['question_list']:
+                question = Question(
+                    q['title'],
+                    q['selections'],
+                    q['correct_answer']
+                )
+                questions.append(question)
+            quiz = Quiz(quiz_data['id'], quiz_data['title'], questions, quiz_data['associated_course_id'])
+            quizzes.append(quiz)
+
+        return quizzes
+    
     @staticmethod
     def load_all_quizzes():
         quizzes_data = extract_file_info(QUIZZES_FILE_PATH)
@@ -58,10 +75,10 @@ class Quiz:
     def get_unanswered_count(self):
         return sum(1 for i in range(len(self.questions)) if not self.get_answer(i))
 
-    def grade_quiz(self):
+    def grade_quiz(self, answers):
         correct = 0
         for i, question in enumerate(self.questions):
-            if question.check_answer(self.get_answer(i)):
+            if question.check_answer(answers[i]):
                 correct += 1
 
         grade = (correct / len(self.questions)) * 100
@@ -81,8 +98,6 @@ class Quiz:
 
     def has_questions(self):
         return len(self.questions) > 0
-
-    # ... rest of the class methods ...
         
 
 

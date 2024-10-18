@@ -20,5 +20,7 @@ class Question:
             # For short answer, we'll check if the answer contains the correct answer
             return str(self.correct_answer).lower().strip() in str(answer).lower().strip()
 
-    
+    def get_answer(self):
+        
+        return self.correct_answer
 

@@ -3,7 +3,6 @@ from PIL import Image
 import os 
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from app.course import Course
 from interface.lessons_list import LessonsList
 from app.learners import Learner
 from interface.Progress_bar import ProgressBar
@@ -23,6 +22,7 @@ class LectureSelectionPage(ctk.CTkFrame):
         self.header_frame = ctk.CTkFrame(self, fg_color="#6495ED")
         self.header_frame.grid(row=0, column=0, sticky="ew", padx=10, pady=(10, 5))
         self.header_frame.grid_columnconfigure(1, weight=1)
+        self.header_frame.grid_columnconfigure(2, weight=0)
 
         # Logo
         self.logo_image = ctk.CTkImage(Image.open("Picture/EmpowerU Logo.png"), size=(50, 50))
@@ -38,15 +38,16 @@ class LectureSelectionPage(ctk.CTkFrame):
         self.lectures_frame.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
         self.lectures_frame.grid_columnconfigure(0, weight=1)
 
-        self.user.course_list = Course.initialize_courses()
 
         # Initialize ProgressTracker
         self.progress_tracker = ProgressTracker(self.user, self.user.course_list)
         self.progress_tracker.init_progress()
-        print(self.user.attempted_lessons)
-        print(self.user.course_progress)
-
+        
         self.create_lecture_tiles()
+
+        # Add back button at bottom left corner
+        self.back_button = ctk.CTkButton(self, text="Back", command=self.return_to_dashboard, bg_color="transparent")
+        self.back_button.grid(row=2, column=0, padx=10, pady=10, sticky="sw")
 
     def create_lecture_tiles(self):
         for widget in self.lectures_frame.winfo_children():

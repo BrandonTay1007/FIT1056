@@ -1,6 +1,6 @@
 [
     {
-        "id": "L001",
+        "id": 1,
         "username": "johndoe",
         "password": "hashed_password_1",
         "first_name": "John",
@@ -9,15 +9,19 @@
         "country": "United States",
         "date_of_birth": "1998-05-15",
         "gender": "Male",
-        "profile_picture_path": "/profiles/johndoe.jpg",
+        "profile_picture_path": "Picture/Default.jpg",
         "attempted_lessons": [
             1,
             2,
-            3
+            3,
+            6,
+            9,
+            5
         ],
         "attempted_quizzes": [
-            1,
-            2
+            8,
+            2,
+            1
         ]
     },
     {

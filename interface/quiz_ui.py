@@ -2,24 +2,21 @@ import os
 import sys
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
-from PIL import Image
 
 # Add the parent directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from empoweru_constants import LOGO_PATH
-from app.quiz import Quiz
-
 class QuizUI(ctk.CTkFrame):
-    def __init__(self, master, quiz_id, user, on_complete_callback):
+    def __init__(self, master, quiz, user, on_complete_callback):
         super().__init__(master)
         self.pack(fill="both", expand=True)
         self.on_complete_callback = on_complete_callback
 
         self.master = master
-        self.quiz = Quiz.init_by_id(quiz_id)
+        self.quiz = quiz
         self.user = user
         self.question_widgets = {}
+        self.answers = [None] * len(self.quiz.questions)  # Initialize answers list
 
         self.create_quiz_page()
 
@@ -48,7 +45,7 @@ class QuizUI(ctk.CTkFrame):
         ctk.CTkLabel(frame, text=f"{index + 1}. {question.question}", wraplength=400).pack(anchor="w")
 
         var = ctk.StringVar()
-        self.quiz.set_answer(index, var)
+        var.trace("w", lambda *args: self.update_answer(index, var.get()))  # Update answer when changed
 
         for option in question.options:
             ctk.CTkRadioButton(frame, text=option, variable=var, value=option).pack(anchor="w")
@@ -62,13 +59,16 @@ class QuizUI(ctk.CTkFrame):
         ctk.CTkLabel(frame, text=f"{index + 1}. {question.question}", wraplength=400).pack(anchor="w")
 
         entry = ctk.CTkEntry(frame, width=300)
+        entry.bind("<KeyRelease>", lambda event: self.update_answer(index, entry.get()))  # Update answer when typed
         entry.pack(anchor="w")
 
-        self.quiz.set_answer(index, entry)
         self.question_widgets[index] = frame
 
+    def update_answer(self, index, value):
+        self.answers[index] = value
+
     def submit_quiz(self):
-        unanswered = self.quiz.get_unanswered_count()
+        unanswered = self.answers.count(None)
         if unanswered > 0:
             confirm = CTkMessagebox(
                 title="Incomplete Quiz",
@@ -93,8 +93,10 @@ class QuizUI(ctk.CTkFrame):
         self.grade_quiz()
 
     def grade_quiz(self):
-        grade, correct = self.quiz.grade_quiz()
-        
+        grade, correct = self.quiz.grade_quiz(self.answers)  # Pass answers list to grade_quiz
+        self.user.update_grade(self.quiz.id, grade)
+        if self.quiz.id not in self.user.attempted_quizzes:
+            self.user.update_progress(quiz_id=self.quiz.id)
         # Hide quiz page
         self.quiz_frame.pack_forget()
         self.submit_button.pack_forget()
@@ -113,16 +115,12 @@ class QuizUI(ctk.CTkFrame):
         finish_button = ctk.CTkButton(grade_frame, text="Finish", command=self.on_complete_callback)
         finish_button.pack(pady=10)
 
-    def get_answer(self, index):
-        answer = self.quiz.get_answer(index)
-        if isinstance(answer, ctk.StringVar):
-            return answer.get()
-        elif isinstance(answer, ctk.CTkEntry):
-            return answer.get()
-        return None
-
 if __name__ == "__main__":
+    from app.user import User
     root = ctk.CTk()
     root.geometry("500x600")
-    quiz_ui = QuizUI(root, 1, None, lambda: None)  # Assuming quiz_id 1 for testing
+    user = User.init_by_id(1)
+    print(user.username)
+
+    quiz_ui = QuizUI(root, 1, user, lambda: None)  # Assuming quiz_id 1 for testing
     root.mainloop()

@@ -4,13 +4,13 @@ import sys
 # Add the parent directory to sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import empoweru_constants as constants
-
-from database.database_management import update_user_info, add_new_user
+from empoweru_constants import *
+from app.quiz import Quiz
+from database.database_management import *
 
 class User:
 
-    def __init__(self, id, username, password, first_name, last_name, contact_num, age, country, date_of_birth, gender, profile_picture_path="Picture/Default.jpg"):
+    def __init__(self, id, username, password, first_name, last_name, contact_num, country, date_of_birth, gender, profile_picture_path="Picture/Default.jpg"):
         
         self.id = id
         self.username = username
@@ -18,13 +18,15 @@ class User:
         self.first_name = first_name
         self.last_name = last_name
         self.contact_num = contact_num
-        self.age = age
         self.country = country
         self.date_of_birth = date_of_birth
         self.gender = gender    
         self.profile_picture_path = profile_picture_path
-        
-
+    
+    def init_by_id(id):
+        data = get_info_by_id(LEARNERS_FILE_PATH, "id", id)
+        return User(data["id"], data["username"], data["password"], data["first_name"], data["last_name"], data["contact_num"], data["country"], data["date_of_birth"], data["gender"], data["profile_picture_path"])
+    
     def authenticate(self, username, password):
         return self.username == username and self.password == password
     
@@ -38,7 +40,13 @@ class User:
         print(self.gender)
 
     def update_grade(self, quiz_id, grade):
-        update_user_info(GRADES_FILE_PATH, )
+        data = {
+            "id": self.id,
+            "quiz_id": quiz_id,
+            "grade": grade
+        }
+        relational_id_update(GRADES_FILE_PATH, self.id, quiz_id, data)
+
     def get_personal_info(self):
 
         personal_info = {
@@ -47,7 +55,6 @@ class User:
             "first_name": self.first_name,
             "last_name": self.last_name,
             "contact_num": self.contact_num,
-            "age": self.age,
             "country": self.country,
             "date_of_birth": self.date_of_birth,
             "gender": self.gender,
@@ -95,3 +102,28 @@ class User:
         print("Failed to update password")
         return False
 
+    def update_progress(self, lessons_id=None, quiz_id=None):
+        if lessons_id:
+            if lessons_id not in self.attempted_lessons:
+                self.attempted_lessons.append(lessons_id)
+
+        if quiz_id:
+            if quiz_id not in self.attempted_quizzes:
+                self.attempted_quizzes.append(quiz_id)
+        
+        update_user_info(LEARNERS_FILE_PATH, self.id, {"attempted_lessons": self.attempted_lessons, "attempted_quizzes": self.attempted_quizzes})
+        
+    def get_all_grades(self):
+        user_grades = get_multiple_info_by_id(GRADES_FILE_PATH, "id", self.id)
+        grades = []
+        for grade in user_grades:
+            for course in self.course_list:
+                for quiz in course.quizzes:
+                    if quiz.id == grade['quiz_id']:
+                        grade['quiz_title'] = quiz.title
+                        grade['quiz_id'] = quiz.id
+                        grade['course_title'] = course.title
+                        grades.append(grade)
+        
+        return grades
+        

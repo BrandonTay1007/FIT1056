@@ -79,7 +79,7 @@ class EditUserPage(ctk.CTkFrame):
             ("tutors", constants.TUTORS_FILE_PATH),
             ("learners", constants.LEARNERS_FILE_PATH)
         ]:
-            user_data = get_info_by_id(file_path, user_id)
+            user_data = get_info_by_id(file_path, "id", user_id)
             if user_data:
                 return user_data, user_type
         return None, None
