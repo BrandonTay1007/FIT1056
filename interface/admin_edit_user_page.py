@@ -177,13 +177,17 @@ class AdminEditUserPage(ctk.CTkFrame):
         for variable, entry in zip(variables, self.user_info_entries):
             updated_data[variable] = entry.get()
 
-        updated_data["date_of_birth"] = self.date_of_birth
+        # Set date_of_birth to the existing value if it hasn't been changed
+        if self.date_of_birth:
+            updated_data["date_of_birth"] = self.date_of_birth
+        else:
+            updated_data["date_of_birth"] = self.user_data.get("date_of_birth", "")
 
         if self.user_type:
             if self.user.change_user_info(self.user_type, self.user_data["id"], updated_data):
-                self.display_message("User information updated.")
+                self.display_message("User information updated.", "green")
             else:
-                self.display_message("Failed to update user information.")
+                self.display_message("Failed to update user information.", "red")
 
         self.clear_user_info()
 
