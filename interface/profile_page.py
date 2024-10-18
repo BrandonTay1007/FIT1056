@@ -27,8 +27,8 @@ class ProfilePage(ctk.CTkFrame):
 
         # Modify the back button to use go_back method
         self.sidebar.add_button("Back", self.go_back)
-        self.sidebar.add_button("Profile", lambda: self.switch_page(self, self.change_password))
-        self.sidebar.add_button("Change Password", lambda: self.switch_page(self.change_password, self))
+        self.sidebar.add_button("Profile", self.go_to_change_password)
+        self.sidebar.add_button("Change Password", self.go_to_profile)
         
         self.scrollable_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
         self.scrollable_frame.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
@@ -141,10 +141,14 @@ class ProfilePage(ctk.CTkFrame):
         self.current_active_widgets.append(entry_widget)
         return entry_widget  # Return the entry widget
 
-    def switch_page(self, page1, page2):
-        self.current_active_page = page2
-        page1.hide_page()  # Ensure this method is defined in both classes
-        page2.show_page()  # Ensure this method is defined in both classes
+    def go_to_change_password(self):
+        self.hide_page()
+        self.sidebar.show_sidebar()
+        self.change_password.show_page()
+
+    def go_to_profile(self):
+        self.change_password.hide_page()
+        self.show_page()
 
     def edit_profile(self):
         self.hide_widgets(self.current_active_widgets)

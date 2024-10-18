@@ -75,6 +75,26 @@ def update_user_info(file_path, id, new_info):
         print(f"Error: User with ID {id} not found in file: {file_path}")
     return False
 
+def remove_by_id(file_path, id):
+    all_data = extract_file_info(file_path)
+    updated = False
+    for data in all_data:
+        if data.get("id") == id:
+            all_data.remove(data)
+            updated = True
+            break
+    
+    if updated:
+        if write_info_to_file(file_path, all_data):
+            print(f"\033[1;32mData deleted successfully from {file_path}\033[0m")
+            return True
+        else:
+            print(f"Error: Failed to delete user information in file: {file_path}")
+    else:
+        print(f"Error: User with ID {id} not found in file: {file_path}")
+    return False
+    
+    
 def insert_info(file_path, data):
     all_data = extract_file_info(file_path)
     all_data.append(data)

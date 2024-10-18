@@ -4,13 +4,15 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from database.database_management import get_info_by_id, update_user_info
 import empoweru_constants as constants
+from interface.date_picker import DatePicker
 
 class AdminEditUserPage(ctk.CTkFrame):
 
     def __init__(self, master, user):
         super().__init__(master)
-        self.master=master
+        self.master = master
         self.user = user
+        self.date_of_birth = ""
 
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
@@ -18,52 +20,74 @@ class AdminEditUserPage(ctk.CTkFrame):
         self.master.title("Edit User Page")
 
         #title
-        self.title_label=ctk.CTkLabel(self, text="Edit User", font=('Arial', 24, "bold"))
+        self.title_label = ctk.CTkLabel(self, text="Edit User", font=('Arial', 24, "bold"))
         self.title_label.pack(pady=20)
 
         #search user
-        self.search_user_label=ctk.CTkLabel(self, text="Please enter the user ID to search for:")
+        self.search_user_label = ctk.CTkLabel(self, text="Please enter the user ID to search for:")
         self.search_user_label.pack(pady=10)
 
-        self.search_user_entry=ctk.CTkEntry(self)
+        self.search_user_entry = ctk.CTkEntry(self, width=300)  # Increased width to 300
         self.search_user_entry.pack()
 
-        self.search_user_button=ctk.CTkButton(self, text="Search", command=self.search_user)
+        self.search_user_button = ctk.CTkButton(self, text="Search", command=self.search_user)
         self.search_user_button.pack(pady=10)
 
-        self.message_label=ctk.CTkLabel(self, text="", font=("Arial", 10))
+        self.message_label = ctk.CTkLabel(self, text="", font=("Arial", 10))
         self.message_label.pack(pady=5)
 
-        self.scrollable_frame = ctk.CTkScrollableFrame(self, width=550, height=400)
+        self.scrollable_frame = ctk.CTkScrollableFrame(self, width=550, height=300)  # Reduced height to 300
         self.scrollable_frame.pack(pady=10, padx=10, fill="both", expand=True)
 
-        self.save_button=ctk.CTkButton(self, text="Save", command=self.save_edit_info)
+        self.save_button = ctk.CTkButton(self, text="Save", command=self.save_edit_info)
 
-        self.user_info_labels=[]
-        self.user_info_entries=[]
-        self.user_data=None
+        self.user_info_labels = []
+        self.user_info_entries = []
+        self.user_data = None
+
+        self.delete_button = ctk.CTkButton(self, text="Delete User", command=self.delete_user, fg_color="red", hover_color="dark red")
+
+        # Add back button
+        self.back_button = ctk.CTkButton(self, text="Back", command=self.go_back)
+        self.back_button.pack(pady=10, padx=10, anchor="nw")
 
         self.pack(fill="both", expand=True)
 
     def search_user(self):
-        user_id=self.search_user_entry.get().strip()
+        user_id = self.search_user_entry.get().strip()
         if not user_id:
-            self.display_message("Search bar cannot be empty.")
-            self.search_user_entry.delete(0, "end")
-            self.save_button.pack_forget()
-            for label in self.user_info_labels:
-                label.destroy()
-            for entry in self.user_info_entries:
-                entry.destroy()
+            self.display_message("Error: Search bar cannot be empty.", "red")
+            self.clear_user_info()
             return
         
-        user_data = self.find_user_in_file(user_id)
-        
-        if user_data:
-            self.display_message("")
+        if user_id == self.user.id:
+            self.display_message("Error: You cannot edit your own account.", "red")
+            self.clear_user_info()
+            return
+
+        if user_id[0] not in ["A", "T", "L"]:
+            self.display_message("Error: Invalid user ID format.", "red")
+            self.clear_user_info()
+            return
+
+        if user_id[0] == "A":
+            self.user_type = "admin"
+        elif user_id[0] == "T":
+            self.user_type = "tutors"
+        elif user_id[0] == "L":
+            self.user_type = "learners"
+
+        self.user_data = self.user.get_users_info(user_id, self.user_type)
+        print(self.user_data)
+        if self.user_data:
+            if hasattr(self, 'date_of_birth_label'):
+                self.date_of_birth_label.destroy()
+            if hasattr(self, 'date_of_birth_button'):
+                self.date_of_birth_button.destroy()
+            self.display_message("User found successfully.", "green")
             self.display_user_info()
         else:
-            self.display_message("User not found.")
+            self.display_message("Error: User not found.", "red")
             self.search_user_entry.delete(0, "end")
             self.save_button.pack_forget()
             for label in self.user_info_labels:
@@ -72,15 +96,6 @@ class AdminEditUserPage(ctk.CTkFrame):
                 entry.destroy()
             return
         
-    def find_user_in_file(self, user_id):
-        if user_id[0] == "A":
-            data = self.user.get_users_info(user_id, "admin")
-        elif user_id[0] == "T":
-            data = self.user.get_users_info(user_id, "tutors")
-        elif user_id[0] == "L":
-            data = self.user.get_users_info(user_id, "learners")
-        return data
-
     def display_user_info(self):
         for label in self.user_info_labels:
             label.pack_forget()
@@ -90,8 +105,7 @@ class AdminEditUserPage(ctk.CTkFrame):
         self.user_info_entries.clear()
         self.save_button.pack_forget()
 
-        variables=["id", "username", "password", "first_name", "last_name", "contact_num", "country", "date_of_birth", "gender", "profile_picture_path"]
-
+        variables = ["username", "password", "first_name", "last_name", "contact_num", "country", "gender"]
         for variable in variables:
             label = ctk.CTkLabel(self.scrollable_frame, text=f"{variable.replace('_', ' ').capitalize()}:")
             label.pack(pady=5)
@@ -101,41 +115,81 @@ class AdminEditUserPage(ctk.CTkFrame):
             self.user_info_labels.append(label)
             self.user_info_entries.append(entry)
 
+        # Add ID display (non-editable)
+        id_label = ctk.CTkLabel(self.scrollable_frame, text=f"User ID: {self.user_data.get('id', '')}")
+        id_label.pack(pady=5)
+        self.user_info_labels.append(id_label)
+
+        # Add Date of Birth picker
+        self.date_of_birth_label = ctk.CTkLabel(self.scrollable_frame, text=f"Date of Birth: {self.user_data.get('date_of_birth', '')}")
+        self.date_of_birth_label.pack(pady=5)
+        self.date_of_birth_button = ctk.CTkButton(self.scrollable_frame, text="Select Date", command=self.place_date_picker)
+        self.date_of_birth_button.pack(pady=5)
+
         self.save_button.pack(pady=10)
+        self.delete_button.pack(pady=10)  # Add this line to display the delete button
 
-    def save_edit_info(self):
-        updated_data = {}
-        variables = ["id", "username", "password", "first_name", "last_name", "contact_num", "country", "date_of_birth", "gender", "profile_picture_path"]
-
-        for variable, entry in zip(variables, self.user_info_entries):
-            updated_data[variable] = entry.get()
-
-        if self.user_type:
-            file_path = self.get_file_path_for_user_type(self.user_type)
-            if update_user_info(file_path, updated_data["id"], updated_data):
-                self.display_message("User information updated.")
+    def place_date_picker(self):
+        self.date_picker = DatePicker(self)
+        self.master.wait_window(self.date_picker.top)
+        selected_date = self.date_picker.get_selected_date()
+        if selected_date:
+            self.date_of_birth = selected_date
+            self.date_of_birth_label.configure(text=f"Date of Birth: {self.date_of_birth}")
+    
+    def delete_user(self):
+        if self.user_data and self.user_type:
+            if self.user.delete_user(self.user_data["id"], self.user_type):
+                self.display_message("User deleted successfully.")
+                self.clear_user_info()
             else:
-                self.display_message("Failed to update user information.")
+                self.display_message("Failed to delete user.")
+        else:
+            self.display_message("No user selected.")
 
+    def clear_user_info(self):
         self.search_user_entry.delete(0, "end")
         self.save_button.pack_forget()
+        self.delete_button.pack_forget()
+        self.user_data = None
         for label in self.user_info_labels:
             label.destroy()
         for entry in self.user_info_entries:
             entry.destroy()
         
-    def get_file_path_for_user_type(self, user_type):
-        if user_type == "admin":
-            return constants.ADMIN_FILE_PATH
-        elif user_type == "tutors":
-            return constants.TUTORS_FILE_PATH
-        elif user_type == "learners":
-            return constants.LEARNERS_FILE_PATH
-        else:
-            return None
+        # Clear date of birth elements
+        if hasattr(self, 'date_of_birth_label'):
+            self.date_of_birth_label.destroy()
+        if hasattr(self, 'date_of_birth_button'):
+            self.date_of_birth_button.destroy()
+        
+        # Reset date_of_birth attribute
+        self.date_of_birth = ""
 
-    def display_message(self, message):
-        self.message_label.configure(text=message)
+        # Clear user_info_labels and user_info_entries lists
+        self.user_info_labels.clear()
+        self.user_info_entries.clear()
+
+    def save_edit_info(self):
+        updated_data = {}
+        variables = ["username", "password", "first_name", "last_name", "contact_num", "country", "gender"]
+
+        for variable, entry in zip(variables, self.user_info_entries):
+            updated_data[variable] = entry.get()
+
+        updated_data["date_of_birth"] = self.date_of_birth
+
+        if self.user_type:
+            if self.user.change_user_info(self.user_type, self.user_data["id"], updated_data):
+                self.display_message("User information updated.")
+            else:
+                self.display_message("Failed to update user information.")
+
+        self.clear_user_info()
+
+    def display_message(self, message, color="black"):
+        self.message_label.configure(text=message, text_color=color)
+        self.message_label.lift()  # Bring the message label to the front
 
     def show_page(self):
         self.pack(expand=True, fill="both")
@@ -143,3 +197,6 @@ class AdminEditUserPage(ctk.CTkFrame):
     def hide_page(self):
         self.pack_forget()
 
+    def go_back(self):
+        self.hide_page()
+        self.user.menu.show_page()

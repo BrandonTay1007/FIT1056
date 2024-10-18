@@ -40,6 +40,8 @@ class LearnersMenu(ctk.CTkFrame):
         self.hide_page()
         if not hasattr(self.user, 'grade_page'):
             self.user.grade_page = GradePage(self.master, self.user)
+        else:
+            self.user.grade_page.update_grades()
         self.user.grade_page.show_page()
 
     def go_to_course(self):

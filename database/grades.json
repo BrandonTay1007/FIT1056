@@ -2,7 +2,7 @@
     {
         "id": 1,
         "quiz_id": 1,
-        "grade": 0.0
+        "grade": 50.0
     },
     {
         "id": 1,
@@ -57,6 +57,26 @@
     {
         "id": 1,
         "quiz_id": 10,
+        "grade": 0.0
+    },
+    {
+        "id": 1,
+        "quiz_id": 7,
+        "grade": 50.0
+    },
+    {
+        "id": 1,
+        "quiz_id": 6,
+        "grade": 0.0
+    },
+    {
+        "id": 1,
+        "quiz_id": 5,
+        "grade": 0.0
+    },
+    {
+        "id": 1,
+        "quiz_id": 4,
         "grade": 0.0
     }
 ]

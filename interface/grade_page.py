@@ -21,6 +21,13 @@ class GradePage(ctk.CTkFrame):
         self.back_button = ctk.CTkButton(self, text="Back", command=self.back_to_menu)
         self.back_button.pack(pady=10, padx=20, anchor="w")
 
+    def update_grades(self):
+        self.user.get_all_grades()
+        # Remove old widgets
+        for widget in self.scrollable_frame.winfo_children():
+            widget.destroy()
+        self.load_grades()
+
     def load_grades(self):
         grades = self.user.get_all_grades()
         

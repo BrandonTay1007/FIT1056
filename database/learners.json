@@ -16,13 +16,19 @@
             3,
             6,
             9,
-            5
+            5,
+            8,
+            7
         ],
         "attempted_quizzes": [
             8,
             2,
             1,
-            9
+            9,
+            7,
+            6,
+            5,
+            4
         ]
     },
     {
@@ -66,5 +72,18 @@
             5,
             6
         ]
+    },
+    {
+        "username": "a",
+        "first_name": "a",
+        "last_name": "a",
+        "contact_num": "a",
+        "country": "a",
+        "date_of_birth": "22/01/2010",
+        "gender": "Male",
+        "password": "a",
+        "id": "L486",
+        "attempted_lessons": [],
+        "attempted_quizzes": []
     }
 ]

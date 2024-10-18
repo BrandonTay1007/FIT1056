@@ -81,38 +81,25 @@ class AdminAddUserPage(ctk.CTkScrollableFrame):
             self.alert_var.set("All fields are required!")
             return
 
-        if entry_values["gender"] == "Select gender":
-            self.alert_var.set("Please select a valid gender!")
-            return
-
-        if entry_values["user_type"] == "Select user type":
-            self.alert_var.set("Please select a valid user type!")
+        if entry_values["gender"] == "Select gender" or entry_values["user_type"] == "Select user type":
+            self.alert_var.set("Please select a valid gender and user type!")
             return
 
         user_type = entry_values.pop("user_type")
+        id_prefix = {"Learner": "L", "Tutor": "T", "Admin": "A"}
+        id_length = 3 if user_type == "Learner" else 4
+        
+        entry_values["id"] = f"{id_prefix[user_type]}{str(uuid.uuid4())[:id_length].upper()}"
+        
         if user_type == "Learner":
-            entry_values["id"] = f"L{str(uuid.uuid4())[:3].upper()}"
             entry_values["attempted_lessons"] = []
             entry_values["attempted_quizzes"] = []
-            if Learner.register(entry_values):
-                self.show_success_message("Learner")
-                self.clear_fields()
-            else:
-                self.alert_var.set("Failed to add new learner!")
-        elif user_type == "Tutor":
-            entry_values["id"] = f"T{str(uuid.uuid4())[:4].upper()}"
-            if Tutor.register_new_user(entry_values):
-                self.show_success_message("Tutor")
-                self.clear_fields()
-            else:
-                self.alert_var.set("Failed to add new tutor!")
-        elif user_type == "Admin":
-            entry_values["id"] = f"A{str(uuid.uuid4())[:4].upper()}"
-            if Admin.register_new_user(entry_values):
-                self.show_success_message("Admin")
-                self.clear_fields()
-            else:
-                self.alert_var.set("Failed to add new admin!")
+
+        if self.user.register_new_user(user_type, entry_values):
+            self.show_success_message(user_type)
+            self.clear_fields()
+        else:
+            self.alert_var.set(f"Failed to add new {user_type.lower()}!")
 
     def get_entry_values(self):
         return {

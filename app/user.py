@@ -63,13 +63,14 @@ class User:
         return personal_info
     
     def register(role, user_data):
+        role = role.lower()
         if role == "learner":
             file_path = LEARNERS_FILE_PATH
         elif role == "tutor":
             file_path = TUTORS_FILE_PATH
         elif role == "admin":
             file_path = ADMIN_FILE_PATH
-        
+
         return insert_info(file_path, user_data)
 
     def update_own_info(self, updated_info, file_path):
