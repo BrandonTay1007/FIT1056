@@ -9,7 +9,7 @@ class DatePicker:
         self.top.title("Date Picker")
         self.top.geometry("300x350")
         
-        self.cal = Calendar(self.top, selectmode='day', date_pattern='dd/mm/yyyy', year=default_date.year, month=default_date.month, day=default_date.day)
+        self.cal = Calendar(self.top, selectmode='day', date_pattern='dd-mm-yyyy', year=default_date.year, month=default_date.month, day=default_date.day)
         self.cal.pack(pady=20)
         
         # OK button
@@ -22,3 +22,4 @@ class DatePicker:
         self.top.destroy()
         
         return self.selected_date
+    

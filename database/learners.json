@@ -1,14 +1,14 @@
 [
     {
         "id": 1,
-        "username": "johndoe",
-        "password": "hashed_password_1",
-        "first_name": "John",
-        "last_name": "Doe",
-        "contact_num": "+1234567890",
-        "country": "United States",
-        "date_of_birth": "1998-05-15",
-        "gender": "Male",
+        "username": "Test",
+        "password": "Tay123wei@",
+        "first_name": "test",
+        "last_name": "test",
+        "contact_num": "test",
+        "country": "test",
+        "date_of_birth": "12-05-1998",
+        "gender": "Female",
         "profile_picture_path": "Picture/Default.jpg",
         "attempted_lessons": [
             1,

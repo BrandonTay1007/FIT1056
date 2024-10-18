@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 import os
 from lessons_page import LessonsPage
 from quiz_list import QuizList
-
+from assignment_list import AssignmentList  # Import the new AssignmentList
 class LessonsList(ctk.CTkFrame):
     def __init__(self, master, user, course):
         super().__init__(master)
@@ -93,17 +93,32 @@ class LessonsList(ctk.CTkFrame):
         self.quizzes_button = ctk.CTkButton(self.button_frame, text="Quizzes", command=self.show_quizzes)
         self.quizzes_button.pack(side="left", padx=(5, 0))
         
+        self.assignments_button = ctk.CTkButton(self.button_frame, text="Assignments", command=self.show_assignments)
+        self.assignments_button.pack(side="left", padx=(5, 0))
+
     def show_lessons(self):
         self.lessons_list_frame.pack(fill="both", expand=True, padx=10, pady=(10, 50))
         if hasattr(self, 'quiz_list'):
             self.quiz_list.pack_forget()
+        if hasattr(self, 'assignment_list'):
+            self.assignment_list.hide_page()
         self.show_back_button()
         
     def show_quizzes(self):
         self.lessons_list_frame.pack_forget()
+        if hasattr(self, 'assignment_list'):
+            self.assignment_list.hide_page()
         if not hasattr(self, 'quiz_list'):
             self.quiz_list = QuizList(self, self.user, self.course)
         self.quiz_list.pack(fill="both", expand=True)
+
+    def show_assignments(self):
+        self.lessons_list_frame.pack_forget()
+        if hasattr(self, 'quiz_list'):
+            self.quiz_list.pack_forget()
+        if not hasattr(self, 'assignment_list'):
+            self.assignment_list = AssignmentList(self, self.user, self.course)
+        self.assignment_list.show_page()
 
     def hide_navigation_buttons(self):
         self.button_frame.pack_forget()

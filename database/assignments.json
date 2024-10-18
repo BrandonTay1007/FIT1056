@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "title": "Introduction to Programming Assignment",
+        "due_date": "2025-06-30",
+        "associated_course_id": 1,
+        "pdf_path": "database/assignments/assignment_1.pdf"
+    },
+    {
+        "id": 2,
+        "title": "Data Structures Assignment",
+        "due_date": "2025-07-15",
+        "associated_course_id": 2,
+        "pdf_path": "database/assignments/assignment_1.pdf"
+    },
+    {
+        "id": 3,
+        "title": "Algorithms Assignment",
+        "due_date": "2025-08-01",
+        "associated_course_id": 3,
+        "pdf_path": "database/assignments/assignment_1.pdf"
+    }
+]
+

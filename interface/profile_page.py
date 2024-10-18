@@ -16,6 +16,7 @@ class ProfilePage(ctk.CTkFrame):
     def __init__(self, master, user):
         super().__init__(master, fg_color="transparent")
         self.user = user
+        self.user.profile_page = self
         self.personal_info = user.get_personal_info()
         self.current_active_page = self
         
@@ -27,8 +28,8 @@ class ProfilePage(ctk.CTkFrame):
 
         # Modify the back button to use go_back method
         self.sidebar.add_button("Back", self.go_back)
-        self.sidebar.add_button("Profile", self.go_to_change_password)
-        self.sidebar.add_button("Change Password", self.go_to_profile)
+        self.sidebar.add_button("Profile", self.go_to_profile)
+        self.sidebar.add_button("Change Password", self.go_to_change_password)
         
         self.scrollable_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
         self.scrollable_frame.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
@@ -45,8 +46,9 @@ class ProfilePage(ctk.CTkFrame):
         self.image_uploader_button.pack(anchor="w", pady=(10))
         self.current_active_widgets.append(self.image_uploader_button)
         items = list(self.personal_info.items())
-        for key, value in items[1:-1]:
-            self.place_label(key.capitalize().replace("_", " "), value)
+        for key, value in items:  # Remove the slicing to include all items
+            if key != 'profile_picture_path':  # Skip the profile picture path
+                self.place_label(key.capitalize().replace("_", " "), value)
         self.add_button("Edit Profile", self.edit_profile)
 
     def place_all_entry(self):
@@ -61,23 +63,23 @@ class ProfilePage(ctk.CTkFrame):
         self.entry_widgets['contact_num'] = self.place_entry("Contact Number", self.user.contact_num)
         self.entry_widgets['country'] = self.place_entry("Country", self.user.country)
         # Create a frame to hold the date label, date info, and button
-        date_frame = ctk.CTkFrame(self.scrollable_frame, fg_color="transparent")
-        date_frame.pack(anchor="w", pady=(10, 0))
+        self.date_frame = ctk.CTkFrame(self.scrollable_frame, fg_color="transparent")
+        self.date_frame.pack(anchor="w", pady=(10, 0))
 
         # Date of Birth label
-        date_label = ctk.CTkLabel(date_frame, text="Date of Birth")
+        date_label = ctk.CTkLabel(self.date_frame, text="Date of Birth")
         date_label.pack(anchor="w", padx=(10, 0))  # Pack the label to the left
 
         # Create a frame for the date info and button to stack them vertically
-        date_info_button_frame = ctk.CTkFrame(date_frame, fg_color="transparent")
-        date_info_button_frame.pack(anchor="w", padx=(10, 0))
+        self.date_info_button_frame = ctk.CTkFrame(self.date_frame, fg_color="transparent")
+        self.date_info_button_frame.pack(anchor="w", padx=(10, 0))
 
         # Date info label
-        self.date_info = ctk.CTkLabel(date_info_button_frame, text=self.user.date_of_birth)
+        self.date_info = ctk.CTkLabel(self.date_info_button_frame, text=self.user.date_of_birth)
         self.date_info.pack(side="left", padx=(0, 10))  # Pack the date info label to the left
 
         # Change Date of Birth button
-        change_dob_button = ctk.CTkButton(date_info_button_frame, text="Change", command=self.place_date_picker)
+        change_dob_button = ctk.CTkButton(self.date_info_button_frame, text="Change", command=self.place_date_picker)
         change_dob_button.pack(side="left")  # Pack the button to the left
         
         
@@ -89,6 +91,12 @@ class ProfilePage(ctk.CTkFrame):
             if widget.winfo_exists():
                 widget.pack_forget()
         self.current_active_widgets.clear()
+        
+        # Hide date-related widgets
+        if hasattr(self, 'date_frame'):
+            self.date_frame.pack_forget()
+        if hasattr(self, 'date_info_button_frame'):
+            self.date_info_button_frame.pack_forget()
 
     def add_button(self, text, command):
         button = ctk.CTkButton(self.scrollable_frame, text=text, command=command)
@@ -161,32 +169,35 @@ class ProfilePage(ctk.CTkFrame):
             new_value = entry_widget.get()
             self.personal_info[key] = new_value
         
-        # Update the user object with the new personal info
-        print(self.personal_info)
-        
+        # Update the date of birth
+        if hasattr(self, 'date_info'):
+            new_dob = self.date_info.cget("text")
+            self.personal_info['date_of_birth'] = new_dob
+
+        # Update the gender
+        if hasattr(self, 'combobox'):
+            new_gender = self.combobox.get()
+            self.personal_info['gender'] = new_gender
+
+        # Hide all widgets, including date-related ones
         self.hide_widgets(self.current_active_widgets)
-        self.place_all_info(self.user)
-        
+    
+        # Update the user info and refresh the display
         self.user.update_own_info(self.personal_info)
+        self.place_all_info(self.user)
 
     def place_date_picker(self):
         # Destroy any existing DatePicker window
         if self.current_date_picker:
             return
         
-        user_dob = datetime.strptime(self.user.date_of_birth, "%d/%m/%Y")
+        user_dob = datetime.strptime(self.user.date_of_birth, "%d-%m-%Y")
         self.current_date_picker = DatePicker(self.master, user_dob)
         self.master.wait_window(self.current_date_picker.top)
         selected_date = self.current_date_picker.get_selected_date()
-        print(selected_date)
+        
         if selected_date:
-            self.personal_info['date_of_birth'] = selected_date
-            self.user.date_of_birth = selected_date  # Update the user object as well
-            
-            # Update the date of birth label directly
             self.update_date_of_birth_label(selected_date)
-        else:
-            print("No date selected")
         
         self.current_date_picker = None  # Reset the current_date_picker
 

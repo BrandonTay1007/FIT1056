@@ -4,12 +4,14 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from interface.quiz_ui import QuizUI
+from assignment_list import AssignmentList  # Import the new AssignmentList
 
 class QuizList(ctk.CTkFrame):
     def __init__(self, master, user, course):
         super().__init__(master)
         self.master = master
         self.user = user
+        self.course = course
         self.course_quiz = course.quizzes
         self.configure(fg_color="#1E1E1E")
         self.create_widgets()
@@ -66,3 +68,38 @@ class QuizList(ctk.CTkFrame):
         if hasattr(self, 'quiz_ui'):
             self.quiz_ui.pack_forget()
 
+    def create_navigation_buttons(self):
+        self.button_frame = ctk.CTkFrame(self, fg_color="transparent")
+        self.button_frame.pack(side="bottom", fill="x", padx=10, pady=10)
+        
+        self.lessons_button = ctk.CTkButton(self.button_frame, text="Lessons", command=self.show_lessons)
+        self.lessons_button.pack(side="left", padx=(0, 5))
+        
+        self.quizzes_button = ctk.CTkButton(self.button_frame, text="Quizzes", command=self.show_quizzes)
+        self.quizzes_button.pack(side="left", padx=(5, 0))
+        
+        self.assignments_button = ctk.CTkButton(self.button_frame, text="Assignments", command=self.show_assignments)
+        self.assignments_button.pack(side="left", padx=(5, 0))
+
+    def show_lessons(self):
+        self.hide_page()
+        if hasattr(self.master, 'assignment_list'):
+            self.master.assignment_list.hide_page()
+        self.master.show_lessons()
+
+    def show_quizzes(self):
+        self.show_page()
+        if hasattr(self.master, 'assignment_list'):
+            self.master.assignment_list.hide_page()
+
+    def show_assignments(self):
+        self.hide_page()
+        if not hasattr(self.master, 'assignment_list'):
+            self.master.assignment_list = AssignmentList(self.master, self.user, self.course)
+        self.master.assignment_list.show_page()
+
+    def hide_navigation_buttons(self):
+        self.button_frame.pack_forget()
+
+    def show_navigation_buttons(self):
+        self.button_frame.pack(side="bottom", fill="x", padx=10, pady=10)

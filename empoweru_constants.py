@@ -8,6 +8,8 @@ LESSONS_FILE_PATH = "database/lessons.json"
 COURSES_FILE_PATH = "database/courses.json"
 QUIZZES_FILE_PATH = "database/quiz.json"
 GRADES_FILE_PATH = "database/grades.json"
+ASSIGNMENTS_FILE_PATH = "database/assignments.json"
+SUBMISSIONS_FILE_PATH = "database/submissions.json"
 
 LOGO_PATH = "Picture/EmpowerU Logo.png"
 FONT_FAMILY = "Roboto"
