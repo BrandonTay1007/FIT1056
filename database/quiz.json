@@ -1,8 +1,8 @@
 [
   {
-    
     "id": 1,
     "title": "General Knowledge Quiz",
+    "associated_course_id": 1,
     "question_list": [
       {
         "number": 1,
@@ -31,6 +31,7 @@
   {
     "id": 2,
     "title": "Science Quiz",
+    "associated_course_id": 1,
     "question_list": [
       {
         "number": 1,
@@ -53,6 +54,238 @@
           "Skin"
         ],
         "correct_answer": "Skin"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Python Basics Quiz",
+    "associated_course_id": 2,
+    "question_list": [
+      {
+        "number": 1,
+        "title": "What is the correct way to declare a variable in Python?",
+        "selections": [
+          "var x = 5",
+          "let x = 5",
+          "x = 5",
+          "int x = 5"
+        ],
+        "correct_answer": "x = 5"
+      },
+      {
+        "number": 2,
+        "title": "Which of the following is used to comment a single line in Python?",
+        "selections": [
+          "//",
+          "#",
+          "/* */",
+          "--"
+        ],
+        "correct_answer": "#"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "JavaScript Fundamentals Quiz",
+    "associated_course_id": 3,
+    "question_list": [
+      {
+        "number": 1,
+        "title": "What keyword is used to declare a constant in JavaScript?",
+        "selections": [
+          "var",
+          "let",
+          "const",
+          "final"
+        ],
+        "correct_answer": "const"
+      },
+      {
+        "number": 2,
+        "title": "Which method is used to add an element to the end of an array in JavaScript?",
+        "selections": [
+          "push()",
+          "append()",
+          "add()",
+          "insert()"
+        ],
+        "correct_answer": "push()"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Data Structures Quiz",
+    "associated_course_id": 2,
+    "question_list": [
+      {
+        "number": 1,
+        "title": "Which data structure follows the Last-In-First-Out (LIFO) principle?",
+        "selections": [
+          "Queue",
+          "Stack",
+          "Linked List",
+          "Tree"
+        ],
+        "correct_answer": "Stack"
+      },
+      {
+        "number": 2,
+        "title": "What is the time complexity of searching an element in a balanced binary search tree?",
+        "selections": [
+          "O(1)",
+          "O(n)",
+          "O(log n)",
+          "O(n^2)"
+        ],
+        "correct_answer": "O(log n)"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Web Development Basics",
+    "associated_course_id": 3,
+    "question_list": [
+      {
+        "number": 1,
+        "title": "What does HTML stand for?",
+        "selections": [
+          "Hyper Text Markup Language",
+          "High-Level Text Management Language",
+          "Hyper Transfer Markup Language",
+          "Home Tool Markup Language"
+        ],
+        "correct_answer": "Hyper Text Markup Language"
+      },
+      {
+        "number": 2,
+        "title": "Which CSS property is used to change the text color of an element?",
+        "selections": [
+          "text-color",
+          "font-color",
+          "color",
+          "text-style"
+        ],
+        "correct_answer": "color"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Advanced Python Concepts",
+    "associated_course_id": 2,
+    "question_list": [
+      {
+        "number": 1,
+        "title": "What is a decorator in Python?",
+        "selections": [
+          "A type of comment",
+          "A function that modifies another function",
+          "A class attribute",
+          "A built-in data structure"
+        ],
+        "correct_answer": "A function that modifies another function"
+      },
+      {
+        "number": 2,
+        "title": "Which of the following is used to handle exceptions in Python?",
+        "selections": [
+          "if-else",
+          "for-in",
+          "try-except",
+          "switch-case"
+        ],
+        "correct_answer": "try-except"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Database Fundamentals",
+    "associated_course_id": 1,
+    "question_list": [
+      {
+        "number": 1,
+        "title": "What does SQL stand for?",
+        "selections": [
+          "Structured Query Language",
+          "Simple Question Language",
+          "Structured Question Lookup",
+          "System Query Language"
+        ],
+        "correct_answer": "Structured Query Language"
+      },
+      {
+        "number": 2,
+        "title": "Which SQL command is used to retrieve data from a database?",
+        "selections": [
+          "GET",
+          "FETCH",
+          "SELECT",
+          "RETRIEVE"
+        ],
+        "correct_answer": "SELECT"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Object-Oriented Programming",
+    "associated_course_id": 2,
+    "question_list": [
+      {
+        "number": 1,
+        "title": "What is encapsulation in OOP?",
+        "selections": [
+          "A way to create multiple instances of a class",
+          "The process of hiding implementation details",
+          "A method to inherit properties from a parent class",
+          "A technique to overload methods"
+        ],
+        "correct_answer": "The process of hiding implementation details"
+      },
+      {
+        "number": 2,
+        "title": "Which keyword is used to create a class in Python?",
+        "selections": [
+          "def",
+          "class",
+          "struct",
+          "object"
+        ],
+        "correct_answer": "class"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Git Version Control",
+    "associated_course_id": 3,
+    "question_list": [
+      {
+        "number": 1,
+        "title": "What Git command is used to download a repository from GitHub?",
+        "selections": [
+          "git pull",
+          "git push",
+          "git clone",
+          "git fetch"
+        ],
+        "correct_answer": "git clone"
+      },
+      {
+        "number": 2,
+        "title": "Which Git command creates a new branch?",
+        "selections": [
+          "git branch",
+          "git checkout",
+          "git merge",
+          "git commit"
+        ],
+        "correct_answer": "git branch"
       }
     ]
   }

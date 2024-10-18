@@ -37,6 +37,8 @@ class User:
         print(self.date_of_birth)
         print(self.gender)
 
+    def update_grade(self, quiz_id, grade):
+        update_user_info(GRADES_FILE_PATH, )
     def get_personal_info(self):
 
         personal_info = {

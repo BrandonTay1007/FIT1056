@@ -59,7 +59,6 @@ class ProfilePage(ctk.CTkFrame):
         self.entry_widgets['first_name'] = self.place_entry("First Name", self.user.first_name)
         self.entry_widgets['last_name'] = self.place_entry("Last Name", self.user.last_name)
         self.entry_widgets['contact_num'] = self.place_entry("Contact Number", self.user.contact_num)
-        self.entry_widgets['age'] = self.place_entry("Age", self.user.age)
         self.entry_widgets['country'] = self.place_entry("Country", self.user.country)
         # Create a frame to hold the date label, date info, and button
         date_frame = ctk.CTkFrame(self.scrollable_frame, fg_color="transparent")

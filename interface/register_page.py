@@ -17,7 +17,6 @@ class RegisterPage(ctk.CTkScrollableFrame):
         self.first_name_entry = self.place_entry("First Name:")
         self.last_name_entry = self.place_entry("Last Name:")
         self.contact_num_entry = self.place_entry("Contact Number:")
-        self.age_entry = self.place_entry("Age:")
         self.country_entry = self.place_entry("Country:")
         self.date_of_birth_label = ctk.CTkLabel(self, text=f"Date of Birth: {self.date_of_birth}")
         self.date_of_birth_label.pack(pady=5)
@@ -69,10 +68,6 @@ class RegisterPage(ctk.CTkScrollableFrame):
             self.alert_var.set("All fields are required!")
             return
 
-        if not self.check_age(entry_values["age"]):
-            self.alert_var.set("Invalid age!")
-            return
-        
         if entry_values["gender"] == "Select your gender":
             self.alert_var.set("Please select a valid gender!")
             return
@@ -88,7 +83,6 @@ class RegisterPage(ctk.CTkScrollableFrame):
             "first_name": self.first_name_entry.get(),
             "last_name": self.last_name_entry.get(),
             "contact_num": self.contact_num_entry.get(),
-            "age": self.age_entry.get(),
             "country": self.country_entry.get(),
             "date_of_birth": self.date_of_birth,
             "gender": self.gender_combobox.get(),
@@ -103,16 +97,6 @@ class RegisterPage(ctk.CTkScrollableFrame):
             self.date_of_birth = selected_date
             self.date_of_birth_label.configure(text=f"Date of Birth: {self.date_of_birth}")
 
-    def check_age(self, age):
-        try:
-            age = int(age)
-            if age < 0:
-                raise ValueError
-        except ValueError:
-            self.alert_var.set("Invalid age!")
-            return False
-        return True
-    
     def clear_fields(self):
         for entry in [self.first_name_entry, self.last_name_entry, self.contact_num_entry, 
                       self.age_entry, self.country_entry, self.date_of_birth_entry, self.password_entry]:

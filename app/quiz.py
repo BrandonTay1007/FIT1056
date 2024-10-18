@@ -1,23 +1,92 @@
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from question import Question
-from database.database_management import get_info_by_id
+from .question import Question
+from database.database_management import *
 from empoweru_constants import QUIZZES_FILE_PATH
+
+
 class Quiz:
-    def __init__(self, title, question_list):
+    def __init__(self, id, title, questions, associated_course_id):
+        self.id = id
         self.title = title
-        self.question_list = question_list
+        self.questions = questions
+        self.answers = {}
+        self.associated_course_id = associated_course_id
+        self.current_question_index = 0
+
+    @staticmethod
+    def init_by_id(quiz_id):
+        quizzes_data = extract_file_info(QUIZZES_FILE_PATH)
+        for quiz_data in quizzes_data:
+            if quiz_data['id'] == quiz_id:
+                questions = []
+                for q in quiz_data['question_list']:
+                    question = Question(
+                        q['title'],
+                        q['selections'],
+                        q['correct_answer']
+                    )
+                    questions.append(question)
+                return Quiz(quiz_data['id'], quiz_data['title'], questions, quiz_data['associated_course_id'])
+        return None
+
+    @staticmethod
+    def load_all_quizzes():
+        quizzes_data = extract_file_info(QUIZZES_FILE_PATH)
+        quizzes = []
+        for quiz_data in quizzes_data:
+            questions = []
+            for q in quiz_data['question_list']:
+                question = Question(
+                    q['title'],
+                    q['selections'],
+                    q['correct_answer']
+                )
+                questions.append(question)
+            quiz = Quiz(quiz_data['id'], quiz_data['title'], questions, quiz_data['associated_course_id'])
+            quizzes.append(quiz)
+
+        return quizzes
     
-    def init_quiz_by_id(id):
-        quiz_data = get_info_by_id(QUIZZES_FILE_PATH,id)
-        if quiz_data is not None:
-            question_list = []
-            for question in quiz_data["question_list"]:
-                question_list.append(Question(question["number"], question["title"], question["selections"], question["correct_answer"]))
-            return Quiz(quiz_data["title"], question_list)
-        else:
-            return None
+    def set_answer(self, index, answer):
+        self.answers[index] = answer
+
+    def get_answer(self, index):
+        return self.answers.get(index)
+
+    def get_unanswered_count(self):
+        return sum(1 for i in range(len(self.questions)) if not self.get_answer(i))
+
+    def grade_quiz(self):
+        correct = 0
+        for i, question in enumerate(self.questions):
+            if question.check_answer(self.get_answer(i)):
+                correct += 1
+
+        grade = (correct / len(self.questions)) * 100
+
+        return grade, correct
         
+    def get_current_question(self):
+        if self.current_question_index < len(self.questions):
+            return self.questions[self.current_question_index]
+        return None
+
+    def next_question(self):
+        if self.current_question_index < len(self.questions) - 1:
+            self.current_question_index += 1
+            return True
+        return False
+
+    def has_questions(self):
+        return len(self.questions) > 0
+
+    # ... rest of the class methods ...
+        
+
+
+
+
 
 

@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 import os
 from lessons_page import LessonsPage
+from quiz_list import QuizList
 
 class LessonsList(ctk.CTkFrame):
     def __init__(self, master, user, course):
@@ -12,12 +13,14 @@ class LessonsList(ctk.CTkFrame):
         self.master = master
         self.user = user    
         self.course = course
-        self.lessons_list = course.lessons_list  # Assuming course has a lesson_list attribute
-        print(f"Initializing LessonsList with {len(self.lessons_list)} lessons")
+        self.lessons_list = course.lessons_list
         
-        self.configure(fg_color="#1E1E1E")  # Set a dark background color
+        self.configure(fg_color="#1E1E1E")
         
-        title_bar = ctk.CTkLabel(self, text=course.title, font=ctk.CTkFont(size=24, weight="bold"))
+        self.create_widgets()
+        
+    def create_widgets(self):
+        title_bar = ctk.CTkLabel(self, text=self.course.title, font=ctk.CTkFont(size=24, weight="bold"))
         title_bar.pack(fill="x", padx=10, pady=10)
         
         self.lessons_list_frame = ctk.CTkScrollableFrame(self)
@@ -25,6 +28,7 @@ class LessonsList(ctk.CTkFrame):
         
         self.create_lesson_bars()
         self.create_back_button()
+        self.create_navigation_buttons()
         
     def create_lesson_bars(self):
         if not self.lessons_list:
@@ -42,12 +46,13 @@ class LessonsList(ctk.CTkFrame):
 
             view_button = ctk.CTkButton(lesson_frame, text="View", width=80)
             view_button.pack(side="right", padx=10, pady=5)
-            # Bind the current lesson using a default argument
             view_button.configure(command=lambda lesson=lesson: self.view_content(lesson))
             
     def view_content(self, lesson):
         self.hide_page()
         self.create_lesson_page(lesson)
+        if lesson.id not in self.user.attempted_lessons:
+            self.user.attempted_lessons.append(lesson.id)
         
     def create_lesson_page(self, lesson):
         if not hasattr(self, 'lessons_page'):
@@ -59,26 +64,60 @@ class LessonsList(ctk.CTkFrame):
         self.lessons_page.show_page()
 
     def create_back_button(self):
-        back_button = ctk.CTkButton(self, text="Back", command=self.on_back_button_click)
-        back_button.pack(side="bottom", padx=10, pady=10, anchor="sw")
+        self.back_button = ctk.CTkButton(self, text="Back", command=self.on_back_button_click)
+        self.back_button.pack(side="bottom", padx=10, pady=10, anchor="sw")
 
     def on_back_button_click(self):
         self.hide_page()
         if hasattr(self, 'lessons_page'):
             self.lessons_page.hide_page()
         self.user.lecture_selection_page.show_page()
-
+        self.user.lecture_selection_page.progress_tracker.init_progress()
+    
     def show_page(self):
         self.pack(fill="both", expand=True)
+        self.show_back_button()
 
     def hide_page(self):
         self.pack_forget()
         if hasattr(self, 'lessons_page'):
             self.lessons_page.hide_page()
 
+    def create_navigation_buttons(self):
+        self.button_frame = ctk.CTkFrame(self, fg_color="transparent")
+        self.button_frame.pack(side="bottom", fill="x", padx=10, pady=10)
+        
+        self.lessons_button = ctk.CTkButton(self.button_frame, text="Lessons", command=self.show_lessons)
+        self.lessons_button.pack(side="left", padx=(0, 5))
+        
+        self.quizzes_button = ctk.CTkButton(self.button_frame, text="Quizzes", command=self.show_quizzes)
+        self.quizzes_button.pack(side="left", padx=(5, 0))
+        
+    def show_lessons(self):
+        self.lessons_list_frame.pack(fill="both", expand=True, padx=10, pady=(10, 50))
+        if hasattr(self, 'quiz_list'):
+            self.quiz_list.pack_forget()
+        self.show_back_button()
+        
+    def show_quizzes(self):
+        self.lessons_list_frame.pack_forget()
+        if not hasattr(self, 'quiz_list'):
+            self.quiz_list = QuizList(self, self.user, self.course)
+        self.quiz_list.pack(fill="both", expand=True)
+
+    def hide_navigation_buttons(self):
+        self.button_frame.pack_forget()
+
+    def show_navigation_buttons(self):
+        self.button_frame.pack(side="bottom", fill="x", padx=10, pady=10)
+
+    def hide_back_button(self):
+        self.back_button.pack_forget()
+
+    def show_back_button(self):
+        self.back_button.pack(side="bottom", padx=10, pady=10, anchor="sw")
 # if __name__ == "__main__":
 #     root = ctk.CTk()
 #     lessons_list = LessonsList(root, None, 1)
 #     lessons_list.pack(fill="both", expand=True)
 #     root.mainloop()
-

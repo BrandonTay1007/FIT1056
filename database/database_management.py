@@ -48,6 +48,16 @@ def update_user_info(file_path, id, new_info):
         print(f"Error: User with ID {id} not found in file: {file_path}")
     return False
 
+def insert_info(file_path, data):
+    all_data = extract_file_info(file_path)
+    all_data.append(data)
+    if write_info_to_file(file_path, all_data):
+        print(f"\033[1;32mData added to file: {file_path}\033[0m")
+        return True
+    else:
+        print(f"\033[1;31mError: Failed to add data to file: {file_path}\033[0m")
+    return False
+
 def add_new_user(role, data, file_path):
     if role == "learner":
         file_path = "database/learners.json"

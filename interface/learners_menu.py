@@ -2,8 +2,7 @@ import customtkinter as ctk
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from app.user import User
-from app.course import Course
+from app.learners import Learner
 from interface.lecture_selection_page_concept import LectureSelectionPage
 from interface.profile_page import ProfilePage
 class LearnersMenu(ctk.CTkFrame):
@@ -38,6 +37,7 @@ class LearnersMenu(ctk.CTkFrame):
         if not hasattr(self.user, 'lecture_selection_page'):
             self.user.lecture_selection_page = LectureSelectionPage(self.master, self.user)
         self.user.lecture_selection_page.show_page()
+
     def go_to_profile(self):
         self.hide_page()
         # Create a new ProfilePage instance each time
@@ -59,6 +59,19 @@ if __name__ == "__main__":
     root.title("Learners Menu")
     root.geometry("600x700")
     root.minsize(600, 700)  # Set minimum window size
-    u = User(1, "JohnDoe", "password", "John", "Doe", "learner", "tseting", "testing", "testing", "testing")    
+    u = Learner(
+        id="L001",
+        username="johndoe",
+        password="hashed_password_1",
+        first_name="John",
+        last_name="Doe",
+        contact_num="+1234567890",
+        country="United States",
+        date_of_birth="1998-05-15",
+        gender="Male",
+        profile_picture_path="/profiles/johndoe.jpg",
+        attempted_lessons=[1,2,3],
+        attempted_quizzes=[1,2]
+    )
     learners_menu = LearnersMenu(root, u)
     root.mainloop()

@@ -1,63 +1,149 @@
+from CTkMessagebox import CTkMessagebox
 import customtkinter as ctk
-import app.Admin as 
+import sys
+import os
+import uuid
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from app.admin import Admin
+from app.learners import Learner
+import empoweru_constants as constants
+from interface.date_picker import DatePicker
+
 class AdminAddUserPage(ctk.CTkScrollableFrame):
-    def __init__(self, master, user):
+    def __init__(self, master, empoweru_system):
         super().__init__(master)
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(2, weight=1)
+
+        self.title = ctk.CTkLabel(self, text="Add New User", font=("Arial", 24, "bold"))
+        self.title.pack(pady=20)
+
+        self.user_type_combobox = self.place_combobox("User Type:", ["Student", "Admin"])
+        self.date_of_birth = ""
+        self.username_entry = self.place_entry("Username:")
+        self.first_name_entry = self.place_entry("First Name:")
+        self.last_name_entry = self.place_entry("Last Name:")
+        self.contact_num_entry = self.place_entry("Contact Number:")
+        self.country_entry = self.place_entry("Country:")
+        self.date_of_birth_label = ctk.CTkLabel(self, text=f"Date of Birth: {self.date_of_birth}")
+        self.date_of_birth_label.pack(pady=5)
+        self.date_of_birth_button = ctk.CTkButton(self, text="Select Date", command=self.place_date_picker)
+        self.date_of_birth_button.pack(pady=5)
+        self.gender_combobox = self.place_combobox("Gender:", ["Male", "Female"])
+        self.password_entry = self.place_password_entry("Password:")
+        self.profile_picture_entry = self.place_entry("Profile Picture Path:")
+
+
+        self.alert_var = ctk.StringVar() 
+        self.alert_label = ctk.CTkLabel(self, textvariable=self.alert_var, font=("Arial", 12), text_color="red")
+        self.alert_label.pack(pady=5)
+
+        self.add_button = ctk.CTkButton(self, text="Add User", command=self.add_user)
+        self.add_button.pack(pady=20)
         
-        self.title = ctk.CTkLabel(master=self, text="Add User", font=("Roboto", 30))
-        self.title.grid(row=0, column=1, padx=10, pady=20)
+        self.back_button = ctk.CTkButton(self, text="Back", command=None)
+        self.back_button.pack()
 
-        self.add_dropdown()
+    def place_entry(self, label):
+        self.label = ctk.CTkLabel(self, text=label)
+        self.label.pack(pady=5)
+        self.entry = ctk.CTkEntry(self, width=200)
+        self.entry.pack(pady=5)
+        return self.entry
 
-        self.add_entry(2, 1, "Username")
-        self.add_entry(3, 1, "Password")
-        self.add_entry(4, 1, "First Name")
-        self.add_entry(5, 1, "Last Name")
-        self.add_entry(6, 1, "Contact Number")
-        self.add_entry(7, 1, "Age")
-        self.add_entry(8, 1, "Country")
-        self.add_entry(9, 1, "Date of Birth")
-        self.add_entry(10, 1, "Gender")
+    def place_combobox(self, label, values):
+        self.label = ctk.CTkLabel(self, text=label)
+        self.label.pack(pady=5)
+        self.combobox = ctk.CTkComboBox(self, values=values, width=200)
+        self.combobox.set(f"Select {label.lower()[:-1]}")
+        self.combobox.configure(state="readonly")
+        self.combobox.pack(pady=5)
+        return self.combobox
+    
+    def place_password_entry(self, label):
+        self.label = ctk.CTkLabel(self, text=label)
+        self.label.pack(pady=5)
+        self.password_entry = ctk.CTkEntry(self, width=200, show="*")
+        self.password_entry.pack(pady=5)
+        return self.password_entry
 
-    def select_role(self, role):
-        self.selected_role = role
-        self.refresh_form()
+    def place_date_picker(self):
+        self.date_picker = DatePicker(self)
+        self.master.wait_window(self.date_picker.top)
+        selected_date = self.date_picker.get_selected_date()
+        if selected_date:
+            self.date_of_birth = selected_date
+            self.date_of_birth_label.configure(text=f"Date of Birth: {self.date_of_birth}")
 
     def add_user(self):
-        pass
+        entry_values = self.get_entry_values()
 
-    def add_dropdown(self):
-        self.user_type = ctk.CTkOptionMenu(
-            master=self,
-            values=["Student", "Tutor", "Admin"],
-            command=self.select_role,  # Add this line to set the command
-            width=200,
-            height=40
-        )
-        self.user_type.set("Select User Type")
-        self.user_type.grid(row=1, column=1, pady=10)
+        if not all(entry_values.values()):
+            self.alert_var.set("All fields are required!")
+            return
 
-    def add_entry(self, row, column, placeholder):
-        entry = ctk.CTkEntry(master=self, placeholder_text=placeholder, width=200, height=40)
-        entry.grid(row=row, column=column, pady=10)
+        if entry_values["gender"] == "Select gender":
+            self.alert_var.set("Please select a valid gender!")
+            return
 
-    def refresh_form(self):
-        if self.selected_role == "Student":
-            self.add_student_form()
-        elif self.selected_role == "Tutor":
-            self.add_tutor_form()
-        elif self.selected_role == "Admin":
-            self.add_admin_form()
-        
-    def add_student():
-        user
+        if entry_values["user_type"] == "Select user type":
+            self.alert_var.set("Please select a valid user type!")
+            return
+
+        user_type = entry_values.pop("user_type")
+        if user_type == "Student":
+            entry_values["id"] = f"L{str(uuid.uuid4())[:3].upper()}"
+            entry_values["attempted_lessons"] = []
+            entry_values["attempted_quizzes"] = []
+            if Learner.register(entry_values):
+                self.show_success_message("Student")
+                self.clear_fields()
+            else:
+                self.alert_var.set("Failed to add new student!")
+        elif user_type == "Admin":
+            entry_values["id"] = f"A{str(uuid.uuid4())[:4].upper()}"
+            if Admin.register(entry_values):
+                self.show_success_message("Admin")
+                self.clear_fields()
+            else:
+                self.alert_var.set("Failed to add new admin!")
+
+    def get_entry_values(self):
+        return {
+            "username": self.username_entry.get(),
+            "first_name": self.first_name_entry.get(),
+            "last_name": self.last_name_entry.get(),
+            "contact_num": self.contact_num_entry.get(),
+            "country": self.country_entry.get(),
+            "date_of_birth": self.date_of_birth,
+            "gender": self.gender_combobox.get(),
+            "password": self.password_entry.get(),
+            "profile_picture_path": self.profile_picture_entry.get(),
+            "user_type": self.user_type_combobox.get()
+        }
+
+    def clear_fields(self):
+        for entry in [self.username_entry, self.first_name_entry, self.last_name_entry, 
+                      self.contact_num_entry, self.age_entry, self.country_entry, 
+                      self.password_entry, self.profile_picture_entry]:
+            entry.delete(0, 'end')
+        self.gender_combobox.set("Select gender")
+        self.user_type_combobox.set("Select user type")
+        self.date_of_birth = ""
+        self.date_of_birth_label.configure(text="Date of Birth: ")
+        self.alert_var.set("")
+
+    def show_success_message(self, user_type):
+        CTkMessagebox(title="Success", message=f"{user_type} added successfully!", icon="check")
+
+    def show_page(self):
+        self.pack(expand=True, fill="both", padx=20, pady=20)
+
+    def hide_page(self):
+        self.pack_forget()
 
 if __name__ == "__main__":
     root = ctk.CTk()
-    root.geometry("1200x800")
-    my_admin = admin.Admin("JohnDoe", "Passwordx", "firstname", "lastname", "contactnum", "age", "country", "dateofbirth", "gender", "profilepicturepath")
-    page = AdminAddUserPage(root, my_admin)
-    page.pack(fill="both", expand=True)
+    add_user_page = AdminAddUserPage(root, None)
+    root.geometry("800x600")
+    add_user_page.pack(expand=True, fill="both")
     root.mainloop()

@@ -13,7 +13,7 @@ class Course:
         self.estimated_duration = estimated_duration
         self.description = description
         self.lessons_list = []
-        
+        self.progress = 0
         if len(self.lessons_list) == 0:
             for id in lessons_id_list:
                 lesson = get_info_by_id(LESSONS_FILE_PATH, id)
@@ -25,6 +25,11 @@ class Course:
     def __str__(self):
         return f"Course: {self.title}"
     
+    def add_course(id, title, estimated_duration, description, lessons_id_list):
+        course = Course(id, title, estimated_duration, description, lessons_id_list)
+        insert_info(COURSES_FILE_PATH, course)
+        return course
+
     def initialize_courses():
         available_courses = []
 
