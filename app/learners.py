@@ -1,5 +1,5 @@
 from .user import User
-from empoweru_constants import LEARNERS_FILE_PATH
+from app.empoweru_constants import LEARNERS_FILE_PATH
 from database.database_management import get_info_by_id
 class Learner(User):
     def __init__(self, id, username, password, first_name, last_name, contact_num, country, date_of_birth, gender, attempted_lessons, attempted_quizzes):

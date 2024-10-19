@@ -3,7 +3,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.question import Question
 from database.database_management import *
-from empoweru_constants import QUIZZES_FILE_PATH
+from app.empoweru_constants import QUIZZES_FILE_PATH
 
 
 class Quiz:

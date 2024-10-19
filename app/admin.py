@@ -1,5 +1,5 @@
 from app.user import User
-from empoweru_constants import ADMIN_FILE_PATH, TUTORS_FILE_PATH, LEARNERS_FILE_PATH
+from app.empoweru_constants import ADMIN_FILE_PATH, TUTORS_FILE_PATH, LEARNERS_FILE_PATH
 from database.database_management import *
 class Admin(User):
     def __init__(self, id, username, password, first_name, last_name, contact_num, country, date_of_birth, gender):

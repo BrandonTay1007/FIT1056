@@ -1,5 +1,3 @@
-import empoweru_constants
-
 TUTORS_FILE_PATH = "database/tutors.json"
 LEARNERS_FILE_PATH = "database/learners.json"
 ADMIN_FILE_PATH = "database/admin.json"

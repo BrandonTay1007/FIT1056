@@ -49,6 +49,3 @@ class EmpowerU_system:
         self.current_page = self.user.menu
         self.user.menu.show_page()
 
-if __name__ == "__main__":
-    empoweru_system = EmpowerU_system()
-    empoweru_system.root.mainloop()

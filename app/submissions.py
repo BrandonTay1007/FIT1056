@@ -1,5 +1,5 @@
 from database.database_management import *
-from empoweru_constants import *
+from app.empoweru_constants import *
 from datetime import datetime
 class Submission:
     def __init__(self, assignment_id, user_id, file_path, submission_date, graded, grade, feedback):

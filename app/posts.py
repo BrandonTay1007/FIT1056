@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from empoweru_constants import *
+from app.empoweru_constants import *
 from database.database_management import *
 from app.comment import Comment
 

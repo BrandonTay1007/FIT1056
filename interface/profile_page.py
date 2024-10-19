@@ -7,7 +7,7 @@ from datetime import datetime
 from PIL import Image
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from app.admin import Admin
-from empoweru_constants import FONT_FAMILY
+from app.empoweru_constants import FONT_FAMILY
 from interface.date_picker import DatePicker
 from interface.sidebar import Sidebar
 from interface.change_password_page import ChangePassword

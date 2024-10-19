@@ -3,7 +3,7 @@ from PIL import Image
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from empoweru_constants import *
+from app.empoweru_constants import *
 from app.learners import Learner
 from app.tutors import Tutor
 from app.admin import Admin

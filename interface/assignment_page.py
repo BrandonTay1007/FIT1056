@@ -7,7 +7,7 @@ from tkinter import filedialog
 import shutil
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from empoweru_constants import FONT_FAMILY
+from app.empoweru_constants import FONT_FAMILY
 
 class AssignmentPage(ctk.CTkFrame):
     def __init__(self, master, user, assignment, on_complete_callback):

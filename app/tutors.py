@@ -1,5 +1,5 @@
 from app.user import User
-from empoweru_constants import TEACHERS_FILE_PATH
+from app.empoweru_constants import TEACHERS_FILE_PATH
 from database.database_management import get_info_by_id
 
 class Tutor(User):

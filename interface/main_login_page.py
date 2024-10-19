@@ -4,7 +4,7 @@ import os
 import sys
 from interface.register_page import RegisterPage
 from interface.login_page import LoginPage
-from empoweru_constants import *
+from app.empoweru_constants import *
 class HomePage(ctk.CTkFrame):
 
     def __init__(self, master, empowerU_system):
