@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from app.forum import Forum
 from interface.post_page import PostPage  # You'll need to create this class
+from interface.create_post_page import CreatePostPage
 
 class ForumList(ctk.CTkFrame):
     def __init__(self, master, user):
@@ -12,10 +13,10 @@ class ForumList(ctk.CTkFrame):
         self.master = master
         self.user = user
         self.forum = Forum()
-        self.forum.init_posts()
         self.configure(fg_color="transparent")
         self.create_widgets()
-        
+        self.master.forum_list = self
+
     def create_widgets(self):
         title_bar = ctk.CTkLabel(self, text="Discussion Forum", font=ctk.CTkFont(size=24, weight="bold"))
         title_bar.pack(fill="x", padx=10, pady=10)
@@ -59,9 +60,9 @@ class ForumList(ctk.CTkFrame):
             
     def view_post(self, post):
         self.hide_page()
-        self.create_post_page(post)
+        self.create_post(post)
         
-    def create_post_page(self, post):
+    def create_post(self, post):
         if not hasattr(self, 'post_page'):
             self.master.forum_list = self  # Store reference to ForumList
             self.post_page = PostPage(self.master, self.user, post, self.on_post_close)
@@ -87,8 +88,21 @@ class ForumList(ctk.CTkFrame):
         if hasattr(self, 'post_page'):
             self.post_page.hide_page()
 
+    def refresh_posts(self):
+        # Clear existing widgets in the scrollable frame
+        for widget in self.posts_list_frame.winfo_children():
+            widget.destroy()
+        self.forum.posts = []
+        # Refresh the forum posts data
+        self.forum.init_posts()
+        # Recreate the post bars
+        self.create_post_bars() 
+        
     def create_new_post(self):
-        self.forum.create_post(self.user.username)
+        self.hide_page()
+        if not hasattr(self, 'create_post_page'):
+            self.create_post_page = CreatePostPage(self.master, self.user)
+        self.create_post_page.show_page()
 
 # if __name__ == "__main__":
 #     root = ctk.CTk()

@@ -8,7 +8,8 @@ from app.posts import Post
 class Forum:
     def __init__(self):
         self.posts = []
-
+        self.init_posts()
+        print(len(self.posts))
     def add_post(self, post):
         self.posts.append(post)
 
@@ -22,14 +23,17 @@ class Forum:
             post_obj = Post(post['id'], post['title'], post['content'], post['author_name'])
             self.posts.append(post_obj)
 
-    def add_post_data(self, post):
+    def create_post(self, title, content, user):
+        print(len(self.posts))
         new_post = {
             'id': len(self.posts) + 1,
-            'title': post['title'],
-            'content': post['content'],
-            'author_name': post['author_name'],
+            'title': title,
+            'content': content,
+            'author_id': user.id,
+            'author_name': user.first_name + " " + user.last_name,
             'comments': []
         }
-        self.posts.append(Post(new_post['id'], new_post['title'], new_post['content'], new_post['author_name']))
         insert_info(FORUM_FILE_PATH, new_post)
+        self.posts.append(Post(new_post['id'], new_post['title'], new_post['content'], new_post['author_name']))
+        print("Post created")
 

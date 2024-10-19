@@ -9,30 +9,6 @@
                 "content": "Hello",
                 "author_id": 1,
                 "author_name": "Test"
-            },
-            {
-                "id": 2,
-                "content": "Hello X2",
-                "author_id": 1,
-                "author_name": "Test"
-            },
-            {
-                "id": 3,
-                "content": "GEge",
-                "author_id": 1,
-                "author_name": "Test"
-            },
-            {
-                "id": 4,
-                "content": "egegegegeg",
-                "author_id": 1,
-                "author_name": "Test"
-            },
-            {
-                "id": 5,
-                "content": "Yahoo",
-                "author_id": 1,
-                "author_name": "Test"
             }
         ],
         "author_id": 1,
@@ -96,5 +72,28 @@
         ],
         "author_id": 5,
         "author_name": "Sarah Lee"
+    },
+    {
+        "id": 6,
+        "title": "a",
+        "content": "a",
+        "author_id": 1,
+        "author_name": "test test",
+        "comments": []
+    },
+    {
+        "id": 7,
+        "title": "NIGGA",
+        "content": "NIGGA",
+        "author_id": 1,
+        "author_name": "test test",
+        "comments": [
+            {
+                "id": 1,
+                "content": "I HATE NIGGAS",
+                "author_id": 1,
+                "author_name": "Test"
+            }
+        ]
     }
 ]
