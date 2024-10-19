@@ -75,15 +75,15 @@
         ]
     },
     {
-        "username": "a",
+        "username": "AA",
         "first_name": "a",
         "last_name": "a",
         "contact_num": "a",
         "country": "a",
-        "date_of_birth": "22/01/2010",
+        "date_of_birth": "05-01-2010",
         "gender": "Male",
         "password": "a",
-        "id": "L486",
+        "id": "L1A47",
         "attempted_lessons": [],
         "attempted_quizzes": []
     }

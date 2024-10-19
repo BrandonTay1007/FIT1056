@@ -4,6 +4,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.tutors import Tutor
 from interface.grading_list_page import GradingListPage
+from interface.forum_list import ForumList
 
 class TutorMenu(ctk.CTkFrame):
 
@@ -23,8 +24,8 @@ class TutorMenu(ctk.CTkFrame):
         self.label1 = ctk.CTkLabel(self, text="Choose one of the following:")
         self.label1.grid(row=1, columnspan=2, padx=60, pady=10)
 
-        self.feedback_button = ctk.CTkButton(master=self, text="Feedback", width=100, height=40)
-        self.feedback_button.grid(row=2, columnspan=2, padx=60, pady=10)
+        self.forum_button = ctk.CTkButton(master=self, text="Forum", width=100, height=40, command=self.go_to_forum_list)
+        self.forum_button.grid(row=2, columnspan=2, padx=60, pady=10)
 
         self.grade_button = ctk.CTkButton(master=self, text="Grade Assignments", width=100, height=40, command=self.go_to_grade_assingment_page)
         self.grade_button.grid(row=3, columnspan=2, padx=60, pady=10)
@@ -34,6 +35,12 @@ class TutorMenu(ctk.CTkFrame):
         
         self.logout_button = ctk.CTkButton(master=self, text="Log Out", width=100, height=40, command=self.logout)
         self.logout_button.grid(row=5, columnspan=2, padx=60, pady=10)
+
+    def go_to_forum_list(self):
+        self.hide_page()
+        if not hasattr(self.user, "forum_list"):
+            self.user.forum_list = ForumList(self.master, self.user)
+        self.user.forum_list.show_page()
 
     def go_to_grade_assingment_page(self):
         self.hide_page()

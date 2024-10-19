@@ -1,0 +1,69 @@
+[
+    {
+        "id": 1,
+        "title": "First Post",
+        "content": "This is the first post in the forum.",
+        "comments": [],
+        "author_id": 1,
+        "author_name": "John Doe"
+    },
+    {
+        "id": 2,
+        "title": "Welcome to Our Community",
+        "content": "Hello everyone! I'm excited to be part of this new forum. Let's share our ideas and experiences!",
+        "comments": [
+            {
+                "id": 1,
+                "content": "Great to have you here!",
+                "author_id": 3,
+                "author_name": "Emily Chen"
+            }
+        ],
+        "author_id": 2,
+        "author_name": "Jane Smith"
+    },
+    {
+        "id": 3,
+        "title": "Tips for Productive Coding",
+        "content": "Here are some tips for staying productive while coding: 1. Take regular breaks, 2. Use version control, 3. Write clean, readable code.",
+        "comments": [
+            {
+                "id": 2,
+                "content": "Great tips! I'd add: always write tests for your code.",
+                "author_id": 4,
+                "author_name": "Mike Johnson"
+            },
+            {
+                "id": 3,
+                "content": "Don't forget about proper documentation!",
+                "author_id": 1,
+                "author_name": "John Doe"
+            }
+        ],
+        "author_id": 3,
+        "author_name": "Emily Chen"
+    },
+    {
+        "id": 4,
+        "title": "Favorite Programming Languages",
+        "content": "What's your favorite programming language and why? Mine is Python because of its simplicity and versatility.",
+        "comments": [],
+        "author_id": 4,
+        "author_name": "Mike Johnson"
+    },
+    {
+        "id": 5,
+        "title": "Upcoming Tech Conference",
+        "content": "Has anyone heard about the upcoming tech conference next month? I'm thinking of attending and would love to know if others are going too.",
+        "comments": [
+            {
+                "id": 4,
+                "content": "I'm planning to go! Let's meet up there.",
+                "author_id": 2,
+                "author_name": "Jane Smith"
+            }
+        ],
+        "author_id": 5,
+        "author_name": "Sarah Lee"
+    }
+]

@@ -1,12 +1,13 @@
 import os
 import sys
+import random
 
 # Add the parent directory to sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from empoweru_constants import *
 from database.database_management import *
-
+import uuid
 class User:
 
     def __init__(self, id, username, password, first_name, last_name, contact_num, country, date_of_birth, gender, profile_picture_path="Picture/Default.jpg"):
@@ -67,6 +68,7 @@ class User:
 
         return personal_info
     
+    @staticmethod
     def register(role, user_data):
         role = role.lower()
         if role == "learner":
@@ -75,9 +77,23 @@ class User:
             file_path = TUTORS_FILE_PATH
         elif role == "admin":
             file_path = ADMIN_FILE_PATH
-
+        
+        # Generate a unique ID based on the role
+        id_prefix = {"learner": "L", "tutor": "T", "admin": "A"}
+        
+        # Get existing IDs
+        existing_ids = extract_file_info(file_path)
+        
+        # Generate a new unique ID
+        while True:
+            new_id = f"{id_prefix[role]}{str(random.randint(1, 9999)).zfill(4)}"
+            if new_id not in [user["id"] for user in existing_ids]:
+                break
+        
+        # Add the new ID to the user data
+        user_data["id"] = new_id
         return insert_info(file_path, user_data)
-
+    
     def update_own_info(self, updated_info, file_path):
         personal_info = self.get_personal_info()
         for key, value in updated_info.items():

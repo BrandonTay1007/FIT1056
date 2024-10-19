@@ -7,6 +7,8 @@ from app.course import Course
 from interface.lecture_selection_page_concept import LectureSelectionPage
 from interface.profile_page import ProfilePage
 from interface.grade_page import GradePage
+from interface.forum_list import ForumList
+
 class LearnersMenu(ctk.CTkFrame):
 
     def __init__(self, master, user):
@@ -28,34 +30,38 @@ class LearnersMenu(ctk.CTkFrame):
         self.grade_button = ctk.CTkButton(master=self, text="Grade", width=100, height=40, command=self.go_to_grade)
         self.grade_button.grid(row=3, columnspan=2, padx=60, pady=10, sticky='ew')  # Centered
 
+        self.forum_button = ctk.CTkButton(master=self, text="Forum", width=100, height=40, command=self.go_to_forum)
+        self.forum_button.grid(row=4, columnspan=2, padx=60, pady=10, sticky='ew')  # Centered
+
         self.profile_button = ctk.CTkButton(master=self, text="Profile", width=100, height=40, command=self.go_to_profile)
-        self.profile_button.grid(row=4, columnspan=2, padx=60, pady=10, sticky='ew')  # Centered
+        self.profile_button.grid(row=5, columnspan=2, padx=60, pady=10, sticky='ew')  # Centered
         
         self.logout_button = ctk.CTkButton(master=self, text="Log Out", width=100, height=40, command=self.logout)
-        self.logout_button.grid(row=5, columnspan=2, padx=60, pady=10, sticky='ew')  # Centered
+        self.logout_button.grid(row=6, columnspan=2, padx=60, pady=10, sticky='ew')  # Centered
 
         self.show_page()
 
-    def go_to_grade(self):
+    def navigate_to_page(self, page_attr, page_class):
         self.hide_page()
-        if not hasattr(self.user, 'grade_page'):
-            self.user.grade_page = GradePage(self.master, self.user)
-        else:
-            self.user.grade_page.update_grades()
-        self.user.grade_page.show_page()
+        if not hasattr(self.user, page_attr):
+            setattr(self.user, page_attr, page_class(self.master, self.user))
+        page = getattr(self.user, page_attr)
+        if hasattr(page, 'update_grades'):
+            page.update_grades()
+        page.show_page()
+
+    def go_to_grade(self):
+        self.navigate_to_page('grade_page', GradePage)
 
     def go_to_course(self):
-        self.hide_page()
-        if not hasattr(self.user, 'lecture_selection_page'):
-            self.user.lecture_selection_page = LectureSelectionPage(self.master, self.user)
-        self.user.lecture_selection_page.show_page()
-
+        self.navigate_to_page('lecture_selection_page', LectureSelectionPage)
+    
     def go_to_profile(self):
-        self.hide_page()
-        # Create a new ProfilePage instance each time
-        self.user.profile_page = ProfilePage(self.master, self.user)
-        self.user.profile_page.show_page()
-        
+        self.navigate_to_page('profile_page', ProfilePage)
+
+    def go_to_forum(self):
+        self.navigate_to_page('forum_page', ForumPage)
+
     def logout(self):
         self.hide_page()
         self.empoweru_system.homepage.show_page()

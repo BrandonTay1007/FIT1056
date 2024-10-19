@@ -1,15 +1,3 @@
-class post:
-    def __init__(self, title, content, author):
-        self.title = title
-        self.content = content
-        self.author = author
-        self.comments = []
-
-class comment:
-    def __init__(self, content, author):
-        self.content = content
-        self.author = author
-
 class forum:
     def __init__(self):
         self.posts = []
@@ -19,4 +7,9 @@ class forum:
 
     def get_posts(self):
         return self.posts
+
+    def init_posts(self):
+        post_data = extract_file_info(FORUM_FILE_PATH)
+        for post in post_data:
+            self.posts.append(post)
 
