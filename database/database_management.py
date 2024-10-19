@@ -34,11 +34,11 @@ def write_info_to_file(file_path, data):
         print(f"Error: {str(e)}")
         return False
 
-def relational_id_update(file_path, id, quiz_id, new_info):
+def relational_id_update(file_path, first_id, first_key, second_id, second_key, new_info):
     all_data = extract_file_info(file_path)
     updated = False
     for data in all_data:
-        if data.get("id") == id and data.get("quiz_id") == quiz_id:
+        if data.get(first_key) == first_id and data.get(second_key) == second_id:
             data.update(new_info)
             updated = True
             break

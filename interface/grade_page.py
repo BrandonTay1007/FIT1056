@@ -30,20 +30,31 @@ class GradePage(ctk.CTkFrame):
 
     def load_grades(self):
         grades = self.user.get_all_grades()
+        assignments = self.user.get_all_assignments()
         
-        # Group grades by course
+        # Group grades and assignments by course
         courses = {}
         for grade_data in grades:
             course = grade_data['course_title']
             if course not in courses:
-                courses[course] = []
-            courses[course].append(grade_data)
+                courses[course] = {'quizzes': [], 'assignments': []}
+            courses[course]['quizzes'].append(grade_data)
         
-        # Display grades for each course
-        for course, course_grades in courses.items():
-            self.add_course_section(course, course_grades)
+        for assignment_data in assignments:
+            course = assignment_data['course_title']
+            if course not in courses:
+                courses[course] = {'quizzes': [], 'assignments': []}
+            courses[course]['assignments'].append(assignment_data)
+        
+        # Display grades and assignments for each course
+        for course, course_data in courses.items():
+            self.add_course_section(course, course_data['quizzes'], course_data['assignments'])
 
-    def add_course_section(self, course_name, course_grades):
+    def load_assignments(self, assignments):
+        for assignment in assignments:
+            self.add_assignment_grade(assignment)
+
+    def add_course_section(self, course_name, course_grades, course_assignments):
         course_frame = ctk.CTkFrame(self.scrollable_frame)
         course_frame.pack(padx=20, pady=(20, 10), fill=ctk.X)
 
@@ -51,13 +62,16 @@ class GradePage(ctk.CTkFrame):
         course_label.pack(anchor="w", padx=10, pady=5)
 
         for grade_data in course_grades:
-            self.add_grade(course_frame, grade_data['quiz_title'], f"{grade_data['grade']:.2f}%")
+            self.add_grade(course_frame, grade_data['quiz_title'], f"{grade_data['grade']:.2f}%", "Quiz")
 
-    def add_grade(self, parent_frame, quiz_name, grade):
+        for assignment_data in course_assignments:
+            self.add_grade(course_frame, assignment_data['title'], f"{assignment_data['grade']:.2f}%", "Assignment")
+
+    def add_grade(self, parent_frame, item_name, grade, item_type):
         grade_frame = ctk.CTkFrame(parent_frame)
         grade_frame.pack(padx=10, pady=5, fill=ctk.X)
 
-        name_label = ctk.CTkLabel(grade_frame, text=quiz_name, font=TEXT_FONT)
+        name_label = ctk.CTkLabel(grade_frame, text=f"{item_name} - {item_type}", font=TEXT_FONT)
         name_label.pack(side="left", anchor="w")
 
         grade_label = ctk.CTkLabel(grade_frame, text=grade, font=TEXT_FONT)

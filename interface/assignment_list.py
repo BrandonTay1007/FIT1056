@@ -23,7 +23,7 @@ class AssignmentList(ctk.CTkFrame):
         
     def create_assignment_bars(self):
         if not self.assignments:
-            no_assignments_label = ctk.CTkLabel(self.assignments_list_frame, text="No assignments available", fg_color="#3B3B3B")
+            no_assignments_label = ctk.CTkLabel(self.assignments_list_frame, text="No assignments available to grade", fg_color="#3B3B3B")
             no_assignments_label.pack(pady=20, fill="x")
             return
 

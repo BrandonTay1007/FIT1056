@@ -1,10 +1,11 @@
 import os
 import sys
 from datetime import datetime
+import shutil
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from database.database_management import *
 from empoweru_constants import ASSIGNMENTS_FILE_PATH, SUBMISSIONS_FILE_PATH
-
+from app.submissions import Submission
 
 class Assignment:
     def __init__(self, user, id, title, due_date, pdf_path, mark, associated_course_id):
@@ -57,21 +58,32 @@ class Assignment:
         self.submission = submission
 
     def get_submission(self):
-        return self.submission
-
-    def is_submitted(self):
-        return self.submission
-
-    def is_overdue(self, current_date):
-        return current_date > self.due_date
+        submission_data = get_multiple_info_by_id(SUBMISSIONS_FILE_PATH, "assignment_id", self.id)
+        for submission in submission_data:
+            if submission['user_id'] == self.user.id:
+                return Submission(**submission)
+        return None
+    
+    def get_ungraded_submissions():
+        submissions = get_multiple_info_by_id(SUBMISSIONS_FILE_PATH, "graded", False)
+        print(submissions)
+        return [Submission(**submission) for submission in submissions]
 
     def submit_file(self, user_id, file_path):
+        # Change the submissions folder path
+        submissions_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "database", "submissions")
+        os.makedirs(submissions_folder, exist_ok=True)
+        new_file_path = os.path.join(submissions_folder, os.path.basename(file_path))
+        shutil.copy2(file_path, new_file_path)
+
         submission_data = {
-            "id": f"S{len(get_multiple_info_by_id(SUBMISSIONS_FILE_PATH, 'id', '')) + 1:04d}",
             "assignment_id": self.id,
             "user_id": user_id,
-            "file_path": file_path,
-            "submission_date": datetime.now().isoformat()
+            "file_path": new_file_path,
+            "submission_date": datetime.now().strftime("%Y-%m-%dT%H:%M"),
+            "graded": False,
+            "grade": 0,
+            "feedback": ""
         }
         
         if insert_info(SUBMISSIONS_FILE_PATH, submission_data):

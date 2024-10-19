@@ -23,7 +23,13 @@ class User:
         self.profile_picture_path = profile_picture_path
     
     def init_by_id(id):
-        data = get_info_by_id(LEARNERS_FILE_PATH, "id", id)
+        if id.startswith("L"):
+            file_path = LEARNERS_FILE_PATH
+        elif id.startswith("T"):
+            file_path = TUTORS_FILE_PATH
+        elif id.startswith("A"):
+            file_path = ADMIN_FILE_PATH
+        data = get_info_by_id(file_path, "id", id)
         return User(data["id"], data["username"], data["password"], data["first_name"], data["last_name"], data["contact_num"], data["country"], data["date_of_birth"], data["gender"], data["profile_picture_path"])
     
     def authenticate(self, username, password):
@@ -43,7 +49,7 @@ class User:
             "quiz_id": quiz_id,
             "grade": grade
         }
-        relational_id_update(GRADES_FILE_PATH, self.id, quiz_id, data)
+        relational_id_update(GRADES_FILE_PATH, self.id, "id", quiz_id, "quiz_id", data)
 
     def get_personal_info(self):
 
@@ -132,3 +138,15 @@ class User:
         
         return grades
         
+    def get_all_assignments(self):
+        assignments = []
+        for course in self.course_list:
+            for assignment in course.assignments:
+                submission = assignment.get_submission()
+                if submission and submission.graded:
+                    assignments.append({
+                        'title': assignment.title,
+                        'grade': submission.grade,
+                        'course_title': course.title
+                    })
+        return assignments

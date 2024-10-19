@@ -54,36 +54,20 @@ class AssignmentPage(ctk.CTkFrame):
         self.back_button = ctk.CTkButton(self, text="Back", command=self.go_back)
         self.back_button.pack(side="bottom", pady=(0, 10))
 
-    def get_time_remaining(self, due_date):
-        now = datetime.now()
-        time_left = due_date - now
-        if time_left.total_seconds() <= 0:
-            return "Overdue"
-        days, seconds = time_left.days, time_left.seconds
-        hours = seconds // 3600
-        minutes = (seconds % 3600) // 60
-        return f"{days} days, {hours} hours, {minutes} minutes"
-
     def upload_file(self):
         file_path = filedialog.askopenfilename(
             title="Select file to upload",
             filetypes=[("All Files", "*.*")]
         )
         if file_path:
-            # Copy the file to a submissions folder (you may want to create this)
-            submissions_folder = os.path.join(os.path.dirname(os.path.dirname(__file__)), "submissions")
-            os.makedirs(submissions_folder, exist_ok=True)
-            new_file_path = os.path.join(submissions_folder, os.path.basename(file_path))
-            shutil.copy2(file_path, new_file_path)
-            
-            self.uploaded_file_path = new_file_path
+            self.uploaded_file_path = file_path
             self.uploaded_file_label.configure(text=f"Uploaded: {os.path.basename(file_path)}")
-            CTkMessagebox(title="Success", message="File uploaded successfully!", icon="check")
+            CTkMessagebox(title="Success", message="File selected successfully!", icon="check")
 
     def submit_assignment(self):
         if not self.assignment.is_submitted():
             if not hasattr(self, 'uploaded_file_path'):
-                CTkMessagebox(title="Error", message="Please upload a file before submitting.", icon="cancel")
+                CTkMessagebox(title="Error", message="Please select a file before submitting.", icon="cancel")
                 return
 
             confirm = CTkMessagebox(
