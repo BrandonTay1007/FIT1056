@@ -4,6 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from empoweru_constants import *
 from database.database_management import *
 from app.comment import Comment
+
 class Post:
     def __init__(self, id, title, content, author):
         self.id = id
@@ -21,6 +22,24 @@ class Post:
             self.comments.append(comment_obj)
 
     def add_comment(self, comment):
-        self.comments.append(comment)
-        update_info_by_id(FORUM_FILE_PATH, 'id', self.id, {'comments': self.comments})
+        # Assuming 'comment' is a dictionary with keys: 'content', 'author_id', 'author_name'
+        new_comment = {
+            'id': len(self.comments) + 1,
+            'content': comment['content'],
+            'author_id': comment['author_id'],
+            'author_name': comment['author_name']
+        }
         
+        # Add to the local comments list
+        self.comments.append(Comment(new_comment['id'], new_comment['content'], new_comment['author_name']))
+        
+        # Get the current post data
+        post_data = get_info_by_id(FORUM_FILE_PATH, 'id', self.id)
+        
+        # Add the new comment to the post's comments
+        post_data['comments'].append(new_comment)
+        
+        # Update the forum.json file
+        update_info_by_id(FORUM_FILE_PATH, 'id', self.id, {'comments': post_data['comments']})
+        
+        print(f"Comment added: {new_comment}")

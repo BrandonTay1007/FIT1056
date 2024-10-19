@@ -3,7 +3,38 @@
         "id": 1,
         "title": "First Post",
         "content": "This is the first post in the forum.",
-        "comments": [],
+        "comments": [
+            {
+                "id": 1,
+                "content": "Hello",
+                "author_id": 1,
+                "author_name": "Test"
+            },
+            {
+                "id": 2,
+                "content": "Hello X2",
+                "author_id": 1,
+                "author_name": "Test"
+            },
+            {
+                "id": 3,
+                "content": "GEge",
+                "author_id": 1,
+                "author_name": "Test"
+            },
+            {
+                "id": 4,
+                "content": "egegegegeg",
+                "author_id": 1,
+                "author_name": "Test"
+            },
+            {
+                "id": 5,
+                "content": "Yahoo",
+                "author_id": 1,
+                "author_name": "Test"
+            }
+        ],
         "author_id": 1,
         "author_name": "John Doe"
     },

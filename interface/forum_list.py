@@ -13,20 +13,32 @@ class ForumList(ctk.CTkFrame):
         self.user = user
         self.forum = Forum()
         self.forum.init_posts()
-        print(self.forum.posts)
-        self.configure(fg_color="#1E1E1E")
+        self.configure(fg_color="transparent")
         self.create_widgets()
         
     def create_widgets(self):
-        title_bar = ctk.CTkLabel(self, text="Forum", font=ctk.CTkFont(size=24, weight="bold"))
+        title_bar = ctk.CTkLabel(self, text="Discussion Forum", font=ctk.CTkFont(size=24, weight="bold"))
         title_bar.pack(fill="x", padx=10, pady=10)
         
         self.posts_list_frame = ctk.CTkScrollableFrame(self)
         self.posts_list_frame.pack(fill="both", expand=True, padx=10, pady=(10, 50))
         
         self.create_post_bars()
-        self.create_back_button()
+        self.create_button_frame()
+
+    def create_button_frame(self):
+        button_frame = ctk.CTkFrame(self, fg_color="transparent")
+        button_frame.pack(fill="x", side="bottom", padx=10, pady=10)
+
+        button_container = ctk.CTkFrame(button_frame, fg_color="transparent")
+        button_container.pack(side="left")
+
+        self.create_post_button = ctk.CTkButton(button_container, text="Create New Post", command=self.create_new_post)
+        self.create_post_button.pack(pady=(0, 10))  # Add padding to the bottom
         
+        self.back_button = ctk.CTkButton(button_container, text="Back", command=self.on_back_button_click)
+        self.back_button.pack()
+
     def create_post_bars(self):
         posts = self.forum.get_posts()
         if not posts:
@@ -62,10 +74,6 @@ class ForumList(ctk.CTkFrame):
         self.hide_page()
         self.show_page()
 
-    def create_back_button(self):
-        self.back_button = ctk.CTkButton(self, text="Back", command=self.on_back_button_click)
-        self.back_button.pack(side="bottom", padx=10, pady=10, anchor="sw")
-
     def on_back_button_click(self):
         self.hide_page()
         # Assuming there's a main page to return to
@@ -78,6 +86,9 @@ class ForumList(ctk.CTkFrame):
         self.pack_forget()
         if hasattr(self, 'post_page'):
             self.post_page.hide_page()
+
+    def create_new_post(self):
+        self.forum.create_post(self.user.username)
 
 # if __name__ == "__main__":
 #     root = ctk.CTk()

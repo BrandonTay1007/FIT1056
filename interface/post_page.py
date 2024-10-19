@@ -10,7 +10,7 @@ class PostPage(ctk.CTkFrame):
         self.user = user
         self.post = post
         self.on_close_callback = on_close_callback
-        self.configure(fg_color="#1E1E1E")
+        self.configure(fg_color="transparent")
         self.create_widgets()
         
     def create_widgets(self):
@@ -19,7 +19,7 @@ class PostPage(ctk.CTkFrame):
         title_label.pack(fill="x", padx=10, pady=10)
         
         # Author
-        author_label = ctk.CTkLabel(self, text=f"Posted by {self.post.author_name}", font=ctk.CTkFont(size=12))
+        author_label = ctk.CTkLabel(self, text=f"Posted by {self.post.author}", font=ctk.CTkFont(size=12))
         author_label.pack(anchor="w", padx=10)
         
         # Content
@@ -49,26 +49,26 @@ class PostPage(ctk.CTkFrame):
         back_button.pack(side="bottom", padx=10, pady=10)
         
     def create_comment_widgets(self):
-        for comment in self.post['comments']:
+        print(self.post.comments)
+        for comment in self.post.comments:
             comment_frame = ctk.CTkFrame(self.comments_frame, fg_color="#3B3B3B")
             comment_frame.pack(fill="x", padx=5, pady=5)
             
-            author_label = ctk.CTkLabel(comment_frame, text=comment['author_name'], font=ctk.CTkFont(size=12, weight="bold"))
+            author_label = ctk.CTkLabel(comment_frame, text=comment.author, font=ctk.CTkFont(size=12, weight="bold"))
             author_label.pack(anchor="w", padx=5, pady=(5, 0))
             
-            content_label = ctk.CTkLabel(comment_frame, text=comment['content'], wraplength=450, justify="left")
+            content_label = ctk.CTkLabel(comment_frame, text=comment.content, wraplength=450, justify="left")
             content_label.pack(anchor="w", padx=5, pady=(0, 5))
     
     def add_comment(self):
         comment_text = self.comment_input.get()
         if comment_text:
             new_comment = {
-                "id": len(self.post['comments']) + 1,
                 "content": comment_text,
                 "author_id": self.user.id,
                 "author_name": self.user.username
             }
-            self.post['comments'].append(new_comment)
+            self.post.add_comment(new_comment)
             self.comment_input.delete(0, 'end')
             self.refresh_comments()
     
