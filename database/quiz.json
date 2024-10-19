@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "General Knowledge Quiz",
-    "associated_course_id": 1,
+    "associated_course_id": 1, 
     "question_list": [
       {
         "number": 1,
