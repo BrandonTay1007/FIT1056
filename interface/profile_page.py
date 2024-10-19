@@ -8,7 +8,10 @@ from app.admin import Admin
 from app.empoweru_constants import FONT_FAMILY
 from interface.date_picker import DatePicker
 from interface.sidebar import Sidebar
-from interface.change_password_page import ChangePassword
+from interface.user_change_password_page import ChangePassword
+from app.progress_tracker import ProgressTracker
+from interface.progress_bar import ProgressBar
+from app.learners import Learner
 
 class ProfilePage(ctk.CTkFrame):
     def __init__(self, master, user):
@@ -17,6 +20,11 @@ class ProfilePage(ctk.CTkFrame):
         self.user.profile_page = self
         self.personal_info = user.get_personal_info()
         self.current_active_page = self
+        
+        # Create a progress tracker only for learners
+        if isinstance(self.user, Learner):
+            self.progress_tracker = ProgressTracker(self.user, self.user.course_list)
+            self.progress_tracker.init_progress()
         
         # Create a scrollable frame
         self.sidebar = Sidebar(self.master)
@@ -36,8 +44,33 @@ class ProfilePage(ctk.CTkFrame):
         self.current_date_picker = None  # Add this line to store the current DatePicker instance
 
         ctk.CTkLabel(self.scrollable_frame, text="Account Details", font=(FONT_FAMILY, 24, "bold")).pack(anchor="w", pady=(0, 20))
+        
+        # Add overall progress bar only for learners
+        if isinstance(self.user, Learner):
+            self.add_overall_progress_bar()
+        
         self.place_all_info()
         
+    def add_overall_progress_bar(self):
+        progress_frame = ctk.CTkFrame(self.scrollable_frame, fg_color="transparent")
+        progress_frame.pack(fill="x", pady=(0, 20))
+        
+        ctk.CTkLabel(progress_frame, text="Overall Progress", font=(FONT_FAMILY, 16, "bold")).pack(anchor="w")
+        
+        self.progress_bar = ProgressBar(progress_frame, width=300)
+        self.progress_bar.pack(pady=(5, 0))
+        
+        self.progress_label = ctk.CTkLabel(progress_frame, text="0%", font=(FONT_FAMILY, 14))
+        self.progress_label.pack(pady=(5, 0))
+        
+        self.update_progress_bar()
+    
+    def update_progress_bar(self):
+        if hasattr(self, 'progress_tracker'):
+            overall_progress = self.progress_tracker.get_overall_progress()
+            self.progress_bar.update_progress(overall_progress / 100)  # ProgressBar expects a value between 0 and 1
+            self.progress_label.configure(text=f"{overall_progress}%")
+
     def place_all_info(self):
         items = list(self.personal_info.items())
         for key, value in items:  # Remove the slicing to include all items
@@ -192,6 +225,8 @@ class ProfilePage(ctk.CTkFrame):
     def show_page(self):
         self.sidebar.show_sidebar()
         self.pack(expand=True, fill="both")
+        if isinstance(self.user, Learner):
+            self.update_progress_bar()  # Update progress when showing the page for learners
 
     def hide_page(self):
         self.sidebar.hide_sidebar()

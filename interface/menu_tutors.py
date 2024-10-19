@@ -2,7 +2,7 @@ import customtkinter as ctk
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from interface.grading_list_page import GradingListPage
+from interface.tutors_assignment_to_grade_page import GradingListPage
 from interface.forum_list import ForumList
 from interface.profile_page import ProfilePage
 

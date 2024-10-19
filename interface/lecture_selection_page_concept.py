@@ -5,7 +5,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from interface.lessons_list import LessonsList
 from app.learners import Learner
-from interface.Progress_bar import ProgressBar
+from interface.progress_bar import ProgressBar
 from app.progress_tracker import ProgressTracker
 
 class LectureSelectionPage(ctk.CTkFrame):
