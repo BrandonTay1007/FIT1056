@@ -1,3 +1,9 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from database.database_management import *
+from empoweru_constants import *
+
 class forum:
     def __init__(self):
         self.posts = []

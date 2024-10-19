@@ -60,7 +60,7 @@ class LearnersMenu(ctk.CTkFrame):
         self.navigate_to_page('profile_page', ProfilePage)
 
     def go_to_forum(self):
-        self.navigate_to_page('forum_page', ForumPage)
+        self.navigate_to_page('forum_page', ForumList)
 
     def logout(self):
         self.hide_page()
