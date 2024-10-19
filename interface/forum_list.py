@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from app.forum import forum
+from app.forum import Forum
 from interface.post_page import PostPage  # You'll need to create this class
 
 class ForumList(ctk.CTkFrame):
@@ -11,8 +11,9 @@ class ForumList(ctk.CTkFrame):
         super().__init__(master)
         self.master = master
         self.user = user
-        self.forum = forum()
+        self.forum = Forum()
         self.forum.init_posts()
+        print(self.forum.posts)
         self.configure(fg_color="#1E1E1E")
         self.create_widgets()
         
@@ -37,7 +38,7 @@ class ForumList(ctk.CTkFrame):
             post_frame = ctk.CTkFrame(self.posts_list_frame, fg_color="#3B3B3B")
             post_frame.pack(fill="x", padx=10, pady=5)
 
-            post_label = ctk.CTkLabel(post_frame, text=f"{index + 1}. {post['title']}", anchor="w", fg_color="#3B3B3B")
+            post_label = ctk.CTkLabel(post_frame, text=f"{index + 1}. {post.title}", anchor="w", fg_color="#3B3B3B")
             post_label.pack(side="left", padx=10, pady=5, fill="x", expand=True)
 
             view_button = ctk.CTkButton(post_frame, text="View", width=80)

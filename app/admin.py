@@ -23,7 +23,7 @@ class Admin(User):
             return LEARNERS_FILE_PATH
 
     def change_user_info(self, role, user_id, new_info):
-        return update_user_info(self.get_user_file_path(role), user_id, new_info)
+        return update_info_by_id(self.get_user_file_path(role), 'id', user_id, new_info)
 
     def delete_user(self, user_id, role):
         file_path = self.get_user_file_path(role)

@@ -57,11 +57,11 @@ def relational_id_update(file_path, first_id, first_key, second_id, second_key, 
         print(f"\033[1;31mError: User with ID {id} not found in file: {file_path}\033[0m")
     return False
 
-def update_user_info(file_path, id, new_info):
+def update_info_by_id(file_path, key, id, new_info):
     all_data = extract_file_info(file_path)
     updated = False
     for data in all_data:
-        if data.get("id") == id:
+        if data.get(key) == id:
             data.update(new_info)
             updated = True
             break

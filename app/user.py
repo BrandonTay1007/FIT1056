@@ -102,7 +102,7 @@ class User:
             except KeyError:
                 print(f"KeyError: Key '{key}' not found in personal_info")
 
-        if update_user_info(file_path, self.id, personal_info):
+        if update_user_info(file_path, 'id', self.id, personal_info):
             print("User information updated successfully")
             return True
 
@@ -123,7 +123,7 @@ class User:
         if not is_valid:
             return is_valid
 
-        if update_user_info(file_path, self.id, {"password": new_password}):
+        if update_info_by_id(file_path, 'id', self.id, {"password": new_password}):
             print("Password updated successfully")
             return True
         print("Failed to update password")
@@ -138,7 +138,7 @@ class User:
             if quiz_id not in self.attempted_quizzes:
                 self.attempted_quizzes.append(quiz_id)
         
-        update_user_info(LEARNERS_FILE_PATH, self.id, {"attempted_lessons": self.attempted_lessons, "attempted_quizzes": self.attempted_quizzes})
+        update_info_by_id(LEARNERS_FILE_PATH, 'id', self.id, {"attempted_lessons": self.attempted_lessons, "attempted_quizzes": self.attempted_quizzes})
         
     def get_all_grades(self):
         user_grades = get_multiple_info_by_id(GRADES_FILE_PATH, "id", self.id)

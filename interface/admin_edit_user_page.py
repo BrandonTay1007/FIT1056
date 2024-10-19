@@ -2,8 +2,6 @@ import customtkinter as ctk
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from database.database_management import get_info_by_id, update_user_info
-import empoweru_constants as constants
 from interface.date_picker import DatePicker
 
 class AdminEditUserPage(ctk.CTkFrame):
