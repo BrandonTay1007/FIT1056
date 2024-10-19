@@ -56,9 +56,9 @@ class AssignmentList(ctk.CTkFrame):
     def on_assignment_complete(self):
         self.hide_page()
         self.master.show_navigation_buttons()
-        self.master.show_assignments()
         self.master.show_back_button()
-        
+        self.master.show_assignments()
+
     def show_page(self):
         self.pack(fill="both", expand=True)
 

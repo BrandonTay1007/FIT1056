@@ -7,7 +7,6 @@ from tkinter import filedialog
 import shutil
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from app.assignment import Assignment
 from empoweru_constants import FONT_FAMILY
 
 class AssignmentPage(ctk.CTkFrame):
@@ -21,8 +20,9 @@ class AssignmentPage(ctk.CTkFrame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.assignment_frame = ctk.CTkScrollableFrame(self, width=480, height=550)
-        self.assignment_frame.pack(pady=20, padx=20, fill="both", expand=True)
+        # Reduce the height of the scrollable frame
+        self.assignment_frame = ctk.CTkScrollableFrame(self, width=480, height=450)
+        self.assignment_frame.pack(pady=(20, 10), padx=20, fill="both", expand=True)
 
         # Title
         ctk.CTkLabel(self.assignment_frame, text=self.assignment.title, font=(FONT_FAMILY, 20, "bold")).pack(pady=10)
@@ -42,9 +42,17 @@ class AssignmentPage(ctk.CTkFrame):
         self.upload_button = ctk.CTkButton(self.assignment_frame, text="Upload Submission", command=self.upload_file)
         self.upload_button.pack(pady=10)
 
+        # Label to display uploaded file name
+        self.uploaded_file_label = ctk.CTkLabel(self.assignment_frame, text="", font=(FONT_FAMILY, 12))
+        self.uploaded_file_label.pack(pady=5)
+
         # Submit button
         self.submit_button = ctk.CTkButton(self, text="Submit Assignment", command=self.submit_assignment)
-        self.submit_button.pack(side="bottom", pady=10)
+        self.submit_button.pack(side="bottom", pady=(0, 10))
+
+        # Back button
+        self.back_button = ctk.CTkButton(self, text="Back", command=self.go_back)
+        self.back_button.pack(side="bottom", pady=(0, 10))
 
     def get_time_remaining(self, due_date):
         now = datetime.now()
@@ -57,11 +65,27 @@ class AssignmentPage(ctk.CTkFrame):
         return f"{days} days, {hours} hours, {minutes} minutes"
 
     def upload_file(self):
-        # Implement file upload logic here
-        print("File upload functionality to be implemented")
+        file_path = filedialog.askopenfilename(
+            title="Select file to upload",
+            filetypes=[("All Files", "*.*")]
+        )
+        if file_path:
+            # Copy the file to a submissions folder (you may want to create this)
+            submissions_folder = os.path.join(os.path.dirname(os.path.dirname(__file__)), "submissions")
+            os.makedirs(submissions_folder, exist_ok=True)
+            new_file_path = os.path.join(submissions_folder, os.path.basename(file_path))
+            shutil.copy2(file_path, new_file_path)
+            
+            self.uploaded_file_path = new_file_path
+            self.uploaded_file_label.configure(text=f"Uploaded: {os.path.basename(file_path)}")
+            CTkMessagebox(title="Success", message="File uploaded successfully!", icon="check")
 
     def submit_assignment(self):
         if not self.assignment.is_submitted():
+            if not hasattr(self, 'uploaded_file_path'):
+                CTkMessagebox(title="Error", message="Please upload a file before submitting.", icon="cancel")
+                return
+
             confirm = CTkMessagebox(
                 title="Submit Assignment",
                 message="Are you sure you want to submit the assignment?",
@@ -70,11 +94,12 @@ class AssignmentPage(ctk.CTkFrame):
                 option_2="Yes"
             )
             if confirm.get() == "Yes":
-                # Implement submission logic here
-                self.assignment.set_submission(True)  # Assuming a simple boolean for submission status
-                self.update_submission_status()
-                CTkMessagebox(title="Success", message="Assignment submitted successfully!", icon="check")
-                self.on_complete_callback()
+                if self.assignment.submit_file(self.user.id, self.uploaded_file_path):
+                    self.update_submission_status()
+                    CTkMessagebox(title="Success", message="Assignment submitted successfully!", icon="check")
+                    self.on_complete_callback()
+                else:
+                    CTkMessagebox(title="Error", message="Failed to submit assignment. Please try again.", icon="cancel")
         else:
             CTkMessagebox(title="Already Submitted", message="This assignment has already been submitted.", icon="info")
 
@@ -120,3 +145,9 @@ class AssignmentPage(ctk.CTkFrame):
                 CTkMessagebox(title="Error", message="Permission denied. Make sure you have the necessary rights to download the file.", icon="cancel")
             except Exception as e:
                 CTkMessagebox(title="Error", message=f"Failed to download file: {str(e)}", icon="cancel")
+
+    def go_back(self):
+        self.hide_page()
+        self.master.show_back_button()
+        self.master.show_navigation_buttons()
+        self.master.show_assignments()

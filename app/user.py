@@ -5,7 +5,6 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from empoweru_constants import *
-from app.quiz import Quiz
 from database.database_management import *
 
 class User:

@@ -9,8 +9,9 @@ from app.quiz import Quiz
 from app.assignment import Assignment
 
 class Course:
-    def __init__(self, id, title, estimated_duration, description, lessons_id_list):
+    def __init__(self, user, id, title, estimated_duration, description, lessons_id_list):
         self.id = id
+        self.user = user
         self.title = title
         self.estimated_duration = estimated_duration
         self.description = description
@@ -18,7 +19,7 @@ class Course:
         self.progress = 0
         self.lessons_id_list = lessons_id_list
         self.quizzes = Quiz.init_by_course_id(self.id)
-        self.assignments = Assignment.init_by_course_id(self.id)
+        self.assignments = Assignment.init_by_course_id(self.user, self.id)
         self.load_lessons()
 
     def __str__(self):
@@ -38,10 +39,10 @@ class Course:
         insert_info(COURSES_FILE_PATH, course)
         return course
 
-    def initialize_courses():
+    def initialize_courses(user):
         available_courses = []
 
         for course in extract_file_info(COURSES_FILE_PATH):
-            available_courses.append(Course(course["id"], course["title"], course["estimated_duration"], course["description"], course["lessons_id_list"]))
+            available_courses.append(Course(user, course["id"], course["title"], course["estimated_duration"], course["description"], course["lessons_id_list"]))
 
         return available_courses

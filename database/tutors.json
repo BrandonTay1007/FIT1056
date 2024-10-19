@@ -1,4 +1,38 @@
-ID,username,first_name,last_name,contact_num,age,country,date_of_birth,gender,profile_picture_path
-T0001,JohnnyBoy,John,Doe,1234567890,20,USA,1990-01-01,Male,Picture/Default.jpg
-T0002,Jane,Smith,9876543210,28,Canada,1995-09-22,Female,Picture/jane_smith.jpg,
-T0003,Michael,Johnson,5551234567,42,United Kingdom,1981-03-10,Male,Picture/michael_johnson.jpg,
+[
+    {
+        "id": "T0001",
+        "username": "JohnnyBoy",
+        "password": "hashed_password_1",
+        "first_name": "John",
+        "last_name": "Doe",
+        "contact_num": "1234567890",
+        "country": "USA",
+        "date_of_birth": "1990-01-01",
+        "gender": "Male",
+        "profile_picture_path": "Picture/Default.jpg"
+    },
+    {
+        "id": "T0002",
+        "username": "JaneSmith",
+        "password": "hashed_password_2",
+        "first_name": "Jane",
+        "last_name": "Smith",
+        "contact_num": "9876543210",
+        "country": "Canada",
+        "date_of_birth": "1995-09-22",
+        "gender": "Female",
+        "profile_picture_path": "Picture/jane_smith.jpg"
+    },
+    {
+        "id": "T0003",
+        "username": "MichaelJ",
+        "password": "hashed_password_3",
+        "first_name": "Michael",
+        "last_name": "Johnson",
+        "contact_num": "5551234567",
+        "country": "United Kingdom",
+        "date_of_birth": "1981-03-10",
+        "gender": "Male",
+        "profile_picture_path": "Picture/michael_johnson.jpg"
+    }
+]

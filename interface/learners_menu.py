@@ -14,7 +14,7 @@ class LearnersMenu(ctk.CTkFrame):
         self.master = master 
         self.user = user 
         self.user.menu = self
-        self.user.course_list = Course.initialize_courses()
+        self.user.course_list = Course.initialize_courses(self.user)
 
         self.welcome_label = ctk.CTkLabel(self, text=f"Welcome in, {user.first_name}!")
         self.welcome_label.grid(row=0, columnspan=2, padx=60, pady=10, sticky='ew')  # Centered
