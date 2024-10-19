@@ -4,7 +4,7 @@ from datetime import datetime
 import shutil
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from database.database_management import *
-from app.empoweru_constants import ASSIGNMENTS_FILE_PATH, SUBMISSIONS_FILE_PATH
+from app.empoweru_constants import ASSIGNMENTS_FILE_PATH, SUBMISSIONS_FILE_PATH, BASE_DIR
 from app.submissions import Submission
 
 class Assignment:
@@ -13,7 +13,7 @@ class Assignment:
         self.id = id
         self.title = title
         self.due_date = due_date
-        self.pdf_path = pdf_path
+        self.pdf_path = pdf_path  # This should now be a relative path
         self.mark = mark
         self.associated_course_id = associated_course_id
         self.submission = self.check_submission()
@@ -70,26 +70,36 @@ class Assignment:
         return [Submission(**submission) for submission in submissions]
 
     def submit_file(self, user_id, file_path):
-        # Change the submissions folder path
-        submissions_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "database", "submissions")
-        os.makedirs(submissions_folder, exist_ok=True)
-        new_file_path = os.path.join(submissions_folder, os.path.basename(file_path))
-        shutil.copy2(file_path, new_file_path)
-
-        submission_data = {
-            "assignment_id": self.id,
-            "user_id": user_id,
-            "file_path": new_file_path,
-            "submission_date": datetime.now().strftime("%Y-%m-%dT%H:%M"),
-            "graded": False,
-            "grade": 0,
-            "feedback": ""
-        }
+        submissions_folder = os.path.join("database", "submissions")
+        new_file_path = copy_file(file_path, submissions_folder)
         
-        if insert_info(SUBMISSIONS_FILE_PATH, submission_data):
-            self.set_submission(True)
-            return True
+        if new_file_path:
+            submission_data = {
+                "assignment_id": self.id,
+                "user_id": user_id,
+                "file_path": new_file_path,  # This is now a relative path
+                "submission_date": datetime.now().strftime("%Y-%m-%dT%H:%M"),
+                "graded": False,
+                "grade": 0,
+                "feedback": ""
+            }
+            
+            if insert_info(SUBMISSIONS_FILE_PATH, submission_data):
+                self.set_submission(True)
+                return True
         return False
 
     def is_submitted(self):
         return self.submission
+
+    def get_pdf_content(self):
+        return read_file_content(self.pdf_path)
+
+    def get_pdf_filename(self):
+        return get_file_name(self.pdf_path)
+
+    def save_pdf_content(self, save_path):
+        file_content = self.get_pdf_content()
+        if file_content:
+            return write_file_content(save_path, file_content)
+        return False

@@ -99,7 +99,7 @@ class AdminEditUserPage(ctk.CTkFrame):
         id_label = ctk.CTkLabel(self.scrollable_frame, text=f"User ID: {self.user_data.get('id', '')}")
         id_label.pack(pady=5)
         self.user_info_labels.append(id_label)
-        
+
         for label in self.user_info_labels:
             label.pack_forget()
         for entry in self.user_info_entries:
@@ -215,6 +215,7 @@ class AdminEditUserPage(ctk.CTkFrame):
         if self.user_type:
             if self.user.change_user_info(self.user_type, self.user_data["id"], updated_data):
                 self.display_message("User information updated.", "green")
+                self.clear_user_info()
             else:
                 self.display_message("Failed to update user information.", "red")
 

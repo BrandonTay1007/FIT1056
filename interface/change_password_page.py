@@ -4,18 +4,17 @@ import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from app.admin import Admin
 from app.empoweru_constants import FONT_FAMILY
 
-
 class ChangePassword(ctk.CTkScrollableFrame):
-    def __init__(self, master, user):
+    def __init__(self, master, user, sidebar):
         super().__init__(master, fg_color="transparent")
         header_label = ctk.CTkLabel(self, text="Password Change", font=(FONT_FAMILY, 24, "bold"))
         header_label.pack(anchor="center", pady=(0, 20))  # Updated to center the header
         self.pack(expand=True, fill="both")
         self.place_all_info() 
         self.user = user
+        self.sidebar = sidebar
         self.hide_page()
 
     def place_all_info(self):
@@ -40,8 +39,6 @@ class ChangePassword(ctk.CTkScrollableFrame):
         self.alert_var = ctk.StringVar(value="")
         self.alert_label = ctk.CTkLabel(self, textvariable=self.alert_var)
         self.alert_label.pack(pady=10, fill='x', expand=True)  # Updated to fill the width and expand
-
-        
 
     def update_alert(self, message, show=True):
         self.alert_var.set(message)
@@ -77,9 +74,11 @@ class ChangePassword(ctk.CTkScrollableFrame):
             self.update_alert("Your password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character")
 
     def show_page(self):
+        self.sidebar.show_sidebar()
         self.pack(expand=True, fill="both")
     
     def hide_page(self):
+        self.sidebar.hide_sidebar()
         self.pack_forget()
 
 # if __name__ == "__main__":

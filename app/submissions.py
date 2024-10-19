@@ -1,11 +1,13 @@
+import os
 from database.database_management import *
 from app.empoweru_constants import *
 from datetime import datetime
+
 class Submission:
     def __init__(self, assignment_id, user_id, file_path, submission_date, graded, grade, feedback):
         self.assignment_id = assignment_id
         self.user_id = user_id
-        self.file_path = file_path
+        self.file_path = file_path  # This should now be a relative path
         self.submission_date = submission_date
         self.graded = graded
         self.grade = grade
@@ -46,3 +48,15 @@ class Submission:
 
     def get_file_path(self):
         return self.file_path
+
+    def get_file_content(self):
+        return read_file_content(self.file_path)
+
+    def get_file_name(self):
+        return get_file_name(self.file_path)
+
+    def save_file_content(self, save_path):
+        file_content = self.get_file_content()
+        if file_content:
+            return write_file_content(save_path, file_content)
+        return False

@@ -19,6 +19,8 @@ class Sidebar(ctk.CTkScrollableFrame):
     def hide_sidebar(self):
         self.pack_forget()
     
+    def destroy_button(self, button):
+        button.destroy()
 # def main():
 #     root = ctk.CTk()
 #     root.title("EmpowerU Login")

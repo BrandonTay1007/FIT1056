@@ -1,3 +1,5 @@
+import os
+
 TUTORS_FILE_PATH = "database/tutors.json"
 LEARNERS_FILE_PATH = "database/learners.json"
 ADMIN_FILE_PATH = "database/admin.json"
@@ -11,3 +13,6 @@ FORUM_FILE_PATH = "database/forum.json"
 
 LOGO_PATH = "Picture/EmpowerU Logo.png"
 FONT_FAMILY = "Roboto"
+
+# Base directory for all file storage
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

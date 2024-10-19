@@ -55,21 +55,15 @@ class TutorGradeLearnersPage(ctk.CTkFrame):
         self.error_label = ctk.CTkLabel(self, text="", text_color="red")
 
     def download_submission(self):
-        file_path = self.submission.get_file_path()
-        if file_path:
-            file_name = os.path.basename(file_path)
-            save_path = filedialog.asksaveasfilename(defaultextension=os.path.splitext(file_name)[1],
-                                                     filetypes=[("All Files", "*.*")],
-                                                     initialfile=file_name)
-            if save_path:
-                try:
-                    with open(file_path, 'rb') as source_file, open(save_path, 'wb') as dest_file:
-                        dest_file.write(source_file.read())
-                    CTkMessagebox(title="Success", message="File downloaded successfully!", icon="check")
-                except Exception as e:
-                    CTkMessagebox(title="Error", message=f"An error occurred while downloading the file: {str(e)}", icon="cancel")
-        else:
-            CTkMessagebox(title="Error", message="No file path available for this submission.", icon="cancel")
+        file_name = self.submission.get_file_name()
+        save_path = filedialog.asksaveasfilename(defaultextension=os.path.splitext(file_name)[1],
+                                                 filetypes=[("All Files", "*.*")],
+                                                 initialfile=file_name)
+        if save_path:
+            if self.submission.save_file_content(save_path):
+                CTkMessagebox(title="Success", message="File downloaded successfully!", icon="check")
+            else:
+                CTkMessagebox(title="Error", message="Failed to download file.", icon="cancel")
 
     def submit_grade(self):
         grade = self.grade_entry.get()

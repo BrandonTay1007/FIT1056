@@ -6,6 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from interface.admin_add_user_page import AdminAddUserPage
 from interface.admin_edit_user_page import AdminEditUserPage
+from interface.profile_page import ProfilePage
 
 class AdminMenu(ctk.CTkFrame):
 
@@ -29,8 +30,11 @@ class AdminMenu(ctk.CTkFrame):
         self.edit_user_button = ctk.CTkButton(master=self, text="Edit User", width=100, height=40, command=self.go_to_edit_user_page)
         self.edit_user_button.grid(row=3, columnspan=2, padx=60, pady=10)
         
+        self.profile_button = ctk.CTkButton(master=self, text="Profile", width=100, height=40, command=self.go_to_profile_page)
+        self.profile_button.grid(row=4, columnspan=2, padx=60, pady=10)
+        
         self.logout_button = ctk.CTkButton(master=self, text="Log Out", width=100, height=40, command=self.logout)
-        self.logout_button.grid(row=4, columnspan=2, padx=60, pady=10)
+        self.logout_button.grid(row=5, columnspan=2, padx=60, pady=10)
     
     def go_to_page(self, page_type, attribute_name):
         self.hide_page()
@@ -54,3 +58,6 @@ class AdminMenu(ctk.CTkFrame):
 
     def hide_page(self):
         self.place_forget()
+
+    def go_to_profile_page(self):
+        self.go_to_page(ProfilePage, 'profile_page')

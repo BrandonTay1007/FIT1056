@@ -100,14 +100,8 @@ class AssignmentPage(ctk.CTkFrame):
         self.pack_forget()
 
     def download_question(self):
-        if not self.assignment.pdf_path:
-            CTkMessagebox(title="Error", message="No question file available for this assignment.", icon="cancel")
-            return
+        original_file_name = self.assignment.get_pdf_filename()
 
-        # Get the original file name
-        original_file_name = os.path.basename(self.assignment.pdf_path)
-
-        # Open file dialog for user to choose save location
         file_path = filedialog.asksaveasfilename(
             defaultextension=os.path.splitext(original_file_name)[1],
             filetypes=[("All Files", "*.*")],
@@ -115,20 +109,10 @@ class AssignmentPage(ctk.CTkFrame):
         )
 
         if file_path:
-            try:
-                # Check if the source file exists
-                if not os.path.exists(self.assignment.pdf_path):
-                    raise FileNotFoundError(f"Source file not found: {self.assignment.pdf_path}")
-
-                # Copy the file to the chosen location
-                shutil.copy2(self.assignment.pdf_path, file_path)
+            if self.assignment.save_pdf_content(file_path):
                 CTkMessagebox(title="Success", message="Question file downloaded successfully!", icon="check")
-            except FileNotFoundError as e:
-                CTkMessagebox(title="Error", message=f"Source file not found. Please contact support.\nDetails: {str(e)}", icon="cancel")
-            except PermissionError:
-                CTkMessagebox(title="Error", message="Permission denied. Make sure you have the necessary rights to download the file.", icon="cancel")
-            except Exception as e:
-                CTkMessagebox(title="Error", message=f"Failed to download file: {str(e)}", icon="cancel")
+            else:
+                CTkMessagebox(title="Error", message="Failed to download file.", icon="cancel")
 
     def go_back(self):
         self.hide_page()

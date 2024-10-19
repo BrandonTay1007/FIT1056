@@ -1,4 +1,7 @@
 import json
+import os
+import shutil
+from app.empoweru_constants import BASE_DIR
 
 def extract_file_info(file_path):
     try:
@@ -105,6 +108,42 @@ def insert_info(file_path, data):
         print(f"\033[1;31mError: Failed to add data to file: {file_path}\033[0m")
     return False
 
+def get_absolute_path(relative_path):
+    return os.path.join(BASE_DIR, relative_path)
+
+def read_file_content(relative_path):
+    try:
+        with open(get_absolute_path(relative_path), 'rb') as file:
+            return file.read()
+    except FileNotFoundError:
+        print(f"File not found: {relative_path}")
+        return None
+    except Exception as e:
+        print(f"Error reading file: {str(e)}")
+        return None
+
+def get_file_name(relative_path):
+    return os.path.basename(relative_path)
+
+def copy_file(source_path, destination_folder):
+    abs_destination_folder = get_absolute_path(destination_folder)
+    os.makedirs(abs_destination_folder, exist_ok=True)
+    new_file_path = os.path.join(abs_destination_folder, os.path.basename(source_path))
+    try:
+        shutil.copy2(source_path, new_file_path)
+        return os.path.relpath(new_file_path, BASE_DIR)
+    except Exception as e:
+        print(f"Error copying file: {str(e)}")
+        return None
+
+def write_file_content(relative_path, content):
+    try:
+        with open(get_absolute_path(relative_path), 'wb') as file:
+            file.write(content)
+        return True
+    except Exception as e:
+        print(f"Error writing file: {str(e)}")
+        return False
 
 # def main():
 #     print(update_user_info("database/admin.json", "A0001", {"username": "CHANGED"}))

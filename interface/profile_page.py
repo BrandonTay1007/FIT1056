@@ -1,8 +1,6 @@
 import customtkinter as ctk
 import os
 import sys
-import shutil
-from tkinter import filedialog
 from datetime import datetime
 from PIL import Image
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -24,7 +22,7 @@ class ProfilePage(ctk.CTkFrame):
         self.sidebar = Sidebar(self.master)
         self.sidebar.show_sidebar()
         
-        self.change_password = ChangePassword(self.master, self.user)
+        self.change_password = ChangePassword(self.master, self.user, self.sidebar)
 
         # Modify the back button to use go_back method
         self.sidebar.add_button("Back", self.go_back)
@@ -79,7 +77,6 @@ class ProfilePage(ctk.CTkFrame):
         
         self.place_combobox("Gender", ["Male", "Female"])
     
-
     def hide_widgets(self, widgets_to_hide):
         for widget in widgets_to_hide:
             if widget.winfo_exists():
@@ -130,15 +127,17 @@ class ProfilePage(ctk.CTkFrame):
         return entry_widget  # Return the entry widget
 
     def go_to_change_password(self):
-        self.hide_page()
-        self.sidebar.show_sidebar()
+        self.current_active_page.hide_page()
+        self.current_active_page = self.change_password
         self.change_password.show_page()
 
     def go_to_profile(self):
-        self.change_password.hide_page()
+        self.current_active_page.hide_page()
+        self.current_active_page = self
         self.show_page()
 
     def edit_profile(self):
+        
         self.hide_widgets(self.current_active_widgets)
         self.place_all_entry()
         self.add_button("Save Changes", self.save_changes)
@@ -199,7 +198,7 @@ class ProfilePage(ctk.CTkFrame):
         self.pack_forget()
 
     def go_back(self):
-        self.hide_page()
+        self.current_active_page.hide_page()
         self.user.menu.show_page()
 
 if __name__ == "__main__":

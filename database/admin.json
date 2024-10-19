@@ -12,14 +12,14 @@
     },
     {
         "id": "A0003",
-        "username": "admin3",
-        "password": "admin3",
+        "username": "admin4",
+        "password": "Tay123wei@",
         "first_name": "Michael",
         "last_name": "Johnson",
         "contact_num": "5551234567",
         "country": "United Kingdom",
         "date_of_birth": "1981-03-10",
-        "gender": "Male"
+        "gender": "Female"
     },
     {
         "id": "A0004",

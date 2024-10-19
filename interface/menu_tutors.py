@@ -2,9 +2,9 @@ import customtkinter as ctk
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from app.tutors import Tutor
 from interface.grading_list_page import GradingListPage
 from interface.forum_list import ForumList
+from interface.profile_page import ProfilePage
 
 class TutorMenu(ctk.CTkFrame):
 
@@ -33,9 +33,12 @@ class TutorMenu(ctk.CTkFrame):
 
         self.edit_lecture_button = ctk.CTkButton(master=self, text="Edit Lecture", width=100, height=40)
         self.edit_lecture_button.grid(row=4, columnspan=2, padx=60, pady=10)
+
+        self.profile_button = ctk.CTkButton(master=self, text="Profile", width=100, height=40, command=self.go_to_profile_page)
+        self.profile_button.grid(row=5, columnspan=2, padx=60, pady=10)
         
         self.logout_button = ctk.CTkButton(master=self, text="Log Out", width=100, height=40, command=self.logout)
-        self.logout_button.grid(row=5, columnspan=2, padx=60, pady=10)
+        self.logout_button.grid(row=6, columnspan=2, padx=60, pady=10)
 
     def go_to_forum_list(self):
         self.hide_page()
@@ -60,3 +63,8 @@ class TutorMenu(ctk.CTkFrame):
     def hide_page(self):
         self.place_forget()
 
+    def go_to_profile_page(self):
+        self.hide_page()
+        if not hasattr(self.user, "profile_page"):
+            self.user.profile_page = ProfilePage(self.master, self.user)
+        self.user.profile_page.show_page()
