@@ -8,11 +8,12 @@ from interface.forum_list import ForumList
 
 class TutorMenu(ctk.CTkFrame):
 
-    def __init__(self, master, user):
+    def __init__(self, master, user, EmpowerU):
     
         super().__init__(master=master)
         self.master = master 
         self.user = user 
+        self.EmpowerU = EmpowerU
         self.user.menu = self
 
         ctk.set_appearance_mode("dark")
@@ -50,7 +51,8 @@ class TutorMenu(ctk.CTkFrame):
 
     def logout(self):
         self.hide_page()
-        self.master.show_homepage()
+        self.EmpowerU.go_to_homepage()
+        self.EmpowerU.user = None
 
     def show_page(self):
         self.place(relx=.5, rely=.5, anchor=ctk.CENTER)

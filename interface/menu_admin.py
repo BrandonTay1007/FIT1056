@@ -9,10 +9,11 @@ from interface.admin_edit_user_page import AdminEditUserPage
 
 class AdminMenu(ctk.CTkFrame):
 
-    def __init__(self, master, admin):
+    def __init__(self, master, admin, EmpowerU):
         super().__init__(master=master, fg_color="transparent")
         self.master = master 
         self.admin = admin 
+        self.EmpowerU = EmpowerU
         self.admin.menu = self
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
@@ -32,7 +33,7 @@ class AdminMenu(ctk.CTkFrame):
         self.logout_button.grid(row=4, columnspan=2, padx=60, pady=10)
     
     def go_to_page(self, page_type, attribute_name):
-        self.hide_menu()
+        self.hide_page()
         if not hasattr(self.admin, attribute_name):
             setattr(self.admin, attribute_name, page_type(self.master, self.admin))
         getattr(self.admin, attribute_name).show_page()
@@ -44,13 +45,12 @@ class AdminMenu(ctk.CTkFrame):
         self.go_to_page(AdminAddUserPage, 'add_user_page')
 
     def logout(self):
-        self.hide_menu()
-        self.master.show_homepage()
+        self.hide_page()
+        self.EmpowerU.go_to_homepage()
+        self.EmpowerU.user = None
 
-    def show_menu(self):
-        self.pack(expand=True, fill="both")
-        self.pack_propagate(False)
+    def show_page(self):
         self.place(relx=0.5, rely=0.5, anchor="center")
 
-    def hide_menu(self):
-        self.pack_forget()
+    def hide_page(self):
+        self.place_forget()

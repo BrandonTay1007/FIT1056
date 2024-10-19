@@ -10,10 +10,11 @@ from interface.forum_list import ForumList
 
 class LearnersMenu(ctk.CTkFrame):
 
-    def __init__(self, master, user):
+    def __init__(self, master, user, EmpowerU):
         super().__init__(master=master, fg_color='transparent')  # Set width and height
         self.master = master 
         self.user = user 
+        self.EmpowerU = EmpowerU
         self.user.menu = self
         self.user.course_list = Course.initialize_courses(self.user)
 
@@ -63,7 +64,8 @@ class LearnersMenu(ctk.CTkFrame):
 
     def logout(self):
         self.hide_page()
-        self.empoweru_system.homepage.show_page()
+        self.EmpowerU.go_to_homepage()
+        self.EmpowerU.user = None
 
     def show_page(self):
         self.place(relx=0.5, rely=0.5, anchor='center')  # Center the frame in the master

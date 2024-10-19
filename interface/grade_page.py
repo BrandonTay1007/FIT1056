@@ -32,6 +32,10 @@ class GradePage(ctk.CTkFrame):
         grades = self.user.get_all_grades()
         assignments = self.user.get_all_assignments()
         
+        if not grades and not assignments:
+            self.show_no_grades_message()
+            return
+
         # Group grades and assignments by course
         courses = {}
         for grade_data in grades:
@@ -86,3 +90,14 @@ class GradePage(ctk.CTkFrame):
 
     def hide_grade_page(self):
         self.pack_forget()
+
+    def show_no_grades_message(self):
+        message_frame = ctk.CTkFrame(self.scrollable_frame, fg_color="transparent")
+        message_frame.pack(expand=True, fill=ctk.BOTH, padx=20, pady=20)
+
+        message_label = ctk.CTkLabel(
+            message_frame,
+            text="No grades or assignments available.",
+            font=TEXT_FONT
+        )
+        message_label.pack(expand=True)

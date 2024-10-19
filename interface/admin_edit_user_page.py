@@ -3,6 +3,7 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from interface.date_picker import DatePicker
+from app.user import User
 
 class AdminEditUserPage(ctk.CTkFrame):
 
@@ -95,6 +96,10 @@ class AdminEditUserPage(ctk.CTkFrame):
             return
         
     def display_user_info(self):
+        id_label = ctk.CTkLabel(self.scrollable_frame, text=f"User ID: {self.user_data.get('id', '')}")
+        id_label.pack(pady=5)
+        self.user_info_labels.append(id_label)
+        
         for label in self.user_info_labels:
             label.pack_forget()
         for entry in self.user_info_entries:
@@ -103,7 +108,7 @@ class AdminEditUserPage(ctk.CTkFrame):
         self.user_info_entries.clear()
         self.save_button.pack_forget()
 
-        variables = ["username", "password", "first_name", "last_name", "contact_num", "country", "gender"]
+        variables = ["username", "password", "first_name", "last_name", "contact_num", "country"]
         for variable in variables:
             label = ctk.CTkLabel(self.scrollable_frame, text=f"{variable.replace('_', ' ').capitalize()}:")
             label.pack(pady=5)
@@ -113,10 +118,16 @@ class AdminEditUserPage(ctk.CTkFrame):
             self.user_info_labels.append(label)
             self.user_info_entries.append(entry)
 
+        # Add gender combo box
+        gender_label = ctk.CTkLabel(self.scrollable_frame, text="Gender:")
+        gender_label.pack(pady=5)
+        gender_combobox = ctk.CTkComboBox(self.scrollable_frame, values=["Male", "Female", "Other"])
+        gender_combobox.set(self.user_data.get("gender", ""))
+        gender_combobox.pack(pady=5)
+        self.user_info_labels.append(gender_label)
+        self.user_info_entries.append(gender_combobox)
+
         # Add ID display (non-editable)
-        id_label = ctk.CTkLabel(self.scrollable_frame, text=f"User ID: {self.user_data.get('id', '')}")
-        id_label.pack(pady=5)
-        self.user_info_labels.append(id_label)
 
         # Add Date of Birth picker
         self.date_of_birth_label = ctk.CTkLabel(self.scrollable_frame, text=f"Date of Birth: {self.user_data.get('date_of_birth', '')}")
@@ -179,10 +190,13 @@ class AdminEditUserPage(ctk.CTkFrame):
 
     def save_edit_info(self):
         updated_data = {}
-        variables = ["username", "password", "first_name", "last_name", "contact_num", "country", "gender"]
+        variables = ["username", "password", "first_name", "last_name", "contact_num", "country"]
 
-        for variable, entry in zip(variables, self.user_info_entries):
+        for variable, entry in zip(variables, self.user_info_entries[:-1]):  # Exclude the last entry (gender)
             updated_data[variable] = entry.get()
+
+        # Get gender from combo box
+        updated_data["gender"] = self.user_info_entries[-1].get()
 
         # Set date_of_birth to the existing value if it hasn't been changed
         if self.date_of_birth:

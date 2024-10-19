@@ -93,6 +93,27 @@
                 "content": "I HATE NIGGAS",
                 "author_id": 1,
                 "author_name": "Test"
+            },
+            {
+                "id": 2,
+                "content": "AA",
+                "author_id": "L0427",
+                "author_name": "TayW"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "title": "AA",
+        "content": "AA",
+        "author_id": "L0427",
+        "author_name": "ADSAS DFHSAJH",
+        "comments": [
+            {
+                "id": 1,
+                "content": "Hello",
+                "author_id": "L0427",
+                "author_name": "TayW"
             }
         ]
     }

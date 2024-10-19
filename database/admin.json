@@ -8,20 +8,7 @@
         "contact_num": "a",
         "country": "a",
         "date_of_birth": "07/08/2007",
-        "gender": "Male",
-        "profile_picture_path": "Picture/Default.jpg"
-    },
-    {
-        "id": "A0002",
-        "username": "Grade",
-        "password": "CHANGED",
-        "first_name": "CHANGED",
-        "last_name": "CHANGED",
-        "contact_num": "CHANGED",
-        "country": "CHANGED",
-        "date_of_birth": "",
-        "gender": "CHANGED",
-        "profile_picture_path": "Picture/jane_smith.jpg"
+        "gender": "Male"
     },
     {
         "id": "A0003",
@@ -32,8 +19,7 @@
         "contact_num": "5551234567",
         "country": "United Kingdom",
         "date_of_birth": "1981-03-10",
-        "gender": "Male",
-        "profile_picture_path": "Picture/michael_johnson.jpg"
+        "gender": "Male"
     },
     {
         "id": "A0004",
@@ -43,7 +29,17 @@
         "contact_num": "1234567890",
         "country": "United States",
         "date_of_birth": "1988-05-15",
+        "gender": "Male"
+    },
+    {
+        "username": "Gello",
+        "first_name": "Gello",
+        "last_name": "Gello",
+        "contact_num": "Gello",
+        "country": "Gello",
+        "date_of_birth": "21-01-2010",
         "gender": "Male",
-        "profile_picture_path": "Picture/john_doe.jpg"
+        "password": "Gello",
+        "id": "A9768"
     }
 ]

@@ -14,8 +14,6 @@ class Quiz:
         self.answers = {}
         self.associated_course_id = associated_course_id
         self.current_question_index = 0
-        for q in questions:
-            print(q)
 
     @staticmethod
     def init_by_id(quiz_id):

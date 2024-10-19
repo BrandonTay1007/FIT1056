@@ -51,7 +51,7 @@ class LoginPage(ctk.CTkFrame):
         self.password_entry.grid(row=4, columnspan=2, padx=60, pady=10)
 
         # Alert label widget - displays alert messages where necessary
-        self.alert_label = ctk.CTkLabel(master=self, text="")
+        self.alert_label = ctk.CTkLabel(master=self, text="", text_color="red")
         self.alert_label.grid(row=5, columnspan=2, padx=60, pady=10)
 
         # Button to login
@@ -83,11 +83,14 @@ class LoginPage(ctk.CTkFrame):
         username = self.username_entry.get()
         password = self.password_entry.get()
         user_type = self.user_type.get()
-
+        if user_type == "Select User Type":
+            self.alert_label.configure(text="Please select a user type")
+            return
+        
         if user_type == "Learner":
             if Learner.authenticate(username, password, LEARNERS_FILE_PATH):
                 self.empowerU_system.user = Learner.init_by_username(username)
-                LearnersMenu(self.empowerU_system.root, self.empowerU_system.user)
+                LearnersMenu(self.empowerU_system.root, self.empowerU_system.user, self.empowerU_system)
                 self.hide_login_page()
                 self.empowerU_system.go_to_menu()
             else:
@@ -96,7 +99,7 @@ class LoginPage(ctk.CTkFrame):
         if user_type == "Teacher":
             if Tutor.authenticate(username, password, TEACHERS_FILE_PATH):
                 self.empowerU_system.user = Tutor.init_by_username(username)
-                TutorMenu(self.empowerU_system.root, self.empowerU_system.user)
+                TutorMenu(self.empowerU_system.root, self.empowerU_system.user, self.empowerU_system)
                 self.hide_login_page()
                 self.empowerU_system.go_to_menu()
             else:
@@ -110,7 +113,8 @@ class LoginPage(ctk.CTkFrame):
                 self.empowerU_system.go_to_menu()
             else:
                 self.alert_label.configure(text="Invalid username or password")
-
+        
+        
     def show_main_login_page(self):
         self.hide_login_page()
         self.empowerU_system.go_to_homepage()

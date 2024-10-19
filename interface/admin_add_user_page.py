@@ -5,9 +5,7 @@ import os
 import uuid
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from app.admin import Admin
-from app.tutors import Tutor
-from app.learners import Learner
+from app.user import User
 from interface.date_picker import DatePicker
 
 class AdminAddUserPage(ctk.CTkScrollableFrame):
@@ -95,7 +93,7 @@ class AdminAddUserPage(ctk.CTkScrollableFrame):
             entry_values["attempted_lessons"] = []
             entry_values["attempted_quizzes"] = []
 
-        if self.user.register_new_user(user_type, entry_values):
+        if User.register(entry_values, user_type):
             self.show_success_message(user_type)
             self.clear_fields()
         else:
@@ -136,4 +134,4 @@ class AdminAddUserPage(ctk.CTkScrollableFrame):
 
     def go_back(self):
         self.hide_page()
-        self.user.menu.show_menu()
+        self.user.menu.show_page()
