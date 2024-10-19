@@ -1,7 +1,6 @@
 TUTORS_FILE_PATH = "database/tutors.json"
 LEARNERS_FILE_PATH = "database/learners.json"
 ADMIN_FILE_PATH = "database/admin.json"
-TEACHERS_FILE_PATH = "database/teachers.json"
 LESSONS_FILE_PATH = "database/lessons.json"
 COURSES_FILE_PATH = "database/courses.json"
 QUIZZES_FILE_PATH = "database/quiz.json"

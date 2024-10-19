@@ -97,7 +97,7 @@ class LoginPage(ctk.CTkFrame):
                 self.alert_label.configure(text="Invalid username or password")
 
         if user_type == "Teacher":
-            if Tutor.authenticate(username, password, TEACHERS_FILE_PATH):
+            if Tutor.authenticate(username, password, TUTORS_FILE_PATH):
                 self.empowerU_system.user = Tutor.init_by_username(username)
                 TutorMenu(self.empowerU_system.root, self.empowerU_system.user, self.empowerU_system)
                 self.hide_login_page()

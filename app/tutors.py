@@ -1,5 +1,5 @@
 from app.user import User
-from app.empoweru_constants import TEACHERS_FILE_PATH
+from app.empoweru_constants import TUTORS_FILE_PATH
 from database.database_management import get_info_by_id
 
 class Tutor(User):
@@ -26,25 +26,25 @@ class Tutor(User):
 
     @staticmethod
     def init_by_id(id):
-        user_data = get_info_by_id(TEACHERS_FILE_PATH, "id", id)
+        user_data = get_info_by_id(TUTORS_FILE_PATH, "id", id)
         if user_data is None:
-            raise ValueError(f"No teacher found with id: {id}")
+            raise ValueError(f"No tutor found with id: {id}")
         return Tutor._init_from_data(user_data)
     
     @staticmethod
     def init_by_username(username):
-        user_data = get_info_by_id(TEACHERS_FILE_PATH, "username", username)
+        user_data = get_info_by_id(TUTORS_FILE_PATH, "username", username)
         if user_data is None:
-            raise ValueError(f"No teacher found with username: {username}")
+            raise ValueError(f"No tutor found with username: {username}")
         return Tutor._init_from_data(user_data)
     
     def register(user_data):
         return User.register(user_data, "tutor")
     
-    def update_own_info(self, updated_info, file_path=TEACHERS_FILE_PATH):
+    def update_own_info(self, updated_info, file_path=TUTORS_FILE_PATH):
         return User.update_own_info(self, updated_info, file_path)
 
-    def change_password(self, new_password, file_path=TEACHERS_FILE_PATH):
+    def change_password(self, new_password, file_path=TUTORS_FILE_PATH):
         return User.change_password(self, new_password, file_path)
 
 
