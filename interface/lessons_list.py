@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 import os
 from interface.lessons_page import LessonsPage
 from interface.quiz_list import QuizList
-from interface.assignment_list import AssignmentList  # Import the new AssignmentList
+from interface.assignment_list import AssignmentList
 class LessonsList(ctk.CTkFrame):
     def __init__(self, master, user, course):
         super().__init__(master)
