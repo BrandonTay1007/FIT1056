@@ -90,3 +90,6 @@ class Assignment:
             self.set_submission(True)
             return True
         return False
+
+    def is_submitted(self):
+        return self.submission

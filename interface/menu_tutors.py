@@ -58,11 +58,3 @@ class TutorMenu(ctk.CTkFrame):
     def hide_page(self):
         self.place_forget()
 
-if __name__ == "__main__":
-    root = ctk.CTk()
-    root.geometry("1200x1200")
-    tutor = Tutor.init_by_id("T0001")
-    tutor_menu = TutorMenu(root, tutor)
-    tutor_menu.show_page()
-    root.mainloop()
-

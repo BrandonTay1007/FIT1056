@@ -21,7 +21,7 @@ class ProgressTracker:
     
     def refresh_progress(self):
         for course in self.learner.course_list:
-            completed_lessons = sum(1 for lesson in course.lessons_list if lesson.id in self.learner.attempted_lessons)
+            completed_lessons = sum(1 for lesson in course.lessons_list if str(lesson.id) in self.learner.attempted_lessons)
             completed_quizzes = sum(1 for quiz in course.quizzes if quiz.id in self.learner.attempted_quizzes)
             self.learner.course_progress[course.id]['completed_lessons'] = completed_lessons
             self.learner.course_progress[course.id]['completed_quizzes'] = completed_quizzes

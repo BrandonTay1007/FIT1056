@@ -6,12 +6,14 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.learners import Learner
 from interface.date_picker import DatePicker
+from app.user import User
 class RegisterPage(ctk.CTkScrollableFrame):
-    def __init__(self, master, empoweru_system):
+    def __init__(self, master, empowerU_system):
         super().__init__(master)
 
         self.title = ctk.CTkLabel(self, text="Register New User", font=("Arial", 24, "bold"))
         self.title.pack(pady=20)
+        self.empowerU_system = empowerU_system
         self.date_of_birth = ""
         self.username_entry = self.place_entry("Username:")
         self.first_name_entry = self.place_entry("First Name:")
@@ -32,8 +34,10 @@ class RegisterPage(ctk.CTkScrollableFrame):
         self.register_button = ctk.CTkButton(self, text="Register", command=self.register)
         self.register_button.pack(pady=20)
         
-        self.back_button = ctk.CTkButton(self, text="Back", command=empoweru_system.go_to_homepage)
+        self.back_button = ctk.CTkButton(self, text="Back", command=self.show_main_login_page)
         self.back_button.pack()  # Place the button at the left bottom corner
+
+        self.error_messages = []  # Add this line to store error messages
 
     def place_entry(self, label):
         self.label = ctk.CTkLabel(self, text=label)
@@ -43,7 +47,8 @@ class RegisterPage(ctk.CTkScrollableFrame):
         return self.entry
 
     def show_success_message(self):
-        CTkMessagebox(title="Success", message="User registered successfully!", icon="check").pack()
+        CTkMessagebox(title="Success", message="User registered successfully!", icon="check")
+        self.show_main_login_page()
 
     def place_combobox(self, label, values):
         self.label = ctk.CTkLabel(self, text=label)
@@ -64,18 +69,24 @@ class RegisterPage(ctk.CTkScrollableFrame):
     def register(self):
         entry_values = self.get_entry_values()
 
+        # Check if all fields are filled
         if not all(entry_values.values()):
-            self.alert_var.set("All fields are required!")
+            CTkMessagebox(title="Error", message="All fields are required!", icon="warning")
             return
 
-        if entry_values["gender"] == "Select your gender":
-            self.alert_var.set("Please select a valid gender!")
+        temp_user = User(None, **entry_values)
+        is_valid, self.error_messages = temp_user.register_validation(entry_values)
+
+        if not is_valid:
+            self.show_next_error()
             return
+
         if Learner.register(entry_values):
+            print(entry_values)
             self.show_success_message()
             self.clear_fields()
         else:
-            self.alert_var.set("Failed to register user!, contact support if the issue persists.")
+            CTkMessagebox(title="Error", message="Registration failed. Please try again.", icon="warning")
 
     def get_entry_values(self):
         return {
@@ -97,23 +108,32 @@ class RegisterPage(ctk.CTkScrollableFrame):
             self.date_of_birth = selected_date
             self.date_of_birth_label.configure(text=f"Date of Birth: {self.date_of_birth}")
 
+    
     def clear_fields(self):
-        for entry in [self.first_name_entry, self.last_name_entry, self.contact_num_entry, 
-                      self.age_entry, self.country_entry, self.date_of_birth_entry, self.password_entry]:
+        for entry in [self.username_entry, self.first_name_entry, self.last_name_entry, 
+                      self.contact_num_entry, self.country_entry, self.password_entry]:
             entry.delete(0, 'end')
-        self.gender_combobox.set("Please select your gender")
-        self.alert_var.set("") 
+        self.gender_combobox.set("Select your gender")
+        self.date_of_birth = ""
+        self.date_of_birth_label.configure(text="Date of Birth: ")
+        self.alert_var.set("")
 
-    def show_page(self):
+    def show_register_page(self):
         self.pack(expand=True, fill="both", padx=20, pady=20)
 
-    def hide_page(self):
+    def hide_register_page(self):
         self.pack_forget()
     
+    def show_main_login_page(self):
+        self.hide_register_page()
+        self.empowerU_system.go_to_homepage()
 
-if __name__ == "__main__":
-    root = ctk.CTk()
-    register_page = RegisterPage(root)
-    root.geometry("800x600")
-    register_page.pack(expand=True, fill="both")
-    root.mainloop()
+    def show_next_error(self):
+        if self.error_messages:
+            error_message = self.error_messages.pop(0)
+            CTkMessagebox(title="Error", message=error_message, icon="warning")
+        else:
+            CTkMessagebox(title="Error", message="Unknown error occurred.", icon="warning")
+
+        
+

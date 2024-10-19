@@ -4,35 +4,51 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import customtkinter as ctk
 from interface.register_page import RegisterPage
-from interface.homepage import HomePage
-# from interface.login_page import LoginPage
+from interface.login_page import LoginPage
+from interface.main_login_page import HomePage
 
 class EmpowerU_system:
-    user = None
-    registration_page = None
-    homepage = None
- 
     def __init__(self):
         self.root = ctk.CTk()
         self.root.title("EmpowerU")
         self.root.geometry("1200x800")
         
-        self.homepage = HomePage(self.root, self)
-        self.registration_page = RegisterPage(self.root, self)  # Pass the instance for navigation
-        self.homepage.show_page()
-        self.registration_page.hide_page()
+        self.main_login_page = HomePage(self.root, self)
+        self.register_page = RegisterPage(self.root, self)
+        self.login_page = LoginPage(self.root, self)
         
-    def switch_page(self, cur_page, new_page):
-        cur_page.hide_page()
-        new_page.show_page()
+        self.current_page = self.main_login_page
+        self.current_page.show_homepage()
+    
+    def switch_page(self, new_page):
+        self._hide_current_page()
+        self.current_page = new_page
+        self._show_current_page()
 
     def go_to_registration(self):
-        self.switch_page(self.homepage, self.registration_page)
+        self.switch_page(self.register_page)
 
     def go_to_homepage(self):
-        self.switch_page(self.registration_page, self.homepage)
+        self.switch_page(self.main_login_page)
+
+    def go_to_login(self):
+        self.switch_page(self.login_page)
+
+    def _hide_current_page(self):
+        hide_method = getattr(self.current_page, 'hide_page', None) or getattr(self.current_page, 'hide_homepage', None)
+        if hide_method:
+            hide_method()
+
+    def _show_current_page(self):
+        show_method = getattr(self.current_page, 'show_page', None) or getattr(self.current_page, 'show_homepage', None)
+        if show_method:
+            show_method()
+
+    def go_to_menu(self):
+        self._hide_current_page()
+        self.current_page = self.user.menu
+        self.user.menu.show_page()
 
 if __name__ == "__main__":
     empoweru_system = EmpowerU_system()
     empoweru_system.root.mainloop()
-    

@@ -2,7 +2,6 @@ import customtkinter as ctk
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from app.learners import Learner
 from app.course import Course
 from interface.lecture_selection_page_concept import LectureSelectionPage
 from interface.profile_page import ProfilePage
@@ -72,11 +71,3 @@ class LearnersMenu(ctk.CTkFrame):
     def hide_page(self):
         self.place_forget()  # Change this line from pack_forget() to place_forget()
     
-if __name__ == "__main__":
-    root = ctk.CTk()
-    root.title("Learners Menu")
-    root.geometry("600x700")
-    root.minsize(600, 700)  # Set minimum window size
-    user = Learner.init_by_id(1)
-    learners_menu = LearnersMenu(root, user)
-    root.mainloop()

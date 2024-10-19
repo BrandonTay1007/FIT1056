@@ -168,6 +168,15 @@ class AdminEditUserPage(ctk.CTkFrame):
         self.user_info_labels.clear()
         self.user_info_entries.clear()
 
+    def validate_edited_data(self, user_data):
+        # Create a temporary User object to use for validation
+        temp_user = User("", "", "", "", "", "", "", "", "")
+        
+        # Use the existing register_validation method
+        is_valid, error_messages = temp_user.register_validation(user_data)
+        
+        return is_valid, error_messages
+
     def save_edit_info(self):
         updated_data = {}
         variables = ["username", "password", "first_name", "last_name", "contact_num", "country", "gender"]
@@ -181,14 +190,26 @@ class AdminEditUserPage(ctk.CTkFrame):
         else:
             updated_data["date_of_birth"] = self.user_data.get("date_of_birth", "")
 
+        # Perform validation using the new method
+        is_valid, self.error_messages = self.validate_edited_data(updated_data)
+
+        if not is_valid:
+            # Display the first error message
+            self.display_next_error()
+            return
+
         if self.user_type:
             if self.user.change_user_info(self.user_type, self.user_data["id"], updated_data):
                 self.display_message("User information updated.", "green")
             else:
                 self.display_message("Failed to update user information.", "red")
 
-        self.clear_user_info()
-
+    def display_next_error(self):
+        if self.error_messages:
+            error = self.error_messages.pop(0)
+            self.display_message(f"{error}", "red")
+        else:
+            self.display_message("All errors resolved. You can now save.", "green")
     def display_message(self, message, color="black"):
         self.message_label.configure(text=message, text_color=color)
         self.message_label.lift()  # Bring the message label to the front

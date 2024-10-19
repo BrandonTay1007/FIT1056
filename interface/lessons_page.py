@@ -2,10 +2,9 @@ import customtkinter as ctk
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from empoweru_constants import LESSONS_FILE_PATH
-from sidebar import Sidebar
+from interface.sidebar import Sidebar
 from empoweru_constants import *
-from video_player import VideoPlayer
+from interface.video_player import VideoPlayer
 
 class LessonsPage(ctk.CTkFrame):
     def __init__(self, master, lesson, user):

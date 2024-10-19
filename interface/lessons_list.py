@@ -4,9 +4,9 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import os
-from lessons_page import LessonsPage
-from quiz_list import QuizList
-from assignment_list import AssignmentList  # Import the new AssignmentList
+from interface.lessons_page import LessonsPage
+from interface.quiz_list import QuizList
+from interface.assignment_list import AssignmentList  # Import the new AssignmentList
 class LessonsList(ctk.CTkFrame):
     def __init__(self, master, user, course):
         super().__init__(master)
@@ -51,7 +51,7 @@ class LessonsList(ctk.CTkFrame):
     def view_content(self, lesson):
         self.hide_page()
         self.create_lesson_page(lesson)
-        if lesson.id not in self.user.attempted_lessons:
+        if str(lesson.id) not in self.user.attempted_lessons:
             self.user.update_progress(lessons_id=lesson.id)
         
     def create_lesson_page(self, lesson):

@@ -38,13 +38,9 @@ class ProfilePage(ctk.CTkFrame):
         self.current_date_picker = None  # Add this line to store the current DatePicker instance
 
         ctk.CTkLabel(self.scrollable_frame, text="Account Details", font=(FONT_FAMILY, 24, "bold")).pack(anchor="w", pady=(0, 20))
-        self.place_all_info(user)
+        self.place_all_info()
         
-    def place_all_info(self, user):
-        self.place_profile_picture(user)
-        self.image_uploader_button = ctk.CTkButton(self.scrollable_frame, text="Upload Image", command=self.image_uploader)
-        self.image_uploader_button.pack(anchor="w", pady=(10))
-        self.current_active_widgets.append(self.image_uploader_button)
+    def place_all_info(self):
         items = list(self.personal_info.items())
         for key, value in items:  # Remove the slicing to include all items
             if key != 'profile_picture_path':  # Skip the profile picture path
@@ -54,8 +50,6 @@ class ProfilePage(ctk.CTkFrame):
     def place_all_entry(self):
         self.entry_widgets = {}  # Dictionary to store entry widgets
         
-        self.place_profile_picture(self.user)
-        self.add_button("Upload Image", self.image_uploader)
         
         self.entry_widgets['username'] = self.place_entry("Username", self.user.username)
         self.entry_widgets['first_name'] = self.place_entry("First Name", self.user.first_name)
@@ -114,20 +108,6 @@ class ProfilePage(ctk.CTkFrame):
         self.combobox.pack(anchor="w", pady=(0, 5))
         self.current_active_widgets.append(self.combobox)
     
-    def place_profile_picture(self, user):
-        # Create a frame for the profile picture
-        frame = ctk.CTkFrame(self.scrollable_frame, corner_radius=10, fg_color="#E0E0E0")
-        frame.pack(anchor="w", pady=(10, 0))
-        self.current_active_widgets.append(frame)
-
-        # Load and resize the profile image
-        profile_image = Image.open(user.profile_picture_path)
-        profile_image = profile_image.resize((100, 100), Image.LANCZOS) 
-        profile_picture = ctk.CTkImage(light_image=profile_image, dark_image=profile_image, size=(100, 100))
-
-        # Create a label with the profile picture and place it inside the frame
-        label = ctk.CTkLabel(frame, image=profile_picture, text="")
-        label.pack(padx=5, pady=5)  # Add padding inside the frame
 
     def place_label(self, label, label_text, frame=None):
         label_widget = ctk.CTkLabel(frame or self.scrollable_frame, text=label, font=(FONT_FAMILY, 16, "bold"))
@@ -184,7 +164,7 @@ class ProfilePage(ctk.CTkFrame):
     
         # Update the user info and refresh the display
         self.user.update_own_info(self.personal_info)
-        self.place_all_info(self.user)
+        self.place_all_info()
 
     def place_date_picker(self):
         # Destroy any existing DatePicker window
@@ -209,34 +189,6 @@ class ProfilePage(ctk.CTkFrame):
         self.hide_widgets(self.current_active_widgets)
         self.place_all_entry()
         self.add_button("Save Changes", self.save_changes)
-
-    def image_uploader(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg *.jpeg *.png *.gif *.bmp")])
-        if file_path:
-            # Define the destination folder
-            dest_folder = "Picture"
-    
-            # Create the folder if it doesn't exist
-            os.makedirs(dest_folder, exist_ok=True)
-            
-            # Generate a unique filename
-            file_extension = os.path.splitext(file_path)[1]
-            new_filename = f"profile_pic_test{file_extension}"
-            new_file_path = os.path.join(dest_folder, new_filename)
-            
-            # Copy the file to the destination folder
-            shutil.copy2(file_path, new_file_path)
-            
-            # Update the profile picture
-            self.profile_image = Image.open(new_file_path)
-            self.profile_image = self.profile_image.resize((100, 100), Image.LANCZOS)
-            self.profile_picture = ctk.CTkImage(light_image=self.profile_image, dark_image=self.profile_image, size=(100, 100))
-            
-            # Update the user's profile picture path
-            self.user.profile_picture_path = new_file_path
-            
-            print(f"New profile picture saved: {new_file_path}")
-
 
     def show_page(self):
         self.sidebar.show_sidebar()

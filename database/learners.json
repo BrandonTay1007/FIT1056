@@ -9,7 +9,6 @@
         "country": "test",
         "date_of_birth": "12-05-1998",
         "gender": "Female",
-        "profile_picture_path": "Picture/Default.jpg",
         "attempted_lessons": [
             1,
             2,
@@ -42,7 +41,6 @@
         "country": "Canada",
         "date_of_birth": "1993-11-22",
         "gender": "Female",
-        "profile_picture_path": "/profiles/janesmith.jpg",
         "attempted_lessons": [
             4,
             5,
@@ -64,7 +62,6 @@
         "country": "United Kingdom",
         "date_of_birth": "2001-03-10",
         "gender": "Male",
-        "profile_picture_path": "/profiles/mikebrown.jpg",
         "attempted_lessons": [
             8,
             9
@@ -86,5 +83,18 @@
         "id": "L1A47",
         "attempted_lessons": [],
         "attempted_quizzes": []
+    },
+    {
+        "username": "TayW",
+        "first_name": "DJSHa",
+        "last_name": "DFHSAJH",
+        "contact_num": "0174118088",
+        "country": "Malaysia",
+        "date_of_birth": "06-01-2010",
+        "gender": "Male",
+        "password": "123DHJsdasd*2",
+        "attempted_lessons": [],
+        "attempted_quizzes": [],
+        "id": "L0427"
     }
 ]

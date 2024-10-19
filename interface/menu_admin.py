@@ -54,12 +54,3 @@ class AdminMenu(ctk.CTkFrame):
 
     def hide_menu(self):
         self.pack_forget()
-
-if __name__ == "__main__":
-    from app.admin import Admin
-    root = ctk.CTk()
-    root.geometry("1200x1200")
-    admin = Admin("A0001", "admin", "admin", "Admin", "Admin", "admin", "admin", "admin", "admin", None)
-    menu = AdminMenu(root, admin)
-    menu.place(relx=0.5, rely=0.5, anchor="center")
-    root.mainloop()

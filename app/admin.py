@@ -2,8 +2,36 @@ from app.user import User
 from empoweru_constants import ADMIN_FILE_PATH, TUTORS_FILE_PATH, LEARNERS_FILE_PATH
 from database.database_management import *
 class Admin(User):
-    def __init__(self, id, username, password, first_name, last_name, contact_num, country, date_of_birth, gender, profile_picture_path):
-        super().__init__(id, username, password, first_name, last_name, contact_num, country, date_of_birth, gender, profile_picture_path)
+    def __init__(self, id, username, password, first_name, last_name, contact_num, country, date_of_birth, gender):
+        super().__init__(id, username, password, first_name, last_name, contact_num, country, date_of_birth, gender)
+
+    @staticmethod
+    def _init_from_data(user_data):
+        return Admin(
+            user_data["id"],
+            user_data["username"],
+            user_data["password"],
+            user_data["first_name"],
+            user_data["last_name"],
+            user_data["contact_num"],
+            user_data["country"],
+            user_data["date_of_birth"],
+            user_data["gender"]
+        )
+
+    @staticmethod
+    def init_by_id(id):
+        user_data = get_info_by_id(ADMIN_FILE_PATH, "id", id)
+        if user_data is None:
+            raise ValueError(f"No admin found with id: {id}")
+        return Admin._init_from_data(user_data)
+    
+    @staticmethod
+    def init_by_username(username):
+        user_data = get_info_by_id(ADMIN_FILE_PATH, "username", username)
+        if user_data is None:
+            raise ValueError(f"No admin found with username: {username}")
+        return Admin._init_from_data(user_data)
 
     def register(user_data):
         return User.register(user_data, "admin")
