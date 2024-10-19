@@ -1,9 +1,6 @@
 from CTkMessagebox import CTkMessagebox
 import customtkinter as ctk
-import sys
-import os
 import uuid
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.user import User
 from interface.date_picker import DatePicker

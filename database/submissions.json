@@ -7,5 +7,23 @@
         "graded": false,
         "grade": 0,
         "feedback": ""
+    },
+    {
+        "assignment_id": 1,
+        "user_id": 1,
+        "file_path": "database\\submissions\\assignment_1.pdf",
+        "submission_date": "2024-10-20T00:22",
+        "graded": false,
+        "grade": 0,
+        "feedback": ""
+    },
+    {
+        "assignment_id": 2,
+        "user_id": 1,
+        "file_path": "database\\submissions\\assignment_1.pdf",
+        "submission_date": "2024-10-20T00:24",
+        "graded": false,
+        "grade": 0,
+        "feedback": ""
     }
 ]

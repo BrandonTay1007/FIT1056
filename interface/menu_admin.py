@@ -1,8 +1,4 @@
 import customtkinter as ctk
-import sys
-import os
-# Add the parent directory to sys.path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from interface.admin_add_user_page import AdminAddUserPage
 from interface.admin_edit_user_page import AdminEditUserPage

@@ -1,8 +1,5 @@
 import customtkinter as ctk
 from PIL import Image
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.empoweru_constants import *
 from app.learners import Learner
 from app.tutors import Tutor
@@ -89,6 +86,7 @@ class LoginPage(ctk.CTkFrame):
         
         if user_type == "Learner":
             if Learner.authenticate(username, password, LEARNERS_FILE_PATH):
+                print("Learner authenticated")
                 self.empowerU_system.user = Learner.init_by_username(username)
                 LearnersMenu(self.empowerU_system.root, self.empowerU_system.user, self.empowerU_system)
                 self.hide_login_page()
@@ -98,6 +96,7 @@ class LoginPage(ctk.CTkFrame):
 
         if user_type == "Teacher":
             if Tutor.authenticate(username, password, TUTORS_FILE_PATH):
+                print("Tutor authenticated")
                 self.empowerU_system.user = Tutor.init_by_username(username)
                 TutorMenu(self.empowerU_system.root, self.empowerU_system.user, self.empowerU_system)
                 self.hide_login_page()
@@ -107,6 +106,7 @@ class LoginPage(ctk.CTkFrame):
 
         if user_type == "Admin":
             if Admin.authenticate(username, password, ADMIN_FILE_PATH):
+                print("Admin authenticated")
                 self.empowerU_system.user = Admin.init_by_username(username)
                 AdminMenu(self.empowerU_system.root, self.empowerU_system.user, self.empowerU_system)
                 self.hide_login_page()

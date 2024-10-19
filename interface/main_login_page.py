@@ -1,7 +1,5 @@
 import customtkinter as ctk
 from PIL import Image
-import os
-import sys
 from interface.register_page import RegisterPage
 from interface.login_page import LoginPage
 from app.empoweru_constants import *

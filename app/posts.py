@@ -1,8 +1,5 @@
-import os
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.empoweru_constants import *
-from database.database_management import *
+from database import *
 from app.comment import Comment
 
 class Post:

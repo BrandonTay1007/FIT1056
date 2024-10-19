@@ -1,8 +1,4 @@
 import customtkinter as ctk
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from interface.assignment_page import AssignmentPage
 
 class AssignmentList(ctk.CTkFrame):
@@ -47,17 +43,11 @@ class AssignmentList(ctk.CTkFrame):
     def create_assignment_page(self, assignment):
         if not hasattr(self, 'assignment_page'):
             self.master.assignment_list = self  # Store reference to AssignmentList
-            self.assignment_page = AssignmentPage(self.master, self.user, assignment, self.on_assignment_complete)
+            self.assignment_page = AssignmentPage(self.master, self.user, assignment)
         else:
             self.assignment_page.pack_forget()
-            self.assignment_page = AssignmentPage(self.master, self.user, assignment, self.on_assignment_complete)
+            self.assignment_page = AssignmentPage(self.master, self.user, assignment)
         self.assignment_page.show_page()
-
-    def on_assignment_complete(self):
-        self.hide_page()
-        self.master.show_navigation_buttons()
-        self.master.show_back_button()
-        self.master.show_assignments()
 
     def show_page(self):
         self.pack(fill="both", expand=True)
@@ -67,9 +57,4 @@ class AssignmentList(ctk.CTkFrame):
         if hasattr(self, 'assignment_page'):
             self.assignment_page.hide_page()
 
-# if __name__ == "__main__":
-#     root = ctk.CTk()
-#     assignment_list = AssignmentList(root, None, None)
-#     assignment_list.pack(fill="both", expand=True)
-#     root.mainloop()
 

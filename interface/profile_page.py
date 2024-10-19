@@ -1,9 +1,5 @@
 import customtkinter as ctk
-import os
-import sys
 from datetime import datetime
-from PIL import Image
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from app.admin import Admin
 from app.empoweru_constants import FONT_FAMILY
 from interface.date_picker import DatePicker

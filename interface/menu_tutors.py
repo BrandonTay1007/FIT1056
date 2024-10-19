@@ -1,11 +1,9 @@
 import customtkinter as ctk
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from interface.tutors_assignment_to_grade_page import GradingListPage
 from interface.forum_list import ForumList
 from interface.profile_page import ProfilePage
-
+from interface.edit_lessons_list_page import EditLessonsListPage
+from app import *
 class TutorMenu(ctk.CTkFrame):
 
     def __init__(self, master, user, EmpowerU):
@@ -36,9 +34,13 @@ class TutorMenu(ctk.CTkFrame):
 
         self.profile_button = ctk.CTkButton(master=self, text="Profile", width=100, height=40, command=self.go_to_profile_page)
         self.profile_button.grid(row=5, columnspan=2, padx=60, pady=10)
+
+        self.edit_lessons_button = ctk.CTkButton(master=self, text="Edit Lessons", width=100, height=40, command=self.go_to_edit_lessons)
+        self.edit_lessons_button.grid(row=5, columnspan=2, padx=60, pady=10, sticky='ew')  # Adjust row as needed
         
         self.logout_button = ctk.CTkButton(master=self, text="Log Out", width=100, height=40, command=self.logout)
         self.logout_button.grid(row=6, columnspan=2, padx=60, pady=10)
+
 
     def go_to_forum_list(self):
         self.hide_page()
@@ -68,3 +70,9 @@ class TutorMenu(ctk.CTkFrame):
         if not hasattr(self.user, "profile_page"):
             self.user.profile_page = ProfilePage(self.master, self.user)
         self.user.profile_page.show_page()
+
+    def go_to_edit_lessons(self):
+        self.hide_page()
+        if not hasattr(self.user, "edit_lessons_page"):
+            self.user.edit_lessons_page = EditLessonsListPage(self.master, self.user)
+        self.user.edit_lessons_page.show_page()

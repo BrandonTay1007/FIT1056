@@ -2,8 +2,6 @@ import customtkinter as ctk
 import os
 import sys
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from app.empoweru_constants import FONT_FAMILY
 
 class ChangePassword(ctk.CTkScrollableFrame):

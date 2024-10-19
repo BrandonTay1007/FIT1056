@@ -22,7 +22,6 @@ def get_info_by_id(file_path, key, id):
     all_data = extract_file_info(file_path)
     for data in all_data:
         if data.get(key) == id:
-            print("------------------------------------------")
             print(f"\033[1;32mData of id {id} in {file_path} obtained successfully\033[0m")
             return data
     print(f"\033[1;31mData not found: {id} in {file_path}\033[0m")

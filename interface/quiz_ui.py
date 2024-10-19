@@ -3,9 +3,6 @@ import sys
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 
-# Add the parent directory to the Python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 class QuizUI(ctk.CTkFrame):
     def __init__(self, master, quiz, user, on_complete_callback):
         super().__init__(master)

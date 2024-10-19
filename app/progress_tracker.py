@@ -28,8 +28,6 @@ class ProgressTracker:
             self.update_progress(course.id)
 
     def update_progress(self, course_id):
-        print(self.learner.course_progress[course_id])
-        print(course_id)
         completed_lessons = self.learner.course_progress[course_id]['completed_lessons']
         total_lessons = self.learner.course_progress[course_id]['total_lessons']
         completed_quizzes = self.learner.course_progress[course_id]['completed_quizzes']

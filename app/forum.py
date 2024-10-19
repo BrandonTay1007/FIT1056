@@ -1,7 +1,4 @@
-import os
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from database.database_management import *
+from database import *
 from app.empoweru_constants import *
 from app.posts import Post  
 

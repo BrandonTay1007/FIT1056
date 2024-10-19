@@ -8,8 +8,7 @@
         "contact_num": "1234567890",
         "country": "USA",
         "date_of_birth": "1990-01-01",
-        "gender": "Male",
-        "profile_picture_path": "Picture/Default.jpg"
+        "gender": "Male"
     },
     {
         "id": "T0002",
@@ -20,8 +19,7 @@
         "contact_num": "9876543210",
         "country": "Canada",
         "date_of_birth": "1995-09-22",
-        "gender": "Female",
-        "profile_picture_path": "Picture/jane_smith.jpg"
+        "gender": "Female"
     },
     {
         "id": "T0003",
@@ -32,7 +30,6 @@
         "contact_num": "5551234567",
         "country": "United Kingdom",
         "date_of_birth": "1981-03-10",
-        "gender": "Male",
-        "profile_picture_path": "Picture/michael_johnson.jpg"
+        "gender": "Male"
     }
 ]

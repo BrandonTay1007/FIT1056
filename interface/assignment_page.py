@@ -1,19 +1,15 @@
 import customtkinter as ctk
-import sys
-import os
 from CTkMessagebox import CTkMessagebox
 from tkinter import filedialog
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import os
 from app.empoweru_constants import FONT_FAMILY
 
 class AssignmentPage(ctk.CTkFrame):
-    def __init__(self, master, user, assignment, on_complete_callback):
+    def __init__(self, master, user, assignment):
         super().__init__(master)
         self.master = master
         self.user = user
         self.assignment = assignment
-        self.on_complete_callback = on_complete_callback
         
         self.create_widgets()
 
@@ -44,13 +40,13 @@ class AssignmentPage(ctk.CTkFrame):
         self.uploaded_file_label = ctk.CTkLabel(self.assignment_frame, text="", font=(FONT_FAMILY, 12))
         self.uploaded_file_label.pack(pady=5)
 
-        # Submit button
-        self.submit_button = ctk.CTkButton(self, text="Submit Assignment", command=self.submit_assignment)
-        self.submit_button.pack(side="bottom", pady=(0, 10))
-
         # Back button
         self.back_button = ctk.CTkButton(self, text="Back", command=self.go_back)
         self.back_button.pack(side="bottom", pady=(0, 10))
+
+        # Submit button
+        self.submit_button = ctk.CTkButton(self, text="Submit Assignment", command=self.submit_assignment)
+        self.submit_button.pack(side="bottom", pady=(0, 10))
 
     def upload_file(self):
         file_path = filedialog.askopenfilename(
@@ -79,7 +75,7 @@ class AssignmentPage(ctk.CTkFrame):
                 if self.assignment.submit_file(self.user.id, self.uploaded_file_path):
                     self.update_submission_status()
                     CTkMessagebox(title="Success", message="Assignment submitted successfully!", icon="check")
-                    self.on_complete_callback()
+                    self.go_back()
                 else:
                     CTkMessagebox(title="Error", message="Failed to submit assignment. Please try again.", icon="cancel")
         else:
@@ -91,6 +87,12 @@ class AssignmentPage(ctk.CTkFrame):
                 widget.configure(text="Status: Submitted")
                 break
 
+    def go_back(self):
+        self.hide_page()
+        self.master.show_back_button()
+        self.master.show_navigation_buttons()
+        self.master.show_assignments()
+        
     def show_page(self):
         self.pack(fill="both", expand=True)
 

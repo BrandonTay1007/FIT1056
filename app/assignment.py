@@ -1,8 +1,6 @@
 import os
 import sys
 from datetime import datetime
-import shutil
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from database.database_management import *
 from app.empoweru_constants import ASSIGNMENTS_FILE_PATH, SUBMISSIONS_FILE_PATH, BASE_DIR
 from app.submissions import Submission

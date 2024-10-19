@@ -1,9 +1,4 @@
 import customtkinter as ctk
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-import os
 from interface.lessons_page import LessonsPage
 from interface.quiz_list import QuizList
 from interface.assignment_list import AssignmentList

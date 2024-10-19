@@ -1,6 +1,6 @@
 from app.user import User
 from app.empoweru_constants import TUTORS_FILE_PATH
-from database.database_management import get_info_by_id
+from database import *
 
 class Tutor(User):
 

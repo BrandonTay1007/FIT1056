@@ -1,10 +1,7 @@
 import customtkinter as ctk
 from PIL import Image
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from interface.register_page import RegisterPage
+
 class HomePage(ctk.CTkFrame):
     register_page = None
     def __init__(self, master, empoweru_system):

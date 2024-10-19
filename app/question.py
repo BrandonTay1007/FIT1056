@@ -1,4 +1,3 @@
-from typing import List
 
 class Question:
     def __init__(self, question, options, correct_answer, question_type="multiple_choice"):

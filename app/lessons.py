@@ -1,9 +1,5 @@
-import os
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from app.content import Content
-from database.database_management import *
+from database import *
 from app.empoweru_constants import *
 
 class Lessons:
@@ -14,6 +10,7 @@ class Lessons:
         self.lesson_type = lesson_type
         self.content_list_data = content_list_data
         self.content_list = self.init_content_list()
+
     def __str__(self):
         return f"Lesson(id={self.id}, title={self.title}, lesson_type={self.lesson_type})"
 
@@ -36,9 +33,52 @@ class Lessons:
 
         return content_list
 
+    @staticmethod
+    def list_lessons_by_course():
+        courses = extract_file_info(COURSES_FILE_PATH)
+        lessons = extract_file_info(LESSONS_FILE_PATH)
+        
+        lessons_by_course = {}
+        
+        for course in courses:
+            course_id = course['id']
+            course_name = course['title']  # Changed from 'name' to 'title' based on your courses.json structure
+            lessons_by_course[course_name] = []
+            
+            for lesson in lessons:
+                if lesson['course_id'] == course_id:
+                    lessons_by_course[course_name].append({
+                        'id': lesson['id'],
+                        'title': lesson['title'],
+                        'lesson_type': lesson['lesson_type']
+                    })
+        
+        return lessons_by_course
 
+    @staticmethod
+    def update_lesson(lesson_id, new_data):
+        return update_info_by_id(LESSONS_FILE_PATH, 'id', lesson_id, new_data)
 
-# if __name__ == "__main__":
-#     lesson = Lessons(1, "Lesson 1", "lectures")
-#     lesson.initalize_content()
-#     print(lesson.get_content_list())
+    @staticmethod
+    def add_new_lesson(lesson_data):
+        return insert_info(LESSONS_FILE_PATH, lesson_data)
+
+    @staticmethod
+    def delete_lesson(lesson_id):
+        return remove_by_id(LESSONS_FILE_PATH, lesson_id)
+
+    @staticmethod
+    def get_lesson_by_id(lesson_id):
+        lessons = extract_file_info(LESSONS_FILE_PATH)
+        for lesson in lessons:
+            if lesson['id'] == lesson_id:
+                return lesson
+        return None
+
+    @staticmethod
+    def get_course_id_by_name(course_name):
+        courses = extract_file_info(COURSES_FILE_PATH)
+        for course in courses:
+            if course['title'] == course_name:
+                return course['id']
+        return None

@@ -1,10 +1,6 @@
 import customtkinter as ctk
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from app.forum import Forum
-from interface.post_page import PostPage  # You'll need to create this class
+from interface.post_page import PostPage
 from interface.create_post_page import CreatePostPage
 
 class ForumList(ctk.CTkFrame):

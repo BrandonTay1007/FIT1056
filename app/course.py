@@ -1,9 +1,5 @@
-import sys
-import os
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.lessons import Lessons
-from database.database_management import *
+from database import *
 from app.empoweru_constants import *
 from app.quiz import Quiz
 from app.assignment import Assignment
@@ -33,12 +29,8 @@ class Course:
                     self.lessons_list.append(Lessons(lesson["id"], lesson["title"], lesson["type"], lesson["content_list"]))
                 else:
                     print(f"\033[1;31mLesson with id {id} not found\033[0m")
-        
-    def add_course(id, title, estimated_duration, description, lessons_id_list):
-        course = Course(id, title, estimated_duration, description, lessons_id_list)
-        insert_info(COURSES_FILE_PATH, course)
-        return course
 
+    @staticmethod
     def initialize_courses(user):
         available_courses = []
 

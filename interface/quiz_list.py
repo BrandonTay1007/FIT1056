@@ -1,10 +1,7 @@
 import customtkinter as ctk
 import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from interface.quiz_ui import QuizUI
-from interface.assignment_list import AssignmentList  # Import the new AssignmentList
+from interface.assignment_list import AssignmentList
 
 class QuizList(ctk.CTkFrame):
     def __init__(self, master, user, course):

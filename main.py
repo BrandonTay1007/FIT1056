@@ -1,4 +1,4 @@
-from presentation.EmpowerU_system import EmpowerU_system
+from presentation import EmpowerU_system
 
 if __name__ == "__main__":
     empoweru_system = EmpowerU_system()

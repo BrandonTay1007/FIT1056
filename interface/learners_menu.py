@@ -1,7 +1,4 @@
 import customtkinter as ctk
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.course import Course
 from interface.lecture_selection_page_concept import LectureSelectionPage
 from interface.profile_page import ProfilePage

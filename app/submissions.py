@@ -1,5 +1,4 @@
-import os
-from database.database_management import *
+from database import *
 from app.empoweru_constants import *
 from datetime import datetime
 

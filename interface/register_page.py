@@ -1,9 +1,6 @@
 from CTkMessagebox import CTkMessagebox
 import customtkinter as ctk
 import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from app.learners import Learner
 from interface.date_picker import DatePicker
 from app.user import User
@@ -82,7 +79,6 @@ class RegisterPage(ctk.CTkScrollableFrame):
             return
 
         if Learner.register(entry_values):
-            print(entry_values)
             self.show_success_message()
             self.clear_fields()
         else:

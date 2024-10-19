@@ -1,9 +1,6 @@
 import customtkinter as ctk
+from app.empoweru_constants import TITLE_FONT, TYPE_FONT, TEXT_FONT
 
-# Font constants
-TITLE_FONT = ("Roboto", 20)
-TYPE_FONT = ("Roboto", 12, "bold")
-TEXT_FONT = ("Roboto", 14)
 
 class GradePage(ctk.CTkFrame):
     def __init__(self, master, user):
