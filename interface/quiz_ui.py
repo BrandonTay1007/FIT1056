@@ -111,13 +111,3 @@ class QuizUI(ctk.CTkFrame):
 
         finish_button = ctk.CTkButton(grade_frame, text="Finish", command=self.on_complete_callback)
         finish_button.pack(pady=10)
-
-if __name__ == "__main__":
-    from app.user import User
-    root = ctk.CTk()
-    root.geometry("500x600")
-    user = User.init_by_id(1)
-    print(user.username)
-
-    quiz_ui = QuizUI(root, 1, user, lambda: None)  # Assuming quiz_id 1 for testing
-    root.mainloop()

@@ -9,7 +9,10 @@ class Lessons:
         self.title = title
         self.lesson_type = lesson_type
         self.content_list_data = content_list_data
+        print(self.content_list_data)
         self.content_list = self.init_content_list()
+        for i in self.content_list:
+            print(i)
 
     def __str__(self):
         return f"Lesson(id={self.id}, title={self.title}, lesson_type={self.lesson_type})"
@@ -17,7 +20,6 @@ class Lessons:
     def add_text(self, text):
         text_content = Content(self.id, self.title, "text", text)
         self.content_list.append(text_content)
-
 
     def add_video(self, video_path):
         video_content = Content(self.id, self.title, "video", video_path)
@@ -42,7 +44,7 @@ class Lessons:
         
         for course in courses:
             course_id = course['id']
-            course_name = course['title']  # Changed from 'name' to 'title' based on your courses.json structure
+            course_name = course['title']
             lessons_by_course[course_name] = []
             
             for lesson in lessons:

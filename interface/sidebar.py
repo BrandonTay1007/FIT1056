@@ -4,8 +4,6 @@ class Sidebar(ctk.CTkScrollableFrame):
     def __init__(self, master, width=200, height=700):
         super().__init__(master)
         self.configure(width=width, height=height)
-
-        # Add your sidebar widgets here
     
     def add_button(self, text, command, color="transparent", align="center"):
         # Create button with specified alignment
@@ -32,3 +30,4 @@ class Sidebar(ctk.CTkScrollableFrame):
 
 
 # main()
+

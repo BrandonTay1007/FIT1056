@@ -17,4 +17,3 @@ from .user import User
 # You can also define __all__ to control what gets imported with "from app import *"
 __all__ = ['Admin', 'Assignment', 'Comment', 'Content', 'Course', 'Forum', 'Learner', 
            'Lessons', 'Post', 'Question', 'Quiz', 'Submission', 'Tutor', 'User']
-

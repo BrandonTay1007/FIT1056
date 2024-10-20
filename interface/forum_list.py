@@ -73,7 +73,6 @@ class ForumList(ctk.CTkFrame):
 
     def on_back_button_click(self):
         self.hide_page()
-        # Assuming there's a main page to return to
         self.user.menu.show_page()
     
     def show_page(self):
@@ -99,9 +98,3 @@ class ForumList(ctk.CTkFrame):
         if not hasattr(self, 'create_post_page'):
             self.create_post_page = CreatePostPage(self.master, self.user)
         self.create_post_page.show_page()
-
-# if __name__ == "__main__":
-#     root = ctk.CTk()
-#     forum_list = ForumList(root, None)
-#     forum_list.pack(fill="both", expand=True)
-#     root.mainloop()
