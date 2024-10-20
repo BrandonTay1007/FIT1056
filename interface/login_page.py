@@ -33,7 +33,7 @@ class LoginPage(ctk.CTkFrame):
 
         # Dropdown (Combobox) for user type selection
         self.user_type = ctk.CTkOptionMenu(master=self, 
-                                           values=["Learner", "Teacher", "Admin"],
+                                           values=["Learner", "Tutor", "Admin"],
                                            width=200,
                                            height=40)
         self.user_type.set("Select User Type")
@@ -94,7 +94,7 @@ class LoginPage(ctk.CTkFrame):
             else:
                 self.alert_label.configure(text="Invalid username or password")
 
-        if user_type == "Teacher":
+        if user_type == "Tutor":
             if Tutor.authenticate(username, password, TUTORS_FILE_PATH):
                 print("Tutor authenticated")
                 self.empowerU_system.user = Tutor.init_by_username(username)

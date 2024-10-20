@@ -18,7 +18,7 @@ class ChangePassword(ctk.CTkScrollableFrame):
     def place_all_info(self):
         old_password_label = ctk.CTkLabel(self, text="Old Password:")
         old_password_label.pack(pady=10)
-        self.old_password_entry = ctk.CTkEntry(self)
+        self.old_password_entry = ctk.CTkEntry(self, show="*")
         self.old_password_entry.pack(pady=10)
 
         new_password_label = ctk.CTkLabel(self, text="New Password:")
